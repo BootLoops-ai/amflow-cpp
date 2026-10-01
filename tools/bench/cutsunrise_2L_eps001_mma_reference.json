@@ -1,0 +1,42 @@
+{
+  "family": "cutsunrise",
+  "source": "2-loop massless cutsunrise: 5-prop basis (3 actual l1^2, l2^2, (l1+l2-p)^2 + 2 ISPs (l1+p)^2, (l2+p)^2), cut={1,1,1,0,0} forces the AMFSystem master selection to fire the Cutkosky branch at L=2 (top sector |var|=L+1=3, all live cuts==1).  After the cut is cleared the eta-flow runs an ordinary 2-loop massive sunrise; the final answer is Im[uncut]*prefactor with prefactor = 2*(Pi^(2-eps)*(2*Pi)^(2*eps-4))^L*(-1)^(L+1) at L=2.  Designed to verify that phase_loop_num=2 propagates through AMFSystemSetupMaster and that the Cutkosky prefactor exponent (.)^L*(-1)^(L+1) handles L>1 correctly (the 1-loop cutbubble probe only checks L=1 where the (-1)^(L+1) sign is +1).",
+  "eps": "1/100",
+  "numeric": {
+    "s": "4"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 200,
+    "ExtraXOrder": 240,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 1,
+    "EndingScheme": ["Tradition", "Cutkosky", "SingleMass"]
+  },
+  "mma_solve_integrals_time_seconds": 55.40,
+  "mma_eps_order": 22,
+  "leading_eps_zero": "0.00050393022551874201850659457325880763426661462730434494897783940961850096554 (massless 3-particle phase-space related, L=2 prefactor sign flips relative to L=1)",
+  "requested_targets": [
+    {
+      "integral": "j[cutsunrise, 1, 1, 1, 0, 0]",
+      "value": {
+        "re": "0.00054387971212559423989592551168410059602242990954121022138302504841747912979",
+        "im": "0"
+      }
+    }
+  ],
+  "cpp_sampled_status": {
+    "date": "2026-04-27",
+    "result": "Cutkosky path FIRED on top family at L=2 (verified via DESOLVER_DEBUG_SCHEME stderr); eps=1/100 sample matches Mathematica reference to ~30 decimal digits",
+    "command": "DESOLVER_DEBUG_SCHEME=1 ./build_claude/driver/desolver_cli tools/bench/cutsunrise_2L_eps001_black_box_amflow_cpp.json /tmp/desolver_bench_cutsunrise_2L_eps001_cpp_out.json",
+    "scheme_trace": "[scheme] Cutkosky fired: family=cutsunrise phase_loop_num=2 top_position={0,1,2}",
+    "max_relative_difference": {
+      "re": "<2e-31",
+      "im": "0"
+    }
+  }
+}

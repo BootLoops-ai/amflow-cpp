@@ -1,0 +1,42 @@
+{
+  "family": "cutbubble",
+  "source": "1-loop massless cutbubble: cut={1,1} forces the AMFSystem master selection to fire the Cutkosky branch (top sector |var|=L+1, all cuts==1).  After the cut is cleared the eta-flow runs an ordinary 1-loop massive bubble; the final answer is Im[B0]*prefactor with prefactor = 2*(Pi^(2-eps)*(2*Pi)^(2*eps-4))^L*(-1)^(L+1) at L=1.  Designed to exercise the full SolveIntegrals -> AMFSystemSetupMaster -> Cutkosky pipeline end-to-end (the existing tt_cutkosky_probe never reaches Cutkosky for its boundary integrals).",
+  "eps": "1/100",
+  "numeric": {
+    "s": "4"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 200,
+    "ExtraXOrder": 240,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 1,
+    "EndingScheme": ["Tradition", "Cutkosky", "SingleMass"]
+  },
+  "mma_solve_integrals_time_seconds": 22.22,
+  "mma_eps_order": 14,
+  "leading_eps_zero": "1/(8*Pi) = 0.03978873577297383394222094084312859050861491143511411218691683601472",
+  "requested_targets": [
+    {
+      "integral": "j[cutbubble, 1, 1]",
+      "value": {
+        "re": "0.040821631095608131693937349492204717797714438453833965886542426425022491312997",
+        "im": "0"
+      }
+    }
+  ],
+  "cpp_sampled_status": {
+    "date": "2026-04-27",
+    "result": "Cutkosky path FIRED on top family (verified via DESOLVER_DEBUG_SCHEME stderr); eps=1/100 sample matches Mathematica reference",
+    "command": "DESOLVER_DEBUG_SCHEME=1 ./build_claude/driver/desolver_cli tools/bench/cutbubble_1L_eps001_black_box_amflow_cpp.json /tmp/desolver_bench_cutbubble_1L_eps001_cpp_out.json",
+    "scheme_trace": "[scheme] Cutkosky fired: family=cutbubble phase_loop_num=1 top_position={0,1}",
+    "max_relative_difference": {
+      "re": "4.784e-30",
+      "im": "0"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "mode": "black_box_amflow",
+  "options": {
+    "chop_pre": 20,
+    "rationalize_pre": 100,
+    "silent_mode": true
+  },
+  "family": {
+    "name": "phase",
+    "loops": ["l1", "l2"],
+    "legs": ["p1", "p2"],
+    "replacement": {
+      "p1^2": "0",
+      "p2^2": "0",
+      "(p1 + p2)^2": "s"
+    },
+    "propagators": [
+      "l1^2 - msq",
+      "(l1 + p1)^2",
+      "l2^2",
+      "(l1 + l2 + p1)^2",
+      "(l1 + l2 + p1 + p2)^2",
+      "(l1 + l2 + p2)^2",
+      "(l1 + p2)^2"
+    ],
+    "cut":          [1, 0, 1, 0, 1, 0, 0],
+    "prescription": [0, 0]
+  },
+  "integrals": [
+    { "indices": [1, 0, 1, 0, 1, 0, 0] }
+  ],
+  "eps_samples": ["1/100"],
+  "work_dir": "/tmp/amflow_tradcut_phase_2L",
+  "amf_options": {
+    "ending_schemes": ["Tradition", "Cutkosky", "SingleMass"],
+    "blackbox": {
+      "numeric_values": { "s": "100", "msq": "1" },
+      "ibp_dot": 5
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "family": "mupairpb",
+  "source": "e⁻ e⁺ → μ⁻ μ⁺ scalar QED 2-loop planar double-box (PB). Top rail = electron line (mass mesq), bottom rail = muon line (mass mmsq), 3 massless photon rungs (middle rung (l1-l2)²). Physical timelike kinematics: s > 4 mmsq threshold; Im part nonzero from unitarity cuts.",
+  "eps": "1/1000",
+  "numeric": {
+    "mesq": "1",
+    "mmsq": "4",
+    "s": "25",
+    "t": "-5"
+  },
+  "options": {
+    "working_pre": 120,
+    "x_order": 240,
+    "extra_x_order": 280,
+    "ibp_dot": 3,
+    "ibp_rank": 0
+  },
+  "mma_black_box_amflow_time_seconds": 1372.965167,
+  "requested_targets": [
+    {
+      "integral": "j[mupairpb, 1, 1, 1, 1, 1, 1, 1, 0, 0]",
+      "value": {
+        "re": "6.50305094661011733849180805607553627006922491947378192215725258502056981473687",
+        "im": "-0.48516369731263702108604777598147320064081951147649061331421686071599072047264"
+      }
+    }
+  ]
+}

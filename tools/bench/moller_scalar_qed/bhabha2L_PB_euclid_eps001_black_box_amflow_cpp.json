@@ -1,0 +1,64 @@
+{
+  "mode": "black_box_amflow",
+  "options": {
+    "working_pre": 120,
+    "chop_pre": 20,
+    "rationalize_pre": 100,
+    "silent_mode": true,
+    "x_order": 240,
+    "extra_x_order": 280,
+    "learn_x_order": -1,
+    "test_x_order": 5
+  },
+  "family": {
+    "name": "bhabha2pb",
+    "loops": ["l1", "l2"],
+    "legs": ["p1", "p2", "p3", "p4"],
+    "conservation": {
+      "p4": "-p1 - p2 - p3"
+    },
+    "replacement": {
+      "p1^2": "msq",
+      "p2^2": "msq",
+      "p3^2": "msq",
+      "p4^2": "msq",
+      "(p1 + p2)^2": "s",
+      "(p1 + p3)^2": "t"
+    },
+    "propagators": [
+      "l1^2 - msq",
+      "(l1 + p1 + p2)^2 - msq",
+      "l2^2 - msq",
+      "(l2 + p1 + p2)^2 - msq",
+      "(l1 + p1)^2",
+      "(l1 - l2)^2",
+      "(l2 + p3)^2",
+      "(l2 + p1)^2",
+      "(l1 + p3)^2"
+    ]
+  },
+  "integrals": [
+    {
+      "indices": [1, 1, 1, 1, 1, 1, 1, 0, 0]
+    }
+  ],
+  "eps_samples": [
+    "1/1000"
+  ],
+  "work_dir": "/tmp/amflow_moller_bhabha2L_PB_euclid_eps001_cpp",
+  "amf_options": {
+    "ending_schemes": ["Tradition", "SingleMass"],
+    "max_recursion_depth": 16,
+    "blackbox": {
+      "ibp_rank": 0,
+      "ibp_dot": 3,
+      "integral_order": 5,
+      "n_thread": 4,
+      "numeric_values": {
+        "s": "-3",
+        "t": "-1",
+        "msq": "1"
+      }
+    }
+  }
+}

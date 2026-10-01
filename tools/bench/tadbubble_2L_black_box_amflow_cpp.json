@@ -1,0 +1,75 @@
+{
+  "mode": "black_box_amflow",
+  "options": {
+    "working_pre": 120,
+    "chop_pre": 20,
+    "rationalize_pre": 100,
+    "silent_mode": true,
+    "x_order": 200,
+    "extra_x_order": 240,
+    "learn_x_order": -1,
+    "test_x_order": 5
+  },
+  "family": {
+    "name": "tadbub",
+    "loops": [
+      "l1",
+      "l2"
+    ],
+    "legs": [
+      "p"
+    ],
+    "conservation": {},
+    "replacement": {
+      "p^2": "s"
+    },
+    "propagators": [
+      "l1^2 - msq",
+      "(l1 + p)^2 - msq",
+      "l2^2 - msq",
+      "(l1 + l2)^2",
+      "(l2 + p)^2"
+    ]
+  },
+  "integrals": [
+    {
+      "indices": [
+        1,
+        1,
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "indices": [
+        1,
+        0,
+        1,
+        0,
+        0
+      ]
+    }
+  ],
+  "eps_samples": [
+    "1/1000"
+  ],
+  "work_dir": "/tmp/desolver_bench_tadbubble_2L_cpp",
+  "amf_options": {
+    "ending_schemes": [
+      "Tradition",
+      "SingleMass"
+    ],
+    "max_recursion_depth": 8,
+    "blackbox": {
+      "ibp_rank": 0,
+      "ibp_dot": 1,
+      "integral_order": 5,
+      "n_thread": 4,
+      "numeric_values": {
+        "s": "4",
+        "msq": "1"
+      }
+    }
+  }
+}

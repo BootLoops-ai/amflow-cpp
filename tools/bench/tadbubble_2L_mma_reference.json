@@ -1,0 +1,62 @@
+{
+  "family": "tadbub",
+  "source": "Factorizable 2-loop topology: 1-loop bubble carrying the external momentum + 1-loop tadpole on a separate loop variable.  Phase 3 batch-2 oracle \u2014 separable/factorizable family.",
+  "eps": "1/1000",
+  "numeric": {
+    "s": "4",
+    "msq": "1"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 200,
+    "ExtraXOrder": 240,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 1,
+    "EndingScheme": [
+      "Tradition",
+      "SingleMass"
+    ]
+  },
+  "mma_black_box_amflow_time_seconds": 48.976982,
+  "mma_wallclock_time_seconds": 49,
+  "requested_targets": [
+    {
+      "integral": "j[tadbub, 1, 1, 1, 0, 0]",
+      "value": {
+        "re": "1.0018514275872470080424113095567550328469447043836532292589162475e6",
+        "im": "-2.5236958036686773880235430678004324738103627758218809e-63"
+      }
+    }
+  ],
+  "sampled_values_from_same_mma_run": [
+    {
+      "integral": "j[tadbub, 1, 1, 1, 0, 0]",
+      "value": {
+        "re": "1.0018514275872470080424113095567550328469447043836532292589162475e6",
+        "im": "-2.5236958036686773880235430678004324738103627758218809e-63"
+      }
+    },
+    {
+      "integral": "j[tadbub, 1, 0, 1, 0, 0]",
+      "value": {
+        "re": "1.000848573305377891918244731669310833614865680655541464264663078e6",
+        "im": "-2.5211695816429830162637597414062378467094515017720092e-63"
+      }
+    }
+  ],
+  "cpp_sampled_status": {
+    "date": "2026-05-12",
+    "result": "completed, matches MMA reference at rel <= 3.239e-30 (re) / 2.488e+0 (im) across all sampled values.  Phase 3 batch-2 oracle.",
+    "command": "./build/src/cli/amflow_cli tools/bench/tadbubble_2L_black_box_amflow_cpp.json /tmp/amflow_tadbubble_2L_cpp_out.json",
+    "output": "/tmp/amflow_tadbubble_2L_cpp_out.json",
+    "max_relative_difference": {
+      "re": "3.239e-30",
+      "im": "2.488e+0"
+    },
+    "note": "Compare via tools/bench/compare_sampled.py. Note: imag-part rel error is anomalously large because both MMA and C++ have imag ~ 1e-63 (noise floor); abs tolerance catches this."
+  }
+}

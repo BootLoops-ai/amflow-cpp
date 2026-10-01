@@ -1,0 +1,46 @@
+{
+  "family": "bn3mix3m",
+  "source": "Auto-built bn3mix_3mass_3L_eps001.",
+  "eps": "1/1000",
+  "numeric": {
+    "psq": "1",
+    "mAsq": "1",
+    "mBsq": "4",
+    "mCsq": "9"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 240,
+    "ExtraXOrder": 280,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 3,
+    "EndingScheme": [
+      "Tradition",
+      "SingleMass"
+    ]
+  },
+  "mma_black_box_amflow_time_seconds": 58.929254,
+  "mma_cache": "tools/bench/mma_refs/bn3mix_3mass_3L_eps001_mma_cache",
+  "requested_targets": [
+    {
+      "integral": "j[bn3mix3m, 1, 1, 1, 0, 0, 0, 0, 0, 0]",
+      "value": {
+        "re": "3.59168929211096984606760324499465641234439617306283849284962991244743e10",
+        "im": "-1.35713703823506345974003202591432499180114687089765363611260382935477637001905e-58"
+      }
+    }
+  ],
+  "sampled_values_from_same_mma_run": [
+    {
+      "integral": "j[bn3mix3m, 1, 1, 1, 0, 0, 0, 0, 0, 0]",
+      "value": {
+        "re": "3.59168929211096984606760324499465641234439617306283849284962991244743e10",
+        "im": "-1.35713703823506345974003202591432499180114687089765363611260382935477637001905e-58"
+      }
+    }
+  ]
+}

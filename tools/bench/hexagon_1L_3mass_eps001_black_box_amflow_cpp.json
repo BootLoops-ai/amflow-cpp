@@ -1,0 +1,53 @@
+{
+  "mode": "black_box_amflow",
+  "options": {
+    "working_pre": 120, "chop_pre": 20, "rationalize_pre": 100, "silent_mode": true,
+    "x_order": 240, "extra_x_order": 280, "learn_x_order": -1, "test_x_order": 5
+  },
+  "family": {
+    "name": "hex13m",
+    "loops": ["l"],
+    "legs": ["p1", "p2", "p3", "p4", "p5"],
+    "conservation": {},
+    "replacement": {
+      "p1^2": "0", "p2^2": "0", "p3^2": "0", "p4^2": "0", "p5^2": "0",
+      "(p1 + p2)^2": "s12",
+      "(p1 + p3)^2": "s13",
+      "(p1 + p4)^2": "s14",
+      "(p1 + p5)^2": "s15",
+      "(p2 + p3)^2": "s23",
+      "(p2 + p4)^2": "s24",
+      "(p2 + p5)^2": "s25",
+      "(p3 + p4)^2": "s34",
+      "(p3 + p5)^2": "s35",
+      "(p4 + p5)^2": "s45"
+    },
+    "propagators": [
+      "l^2 - mAsq",
+      "(l + p1)^2",
+      "(l + p1 + p2)^2 - mBsq",
+      "(l + p1 + p2 + p3)^2",
+      "(l + p1 + p2 + p3 + p4)^2 - mCsq",
+      "(l + p1 + p2 + p3 + p4 + p5)^2"
+    ]
+  },
+  "integrals": [
+    { "indices": [1, 1, 1, 1, 1, 1] }
+  ],
+  "eps_samples": ["1/1000"],
+  "work_dir": "/tmp/amflow_bench_hexagon_1L_3mass_eps001_cpp",
+  "amf_options": {
+    "ending_schemes": ["Tradition", "SingleMass"],
+    "max_recursion_depth": 16,
+    "blackbox": {
+      "ibp_rank": 0, "ibp_dot": 3, "integral_order": 5, "n_thread": 4,
+      "numeric_values": {
+        "s12": "-2", "s13": "1", "s14": "3", "s15": "5",
+        "s23": "-3", "s24": "-2", "s25": "1",
+        "s34": "-5", "s35": "4",
+        "s45": "-2",
+        "mAsq": "1", "mBsq": "4", "mCsq": "9"
+      }
+    }
+  }
+}

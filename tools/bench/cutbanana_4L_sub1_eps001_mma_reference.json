@@ -1,0 +1,95 @@
+{
+  "family": "cutbanana4",
+  "source": "Sub-leading master j[cutbanana4, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0] of cutbanana_4L_eps001.",
+  "eps": "1/100",
+  "numeric": {
+    "s": "4"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 200,
+    "ExtraXOrder": 240,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 5,
+    "EndingScheme": [
+      "Tradition",
+      "Cutkosky",
+      "SingleMass"
+    ]
+  },
+  "mma_black_box_amflow_time_seconds": 148.562658,
+  "mma_cache": "",
+  "requested_targets": [
+    {
+      "integral": "j[cutbanana4, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+      "value": {
+        "re": "1.60344161936180393127529658757022436639559768234880781789522572011317502e-6",
+        "im": "0"
+      }
+    }
+  ],
+  "sampled_values_from_same_mma_run": [
+    {
+      "integral": "j[cutbanana4, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+      "value": {
+        "re": "5.48560252946220982304241049459536218404241423998907908961760437432719e-9",
+        "im": "0"
+      }
+    },
+    {
+      "integral": "j[cutbanana4, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+      "value": {
+        "re": "1.60344161936180393127529658757022436639559768234880781789522572011317502e-6",
+        "im": "0"
+      }
+    },
+    {
+      "integral": "j[cutbanana4, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+      "value": {
+        "re": "1.14741329741954830824675307788750461466576061873029787166710309836795594e-6",
+        "im": "0"
+      }
+    },
+    {
+      "integral": "j[cutbanana4, 1, 1, 1, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+      "value": {
+        "re": "8.905297233703957019228531350768692531734261518503804377117814179751581e-8",
+        "im": "0"
+      }
+    }
+  ],
+  "cpp_sampled_status": {
+    "result": "derived from sub-master extraction (no C++ run yet)"
+  },
+  "derived_from": "/home/chang/workspace/agent/trials/amflowRefactor/tools/bench/cutbanana_4L_eps001_mma_reference.json",
+  "cpp_verification_snapshot": {
+    "amflow_cli_acb_ball": {
+      "j[cutbanana4, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0]": {
+        "re": {
+          "center": "1.60344161936180393127529658757e-6",
+          "radius": "2.25e-37"
+        },
+        "im": {
+          "center": "0",
+          "radius": "0"
+        }
+      }
+    },
+    "agreement_vs_mma_reference": {
+      "j[cutbanana4, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0]": {
+        "integral": "j[cutbanana4, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+        "re_absolute_diff": "2.244E-37",
+        "im_absolute_diff": "0.000E+3",
+        "re_relative_diff": "1.399E-31",
+        "im_relative_diff": "0.000E+3",
+        "re_within_cpp_ball": true,
+        "im_within_cpp_ball": true
+      }
+    },
+    "cpp_amflow_cli_time_seconds": 102.0
+  }
+}

@@ -1,0 +1,67 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software in published research, please cite BOTH the
+  original AMFlow paper (for the algorithm) AND this repository (for the
+  C++ implementation).  The algorithm is due to Liu and Ma (see the
+  reference below); this repository contributes only the C++17
+  reimplementation and its test/benchmark harness.
+title: "AMFlow.cpp"
+abstract: >-
+  A C++17 reimplementation of the auxiliary-mass-flow algorithm
+  (AMFlow) for multi-loop Feynman integrals.  Re-implements the
+  algorithms originally introduced by Liu and Ma in the Mathematica
+  package AMFlow (https://gitlab.com/multiloop-pku/amflow).
+type: software
+license: MIT
+version: 1.1.0
+date-released: 2026-05-12
+doi: "10.5281/zenodo.20087172"
+url: "https://github.com/chang18/amflow-cpp"
+repository-code: "https://github.com/chang18/amflow-cpp"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.20087172"
+    description: "Concept DOI (always resolves to the latest version)"
+  - type: doi
+    value: "10.5281/zenodo.20087173"
+    description: "Version DOI (v1.0.0)"
+authors:
+  - name: "AMFlow.cpp contributors"
+    email: "3250800970@qq.com"
+contact:
+  - name: "AMFlow.cpp maintainer"
+    email: "3250800970@qq.com"
+note: >-
+  The C++17 implementation in this repository was developed primarily
+  by AI coding agents under the direction of the maintainer, with
+  every behavioural change gated by numerical-parity verification
+  against the upstream Mathematica reference.
+keywords:
+  - "Feynman integrals"
+  - "auxiliary mass flow"
+  - "multi-loop"
+  - "C++"
+  - "AMFlow"
+references:
+  - type: article
+    authors:
+      - family-names: Liu
+        given-names: Xiao
+      - family-names: Ma
+        given-names: Yan-Qing
+    title: "AMFlow: A Mathematica package for Feynman integrals computation via auxiliary mass flow"
+    journal: "Computer Physics Communications"
+    volume: 283
+    year: 2023
+    doi: "10.1016/j.cpc.2022.108565"
+    url: "https://doi.org/10.1016/j.cpc.2022.108565"
+    notes: "Original algorithm and Mathematica implementation."
+  - type: software
+    authors:
+      - family-names: Liu
+        given-names: Xiao
+      - family-names: Ma
+        given-names: Yan-Qing
+    title: "AMFlow (Mathematica package)"
+    url: "https://gitlab.com/multiloop-pku/amflow"
+    notes: "Upstream Mathematica reference implementation."

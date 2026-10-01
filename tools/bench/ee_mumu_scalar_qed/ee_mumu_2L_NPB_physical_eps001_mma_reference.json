@@ -1,0 +1,28 @@
+{
+  "family": "mupairnpb",
+  "source": "e⁻ e⁺ → μ⁻ μ⁺ scalar QED 2-loop non-planar double-box (NPB). Identical to PB family except middle rung is (l1+l2)² (crossed). Physical timelike kinematics.",
+  "eps": "1/1000",
+  "numeric": {
+    "mesq": "1",
+    "mmsq": "4",
+    "s": "25",
+    "t": "-5"
+  },
+  "options": {
+    "working_pre": 120,
+    "x_order": 240,
+    "extra_x_order": 280,
+    "ibp_dot": 3,
+    "ibp_rank": 0
+  },
+  "mma_black_box_amflow_time_seconds": 1473.313042,
+  "requested_targets": [
+    {
+      "integral": "j[mupairnpb, 1, 1, 1, 1, 1, 1, 1, 0, 0]",
+      "value": {
+        "re": "1.98673405910011495514837475743489698766339354898613653972198980903571646943094",
+        "im": "-1.81298662656746420423365445594235753581915964300504033558244328603798846543292"
+      }
+    }
+  ]
+}

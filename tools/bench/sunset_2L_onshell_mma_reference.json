@@ -1,0 +1,69 @@
+{
+  "family": "sunsetos",
+  "source": "2-loop equal-mass sunrise with EXTERNAL ON-SHELL: s = msq, i.e., p^2 = m^2.  Sits between Euclidean (s < 0) and threshold (s = 9m^2).  Distinctive: on-shell external kinematics \u2014 common case in self-energy diagrams.",
+  "eps": "1/1000",
+  "numeric": {
+    "s": "1",
+    "msq": "1"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 200,
+    "ExtraXOrder": 240,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 1,
+    "EndingScheme": [
+      "Tradition",
+      "SingleMass"
+    ]
+  },
+  "mma_black_box_amflow_time_seconds": 78.382354,
+  "mma_wallclock_time_seconds": 78,
+  "requested_targets": [
+    {
+      "integral": "j[sunsetos, 1, 1, 1, 0, 0]",
+      "value": {
+        "re": "1.5025243027231095606670705834929920817657034134330650233255533379e6",
+        "im": "1.564105997017428606506306938845963477952734409402255987839e-58"
+      }
+    }
+  ],
+  "sampled_values_from_same_mma_run": [
+    {
+      "integral": "j[sunsetos, 1, 1, 0, 0, 0]",
+      "value": {
+        "re": "1.000848573305377891918244731669310833614865680655541464264663078e6",
+        "im": "-5.01924093512200187248079830916761283107744316650682193e-62"
+      }
+    },
+    {
+      "integral": "j[sunsetos, 1, 1, 1, 0, 0]",
+      "value": {
+        "re": "1.5025243027231095606670705834929920817657034134330650233255533379e6",
+        "im": "1.564105997017428606506306938845963477952734409402255987839e-58"
+      }
+    },
+    {
+      "integral": "j[sunsetos, 1, 1, 2, 0, 0]",
+      "value": {
+        "re": "499922.8640945975079044427642470767273680029892366403188878681714",
+        "im": "8.13663207609749623241278527875618348860403494615756424967e-59"
+      }
+    }
+  ],
+  "cpp_sampled_status": {
+    "date": "2026-05-12",
+    "result": "completed, matches MMA reference at rel <= 1.99e-30 (re) / 2.58e-30 (im) across all sampled values.  Phase 3 batch-2 oracle.",
+    "command": "./build/src/cli/amflow_cli tools/bench/sunset_2L_onshell_black_box_amflow_cpp.json /tmp/amflow_sunset_2L_onshell_cpp_out.json",
+    "output": "/tmp/amflow_sunset_2L_onshell_cpp_out.json",
+    "max_relative_difference": {
+      "re": "1.991e-30",
+      "im": "2.581e-30"
+    },
+    "note": "Compare via tools/bench/compare_sampled.py."
+  }
+}

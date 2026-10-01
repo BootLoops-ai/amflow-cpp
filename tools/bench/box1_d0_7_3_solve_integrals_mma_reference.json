@@ -1,0 +1,64 @@
+{
+  "family": "box1",
+  "source": "1-loop box (s=100, t=-1) with D0 = 7/3 instead of the default 4.  Same target as box1_single_solve_integrals_mma.wl (j[box1, 1, 0, 1, 0]) but exercises GlobalOptions::d0: SolveIntegrals samples at the internal eps grid epslist0 + (4-D0)/2 (AMFlow.m:1342, 1351) and FitEps fits the Laurent expansion against the user-facing grid (AMFlow.m:1356).  First end-to-end Milestone 3 D0 != 4 parity check.",
+  "d0": "7/3",
+  "numeric": {
+    "s": "100",
+    "t": "-1"
+  },
+  "options": {
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "D0": "7/3"
+  },
+  "solve_integrals_settings": {
+    "goal_digits": 30,
+    "eps_order": 4,
+    "samples": 12,
+    "internal_working_pre": 182,
+    "internal_x_order": 364
+  },
+  "mma_solve_integrals_time_seconds": 22.31,
+  "mma_blackbox_time_seconds": 21.14,
+  "leading_order": 0,
+  "requested_targets": [
+    {
+      "integral": "j[box1, 1, 0, 1, 0]",
+      "coefficients": [
+        {
+          "order": 0,
+          "re": "-0.243584103139745852307321478535",
+          "im":  "0.140633347518045834201415981375"
+        },
+        {
+          "order": 1,
+          "re": "-0.662082836833679397660716373251",
+          "im": "-0.638069001201689539297472967351"
+        },
+        {
+          "order": 2,
+          "re": "-3.73208209077633729139244374590",
+          "im":  "1.23205317220010958667486204629"
+        }
+      ]
+    }
+  ],
+  "cpp_status": {
+    "date": "2026-04-28",
+    "result": "C++ Laurent expansion at D0 = 7/3 matches MMA across orders 0, 1, 2 to ~30 significant digits.  C++ leading_order = 0 (1-loop trim from fit_leading_order = -2 to actual_leading = 0); MMA leading is also 0 after Series + N truncation to epsorder + leading = 4 + (-2) = 2.  Both sides expose 3 user-facing coefficients (orders 0..2).",
+    "command": "./build_claude/driver/desolver_cli tools/bench/box1_d0_7_3_solve_integrals_cpp.json /tmp/box1_d0_7_3_cpp_out.json",
+    "max_absolute_difference": {
+      "comment": "Compared C++ acb_t midpoint vs MMA value rounded to 30 sig digits.  MMA working_pre = 182 (~54.7 dec) so its 30-digit rounding is exact at this scale; C++ acb_t error balls (~1e-30 to 4e-32, see acb output) bracket the MMA value in every coefficient.",
+      "order_0_re": "0",
+      "order_0_im": "0",
+      "order_1_re": "0",
+      "order_1_im": "~1e-30 (within C++ ball radius 4.58e-31)",
+      "order_2_re": "0",
+      "order_2_im": "0"
+    },
+    "cpp_wallclock_seconds": 10.67,
+    "speed_ratio_mma_over_cpp": 2.09
+  }
+}

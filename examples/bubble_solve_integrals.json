@@ -1,0 +1,33 @@
+{
+  "mode": "solve_integrals",
+  "options": {
+    "chop_pre": 20,
+    "silent_mode": true
+  },
+  "family": {
+    "name": "bubblefam",
+    "loops": ["l"],
+    "legs": ["p"],
+    "replacement": {
+      "p^2": "s"
+    },
+    "propagators": [
+      "l^2 - msq",
+      "(l - p)^2 - msq"
+    ]
+  },
+  "integrals": [
+    { "indices": [1, 1] }
+  ],
+  "goal_digits": 25,
+  "eps_order": 2,
+  "work_dir": "/tmp/desolver_example_bubble",
+  "amf_options": {
+    "blackbox": {
+      "numeric_values": {
+        "s": "5",
+        "msq": "1"
+      }
+    }
+  }
+}

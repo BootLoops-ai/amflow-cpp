@@ -1,0 +1,31 @@
+{
+  "family": "phase",
+  "source": "2-loop Tradition-with-cut benchmark.  Family taken from upstream AMFlow examples/automatic_phasespace/run.wl: 7 propagators, cut={1,0,1,0,1,0,0}, prescription={0,0}, kinematics s=100, msq=1.  The cut topology is *not* phase_volume (var size 7 > loopnum+1 = 3), so Cutkosky scheme does not apply and AMFlow falls through to Tradition with eta injection at an uncut propagator.  Running the boundary integrand reduction then exercises the parent-cut projection in `AMFSystem::build_boundary` (Phase 1B fix, mirror of AMFlow.m:790-803).  This is the first oracle that actually exercises the Tradition-with-cut code path; previously the C++ port aborted in detect-and-throw mode.",
+  "eps": "1/100",
+  "numeric": {
+    "s": "100",
+    "msq": "1"
+  },
+  "options": {
+    "WorkingPre": 100,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 200,
+    "ExtraXOrder": 240,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 5,
+    "EndingScheme": ["Tradition", "Cutkosky", "SingleMass"]
+  },
+  "mma_blackbox_time_seconds": 39.26,
+  "requested_targets": [
+    {
+      "integral": "j[phase, 1, 0, 1, 0, 1, 0, 0]",
+      "value": {
+        "re": "0.011576231537892589926146078995368955624653478594190062601805211514351481405158969352577127107559459106706468402901",
+        "im": "0"
+      }
+    }
+  ]
+}

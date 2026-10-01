@@ -1,0 +1,110 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  FLINT_VERSION: "3.4.0"
+
+  # Opt JavaScript-based actions (e.g. `actions/checkout@v4`,
+  # `actions/cache@v4`) into the Node.js 24 runtime ahead of the
+  # platform-forced switch on 2026-06-02 and the Node.js 20 runner
+  # removal on 2026-09-16.  Removes the per-run deprecation noise
+  # and validates Node 24 compatibility now; becomes a no-op once
+  # upstream releases `@v5` of these actions with native node24
+  # `runs.using` declarations.
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
+jobs:
+  build-and-test:
+    name: build (Ubuntu, ${{ matrix.compiler }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [gcc, clang]
+        include:
+          - compiler: gcc
+            cc: gcc
+            cxx: g++
+          - compiler: clang
+            cc: clang
+            cxx: clang++
+
+    env:
+      CC: ${{ matrix.cc }}
+      CXX: ${{ matrix.cxx }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install system build dependencies
+        # Note: NOT installing libflint-dev — Ubuntu's package (jammy 2.8.4)
+        # is too old; we need >= 3.4 for fmpz_mpoly_q_set_str_pretty,
+        # fmpz_mpoly_evaluate_acb, etc.  Built from source below.
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential cmake pkg-config ninja-build \
+            libgmp-dev libmpfr-dev \
+            libgtest-dev nlohmann-json3-dev
+
+      - name: Cache FLINT ${{ env.FLINT_VERSION }} build
+        id: cache-flint
+        uses: actions/cache@v4
+        with:
+          path: /opt/flint
+          key: flint-${{ env.FLINT_VERSION }}-${{ runner.os }}-${{ runner.arch }}-v1
+
+      - name: Build FLINT ${{ env.FLINT_VERSION }} from source
+        if: steps.cache-flint.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          cd $(mktemp -d)
+          curl -fsSL "https://github.com/flintlib/flint/releases/download/v${FLINT_VERSION}/flint-${FLINT_VERSION}.tar.gz" -o flint.tar.gz
+          tar -xzf flint.tar.gz
+          cd flint-${FLINT_VERSION}
+          ./bootstrap.sh
+          ./configure --prefix=/opt/flint --disable-static
+          make -j"$(nproc)"
+          sudo make install
+
+      - name: Expose FLINT to pkg-config / ldconfig
+        run: |
+          set -e
+
+          # Show what got installed (diagnostic for future failures).
+          echo "--- /opt/flint/lib ---"
+          ls /opt/flint/lib/ 2>/dev/null | head
+          echo "--- /opt/flint/lib/pkgconfig ---"
+          ls /opt/flint/lib/pkgconfig/ 2>/dev/null || echo "(no pkgconfig dir)"
+
+          # Make linker find the shared lib system-wide.
+          echo "/opt/flint/lib" | sudo tee /etc/ld.so.conf.d/flint.conf
+          sudo ldconfig
+
+          # Propagate env to subsequent steps (note: $GITHUB_ENV does
+          # NOT affect the current shell — verification runs in the
+          # next step so the env is live there).
+          echo "PKG_CONFIG_PATH=/opt/flint/lib/pkgconfig" >> "$GITHUB_ENV"
+          echo "LD_LIBRARY_PATH=/opt/flint/lib" >> "$GITHUB_ENV"
+          echo "CMAKE_PREFIX_PATH=/opt/flint" >> "$GITHUB_ENV"
+
+      - name: Verify FLINT visibility
+        run: |
+          pkg-config --modversion flint
+          pkg-config --cflags --libs flint
+
+      - name: Configure
+        run: cmake -S . -B build -G Ninja -DAMFLOW_BUILD_DRIVER=ON
+
+      - name: Build
+        run: cmake --build build -j
+
+      - name: Run tests (excluding Kira-dependent)
+        # The Kira IBP backend is not available in CI; the test suite
+        # auto-skips Kira-dependent cases when AMFLOW_KIRA is unset.
+        run: ctest --test-dir build --output-on-failure -j 4

@@ -1,0 +1,44 @@
+{
+  "family": "bn3mixeq",
+  "source": "Auto-built bn3mix_eqmass_3L_eps001.",
+  "eps": "1/1000",
+  "numeric": {
+    "psq": "1",
+    "msq": "1"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 240,
+    "ExtraXOrder": 280,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 3,
+    "EndingScheme": [
+      "Tradition",
+      "SingleMass"
+    ]
+  },
+  "mma_black_box_amflow_time_seconds": 57.110398,
+  "mma_cache": "tools/bench/mma_refs/bn3mix_eqmass_3L_eps001_mma_cache",
+  "requested_targets": [
+    {
+      "integral": "j[bn3mixeq, 1, 1, 1, 0, 0, 0, 0, 0, 0]",
+      "value": {
+        "re": "1.0012731299486345961138888861967471422740710919812500183072768101649e9",
+        "im": "-3.783358580118677765791982186788891541436428700685028481701390428017617736806e-60"
+      }
+    }
+  ],
+  "sampled_values_from_same_mma_run": [
+    {
+      "integral": "j[bn3mixeq, 1, 1, 1, 0, 0, 0, 0, 0, 0]",
+      "value": {
+        "re": "1.0012731299486345961138888861967471422740710919812500183072768101649e9",
+        "im": "-3.783358580118677765791982186788891541436428700685028481701390428017617736806e-60"
+      }
+    }
+  ]
+}

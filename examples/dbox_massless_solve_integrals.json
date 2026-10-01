@@ -1,0 +1,46 @@
+{
+  "mode": "solve_integrals",
+  "options": {
+    "chop_pre": 20,
+    "silent_mode": true
+  },
+  "family": {
+    "name": "dboxm",
+    "loops": ["k", "l"],
+    "legs": ["p1", "p2", "p3", "p4"],
+    "conservation": {
+      "p4": "-p1 - p2 - p3"
+    },
+    "replacement": {
+      "p1^2": "0",
+      "p2^2": "0",
+      "p3^2": "0",
+      "p4^2": "0",
+      "(p1 + p2)^2": "s",
+      "(p1 + p3)^2": "t"
+    },
+    "propagators": [
+      "k^2",
+      "(k + p1)^2",
+      "(k + p1 + p2)^2",
+      "(k - l)^2",
+      "l^2",
+      "(l + p1 + p2)^2",
+      "(l + p1 + p2 + p3)^2"
+    ]
+  },
+  "integrals": [
+    { "indices": [1, 1, 1, 1, 1, 1, 1] }
+  ],
+  "goal_digits": 40,
+  "eps_order": 4,
+  "work_dir": "/tmp/dboxm_massless_solve",
+  "amf_options": {
+    "blackbox": {
+      "numeric_values": {
+        "s": "-3",
+        "t": "-1"
+      }
+    }
+  }
+}

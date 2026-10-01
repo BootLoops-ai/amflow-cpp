@@ -1,0 +1,97 @@
+{
+  "family": "ewbox",
+  "source": "1-loop electroweak box, alternating W/Z mass propagators, 4 distinct kinematic invariants {s, t, mWsq, mZsq}.  Phase 3 oracle for the multi-invariant axis (ROADMAP row 'Invariants ≥3: electroweak s, t, m_W, m_Z').  Family layout: 4 propagators (W,Z,W,Z) with 4 massless external legs.  At s = 7, t = -3, mWsq = 1, mZsq = 4/3 the WW bubble (s = 7 > 4mW^2 = 4) is above threshold, so j[ewbox, 1,0,1,0] and j[ewbox, 1,1,1,0]/[1,1,1,1] carry physical imaginary parts.",
+  "eps": "1/1000",
+  "numeric": {
+    "s": "7",
+    "t": "-3",
+    "mWsq": "1",
+    "mZsq": "4/3"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 200,
+    "ExtraXOrder": 240,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 1,
+    "EndingScheme": ["Tradition", "SingleMass"]
+  },
+  "mma_black_box_amflow_time_seconds": 61.294483,
+  "mma_wallclock_time_seconds": 62,
+  "requested_targets": [
+    {
+      "integral": "j[ewbox, 1, 1, 1, 1]",
+      "value": {
+        "re": "0.0653864101752977672377625294395185606104138019293918791248",
+        "im": "0.1809672080744515335411927651535303679546764657635695354418"
+      }
+    }
+  ],
+  "sampled_values_from_same_mma_run": [
+    {
+      "integral": "j[ewbox, 1, 0, 0, 0]",
+      "value": {
+        "re": "1000.4241966812767428578400413409849854506682784240362687382804",
+        "im": "-1.3059381317584066636726248415370049256844792573259314435276287323954e-68"
+      }
+    },
+    {
+      "integral": "j[ewbox, 0, 1, 0, 0]",
+      "value": {
+        "re": "1333.5152452921545284487390707794725198163011186844214062933712",
+        "im": "2.34662055402470248725149772537695670384889027739497e-65"
+      }
+    },
+    {
+      "integral": "j[ewbox, 1, 0, 1, 0]",
+      "value": {
+        "re": "1000.3951749302905526455314206038212703186604928780476523135552",
+        "im": "2.0573210188520472722505505474596477757878236968825812272161"
+      }
+    },
+    {
+      "integral": "j[ewbox, 0, 1, 0, 1]",
+      "value": {
+        "re": "998.7434018506250785586656160299846028901981038379106449357378",
+        "im": "1.66765779360017622288520423670919126126862196162123e-65"
+      }
+    },
+    {
+      "integral": "j[ewbox, 1, 1, 1, 0]",
+      "value": {
+        "re": "-0.4886550208932194818891282754003034790363805804338233183717",
+        "im": "-0.6192513914639969624672519574480833881102582042886017884033"
+      }
+    },
+    {
+      "integral": "j[ewbox, 1, 1, 0, 1]",
+      "value": {
+        "re": "-0.3347550284131064302180525680032639445918438141943481670772",
+        "im": "2.740736133008524941570867058527449888520093471937383e-64"
+      }
+    },
+    {
+      "integral": "j[ewbox, 1, 1, 1, 1]",
+      "value": {
+        "re": "0.0653864101752977672377625294395185606104138019293918791248",
+        "im": "0.1809672080744515335411927651535303679546764657635695354418"
+      }
+    }
+  ],
+  "cpp_sampled_status": {
+    "date": "2026-05-12",
+    "result": "completed and matches Mathematica reference at rel ~10⁻³⁰ across all 7 sampled values (corner j[ewbox,1,1,1,1] + 6 sub-masters: W/Z tadpoles, WW/ZZ bubbles, WZW/WZZ triangles).  First oracle for the Phase 3 multi-invariant axis (4 distinct kinematic invariants {s, t, mWsq, mZsq}); no audit divergence surfaced — the multi-invariant code paths (kira_yaml.cpp's mass_scale_names + kira_run.cpp's -s emission + libp_deriv multi-invariant chain rule) work end-to-end.",
+    "command": "./build/src/cli/amflow_cli tools/bench/ewbox_1loop_eps001_black_box_amflow_cpp.json /tmp/amflow_bench_ewbox_1loop_eps001_cpp_out.json",
+    "output": "/tmp/amflow_bench_ewbox_1loop_eps001_cpp_out.json",
+    "elapsed_seconds": 39,
+    "max_relative_difference": {
+      "re": "3.820e-30",
+      "im": "2.595e-30"
+    },
+    "note": "All 7 sampled values pass at rel ≤ 4 × 10⁻³⁰ (well within the project's standard ~10⁻³⁰ tolerance).  C++ wallclock 39 s vs MMA 62 s; C++ is faster at 1-loop scale.  The j[ewbox,1,1,0,1] imag part shows rel ≈ 2.7 × 10⁻⁷ but abs ≈ 7 × 10⁻⁷¹, i.e. both MMA and C++ agree the integral is real to ~64 digits of precision (numerical noise floor) — compare_sampled.py accepts this via the abs-tol gate.  Compare via tools/bench/compare_sampled.py."
+  }
+}

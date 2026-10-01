@@ -1,0 +1,85 @@
+{
+  "family": "tri3m",
+  "source": "1-loop triangle with three DISTINCT internal masses, two massless on-shell external legs.  Phase 3 batch-2 oracle \u2014 3 different masses at 1-loop.",
+  "eps": "1/1000",
+  "numeric": {
+    "s": "10",
+    "mAsq": "1",
+    "mBsq": "2",
+    "mCsq": "3"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 200,
+    "ExtraXOrder": 240,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 1,
+    "EndingScheme": [
+      "Tradition",
+      "SingleMass"
+    ]
+  },
+  "mma_black_box_amflow_time_seconds": 53.153692,
+  "mma_wallclock_time_seconds": 53,
+  "requested_targets": [
+    {
+      "integral": "j[tri3m, 1, 1, 1]",
+      "value": {
+        "re": "-0.4213041081081456643894479497555104834808484491607654666769",
+        "im": "-0.3369377365124525431989884981384254184450680766680083274635"
+      }
+    }
+  ],
+  "sampled_values_from_same_mma_run": [
+    {
+      "integral": "j[tri3m, 1, 0, 0]",
+      "value": {
+        "re": "1000.4241966812767428578400413409849854506682784240362687382804",
+        "im": "5.08515023166889863222965441028123052782837205400494e-65"
+      }
+    },
+    {
+      "integral": "j[tri3m, 0, 1, 0]",
+      "value": {
+        "re": "1999.4619914857507626952818204015221947543581314560601513573396",
+        "im": "-3.9990053385989453875142612419706152298728261731275e-66"
+      }
+    },
+    {
+      "integral": "j[tri3m, 0, 0, 1]",
+      "value": {
+        "re": "2997.977165623098557324857250416212017948451678603000629618852",
+        "im": "8.2135126630193913005151378739417987119183786631284e-66"
+      }
+    },
+    {
+      "integral": "j[tri3m, 1, 0, 1]",
+      "value": {
+        "re": "1000.2011156493697666322971029958078832843170738635037927804737",
+        "im": "1.5399016582199561908932306459252051021383087862378605244902"
+      }
+    },
+    {
+      "integral": "j[tri3m, 1, 1, 1]",
+      "value": {
+        "re": "-0.4213041081081456643894479497555104834808484491607654666769",
+        "im": "-0.3369377365124525431989884981384254184450680766680083274635"
+      }
+    }
+  ],
+  "cpp_sampled_status": {
+    "date": "2026-05-12",
+    "result": "completed, matches MMA reference at rel <= 4.191e-30 (re) / 3.114e-30 (im) across all sampled values.  Phase 3 batch-2 oracle.",
+    "command": "./build/src/cli/amflow_cli tools/bench/triangle_1L_3mass_black_box_amflow_cpp.json /tmp/amflow_triangle_1L_3mass_cpp_out.json",
+    "output": "/tmp/amflow_triangle_1L_3mass_cpp_out.json",
+    "max_relative_difference": {
+      "re": "4.191e-30",
+      "im": "3.114e-30"
+    },
+    "note": "Compare via tools/bench/compare_sampled.py."
+  }
+}

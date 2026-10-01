@@ -1,0 +1,61 @@
+{
+  "family": "vac2",
+  "source": "2-loop equal-mass pure vacuum (no external legs) sunrise topology.  Exercises the Vacuum lookup-table path (auto-applied Vacuum[2, 3] entry) rather than the standard \u03b7-flow / differential-equation pipeline.  Phase 3 batch-2 oracle, 0-leg topology.",
+  "eps": "1/1000",
+  "numeric": {
+    "msq": "1"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 200,
+    "ExtraXOrder": 240,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 1,
+    "EndingScheme": [
+      "Tradition",
+      "SingleMass"
+    ]
+  },
+  "mma_black_box_amflow_time_seconds": 109.036458,
+  "mma_wallclock_time_seconds": 109,
+  "requested_targets": [
+    {
+      "integral": "j[vac2, 1, 1, 1]",
+      "value": {
+        "re": "1.5027736250661656666034108994171260662448584524609116837275420528e6",
+        "im": "-3.16119144048752561192556663484638806172012032581798323288e-59"
+      }
+    }
+  ],
+  "sampled_values_from_same_mma_run": [
+    {
+      "integral": "j[vac2, 1, 1, 0]",
+      "value": {
+        "re": "1.000848573305377891918244731669310833614865680655541464264663078e6",
+        "im": "-5.14739279499529303190668988935833582698738218099663326e-62"
+      }
+    },
+    {
+      "integral": "j[vac2, 1, 1, 1]",
+      "value": {
+        "re": "1.5027736250661656666034108994171260662448584524609116837275420528e6",
+        "im": "-3.16119144048752561192556663484638806172012032581798323288e-59"
+      }
+    }
+  ],
+  "cpp_sampled_status": {
+    "date": "2026-05-12",
+    "result": "completed, matches MMA reference at rel <= 1.91e-30 (re) / 1.20e-03 (im) across all sampled values.  Phase 3 batch-2 oracle.",
+    "command": "./build/src/cli/amflow_cli tools/bench/vacuum_2L_sunrise_black_box_amflow_cpp.json /tmp/amflow_vacuum_2L_sunrise_cpp_out.json",
+    "output": "/tmp/amflow_vacuum_2L_sunrise_cpp_out.json",
+    "max_relative_difference": {
+      "re": "1.912e-30",
+      "im": "1.203e-03"
+    },
+    "note": "Compare via tools/bench/compare_sampled.py."
+  }
+}

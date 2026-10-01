@@ -1,0 +1,42 @@
+{
+  "family": "cutbanana",
+  "source": "3-loop massless cut banana (4 cut propagators between two external points): 9-prop basis (4 actual l1^2, l2^2, l3^2, (l1+l2+l3-p)^2 + 5 ISPs), cut={1,1,1,1,0,0,0,0,0} forces the AMFSystem master selection to fire the Cutkosky branch at L=3 (top sector |var|=L+1=4, all live cuts==1).  After the cut is cleared the eta-flow runs an ordinary 3-loop banana with eta on l1^2 (1 massive + 3 massless legs); the final answer is Im[uncut]*prefactor with prefactor = 2*(Pi^(2-eps)*(2*Pi)^(2*eps-4))^L*(-1)^(L+1) at L=3.  Designed to verify that phase_loop_num=3 propagates correctly through deeper subsystem recursion (system 1 -> system 2 -> system 3 -> trivial), and that the (-1)^(L+1) sign at L=3 returns to +1 (matching L=1 cutbubble).",
+  "eps": "1/100",
+  "numeric": {
+    "s": "4"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 200,
+    "ExtraXOrder": 240,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 5,
+    "EndingScheme": ["Tradition", "Cutkosky", "SingleMass"]
+  },
+  "mma_solve_integrals_time_seconds": 93.05,
+  "mma_eps_order": 22,
+  "leading_eps_zero": "2.12745028844621450040901668141439423507972933484138548015849795454664416e-6 (massless 4-particle phase-space related, L=3 prefactor exponent 3 with sign +1)",
+  "requested_targets": [
+    {
+      "integral": "j[cutbanana, 1, 1, 1, 1, 0, 0, 0, 0, 0]",
+      "value": {
+        "re": "2.43563436134155591915316578436163286266838205026177800922145118938597161e-6",
+        "im": "0"
+      }
+    }
+  ],
+  "cpp_sampled_status": {
+    "date": "2026-04-27",
+    "result": "Cutkosky path FIRED on top family at L=3 (verified via DESOLVER_DEBUG_SCHEME stderr); eps=1/100 sample matches Mathematica reference to ~30 decimal digits (within the C++ ARB radius)",
+    "command": "DESOLVER_DEBUG_SCHEME=1 ./build_claude/driver/desolver_cli tools/bench/cutbanana_3L_eps001_black_box_amflow_cpp.json /tmp/desolver_bench_cutbanana_3L_eps001_cpp_out.json",
+    "scheme_trace": "[scheme] Cutkosky fired: family=cutbanana phase_loop_num=3 top_position={0,1,2,3}",
+    "max_relative_difference": {
+      "re": "<1e-30",
+      "im": "0"
+    }
+  }
+}

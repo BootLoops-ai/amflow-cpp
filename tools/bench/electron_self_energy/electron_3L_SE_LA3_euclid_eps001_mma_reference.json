@@ -1,0 +1,26 @@
+{
+  "family": "eseLA",
+  "source": "QED 3-loop electron self-energy — planar Ladder (LA3) — pairing (1,4)(2,5)(3,6). The unique 1PI 3-loop topology where all 3 photons mutually overlap (no nested/disjoint pair). 5 internal massive electron + 3 massless photon. Off-shell Euclidean kinematics.",
+  "eps": "1/1000",
+  "numeric": {
+    "ssq": "-3",
+    "msq": "1"
+  },
+  "options": {
+    "working_pre": 120,
+    "x_order": 240,
+    "extra_x_order": 280,
+    "ibp_dot": 3,
+    "ibp_rank": 0
+  },
+  "mma_black_box_amflow_time_seconds": 1162.38517,
+  "requested_targets": [
+    {
+      "integral": "j[eseLA, 1, 1, 1, 1, 1, 1, 1, 1, 0]",
+      "value": {
+        "re": "0.16965574843101159890349653493306546977502077882739845976026536543058056413112",
+        "im": "-5.557330395043756470361419040860059670996245600574356501720581663271538908e-63"
+      }
+    }
+  ]
+}

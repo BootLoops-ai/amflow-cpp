@@ -1,0 +1,69 @@
+{
+  "family": "sunriseth",
+  "source": "2-loop equal-mass sunrise AT the 3-particle production threshold s = 9m^2 = (3m)^2 with m^2 = 1.  Kinematic boundary case where the analytic structure has a branch point exactly at the evaluation point.  Phase 3 batch-2 oracle, threshold kinematics.",
+  "eps": "1/1000",
+  "numeric": {
+    "s": "9",
+    "msq": "1"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 200,
+    "ExtraXOrder": 240,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 1,
+    "EndingScheme": [
+      "Tradition",
+      "SingleMass"
+    ]
+  },
+  "mma_black_box_amflow_time_seconds": 79.744751,
+  "mma_wallclock_time_seconds": 80,
+  "requested_targets": [
+    {
+      "integral": "j[sunriseth, 1, 1, 1, 0, 0]",
+      "value": {
+        "re": "1.5005281098871784190925995631535382126727125202215094278305508697e6",
+        "im": "-8.533611778938933581944135927473648738562281638713464194578e-58"
+      }
+    }
+  ],
+  "sampled_values_from_same_mma_run": [
+    {
+      "integral": "j[sunriseth, 1, 1, 0, 0, 0]",
+      "value": {
+        "re": "1.000848573305377891918244731669310833614865680655541464264663078e6",
+        "im": "-5.00269200312356754430668884723934613599410983135107814e-62"
+      }
+    },
+    {
+      "integral": "j[sunriseth, 1, 1, 1, 0, 0]",
+      "value": {
+        "re": "1.5005281098871784190925995631535382126727125202215094278305508697e6",
+        "im": "-8.533611778938933581944135927473648738562281638713464194578e-58"
+      }
+    },
+    {
+      "integral": "j[sunriseth, 1, 1, 2, 0, 0]",
+      "value": {
+        "re": "499925.2803269728821692523351966008870124750151600135879555485069",
+        "im": "9.6407990677263174641104473632651088284336494172967459287e-59"
+      }
+    }
+  ],
+  "cpp_sampled_status": {
+    "date": "2026-05-12",
+    "result": "completed, matches MMA reference at rel <= 2.36e-30 (re) / 5.07e-31 (im) across all sampled values.  Phase 3 batch-2 oracle.",
+    "command": "./build/src/cli/amflow_cli tools/bench/sunrise_2L_threshold_black_box_amflow_cpp.json /tmp/amflow_sunrise_2L_threshold_cpp_out.json",
+    "output": "/tmp/amflow_sunrise_2L_threshold_cpp_out.json",
+    "max_relative_difference": {
+      "re": "2.358e-30",
+      "im": "5.073e-31"
+    },
+    "note": "Compare via tools/bench/compare_sampled.py."
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "family": "eseMER",
+  "source": "QED 3-loop electron self-energy — Mercedes-Benz rim 2-leg. Graph: central hub O + 3 photon spokes (O-A, O-B, O-C) + 5 electron rim arcs (A-M, M-B, B-C, C-N, N-A) where M, N are the 2 external attachment points (M on A-B rim arc, N on C-A rim arc, so A is between M and N). ext_in -> M, ext_out -> N. Mass: 3 spokes massless (photon), 5 rim arcs mass m_e (electron). ON-SHELL kinematics p1^2 = msq = 1 (electron on mass shell). Loop momenta: l1 = e_OA, l2 = e_OB, l3 = e_NA (with e_OC = -(l1+l2) from O Kirchhoff). EMPIRICAL NOTE: despite graph being non-chain (hub + rim cycle vs linear chain in LA3/CL3), AMFlow reduction is ~8x faster than LA3/CL3 — Mercedes hub symmetry makes Kira IBP system far smaller (DE prepared = 10 sub-systems vs ~90 for LA3/CL3).",
+  "eps": "1/1000",
+  "numeric": {
+    "ssq": "1",
+    "msq": "1"
+  },
+  "options": {
+    "working_pre": 120,
+    "x_order": 240,
+    "extra_x_order": 280,
+    "ibp_dot": 3,
+    "ibp_rank": 0
+  },
+  "mma_black_box_amflow_time_seconds": 145.990722,
+  "requested_targets": [
+    {
+      "integral": "j[eseMER, 1, 1, 1, 1, 1, 1, 1, 1, 0]",
+      "value": {
+        "re": "0.7569337209940187487275465180352848348771475395706530834585896380166111368355",
+        "im": "-1.9156605199468340105089618934828230847460126340813663068609175833127558647e-62"
+      }
+    }
+  ]
+}

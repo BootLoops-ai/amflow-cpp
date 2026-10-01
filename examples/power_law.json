@@ -1,0 +1,18 @@
+{
+  "options": {
+    "x_order": 30,
+    "extra_x_order": 10,
+    "silent_mode": true
+  },
+  "matrix": [
+    [
+      { "num": ["1"], "den": ["0", "1"] }
+    ]
+  ],
+  "boundaries": [
+    [
+      { "mu": { "re": "1", "im": "0" }, "value": { "re": "1", "im": "0" } }
+    ]
+  ],
+  "mode": "amflow"
+}

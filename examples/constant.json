@@ -1,0 +1,9 @@
+{
+  "options": { "x_order": 20, "extra_x_order": 5, "silent_mode": true },
+  "matrix": [
+    [ { "coeffs": ["0"] } ]
+  ],
+  "boundaries": [
+    [ { "mu": {"re":"0","im":"0"}, "value": {"re":"42","im":"0"} } ]
+  ]
+}

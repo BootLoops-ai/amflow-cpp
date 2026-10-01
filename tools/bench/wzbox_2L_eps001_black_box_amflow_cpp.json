@@ -1,0 +1,45 @@
+{
+  "mode": "black_box_amflow",
+  "options": {
+    "working_pre": 120, "chop_pre": 20, "rationalize_pre": 100, "silent_mode": true,
+    "x_order": 240, "extra_x_order": 280, "learn_x_order": -1, "test_x_order": 5
+  },
+  "family": {
+    "name": "wzbox2L",
+    "loops": ["l1", "l2"],
+    "legs": ["p1", "p2", "p3", "p4"],
+    "conservation": {"p4": "-p1 - p2 - p3"},
+    "replacement": {
+      "p1^2": "0",
+      "p2^2": "0",
+      "p3^2": "0",
+      "p4^2": "0",
+      "(p1 + p2)^2": "s",
+      "(p1 + p3)^2": "t"
+    },
+    "propagators": [
+      "l1^2 - mWsq",
+      "(l1 + p1)^2 - mZsq",
+      "(l1 + p1 + p2)^2 - mWsq",
+      "l2^2 - mZsq",
+      "(l2 - p3)^2 - mWsq",
+      "(l2 + p1 + p2)^2 - mZsq",
+      "(l1 + l2)^2",
+      "(l1 - p3)^2",
+      "(l2 + p1)^2"
+    ]
+  },
+  "integrals": [
+    { "indices": [1, 1, 1, 1, 1, 1, 1, 0, 0] }
+  ],
+  "eps_samples": ["1/1000"],
+  "work_dir": "/tmp/desolver_bench_wzbox_2L_cpp",
+  "amf_options": {
+    "ending_schemes": ["Tradition", "SingleMass"],
+    "max_recursion_depth": 12,
+    "blackbox": {
+      "ibp_rank": 0, "ibp_dot": 5, "integral_order": 5, "n_thread": 4,
+      "numeric_values": { "s": "7", "t": "-3", "mWsq": "1", "mZsq": "4/3" }
+    }
+  }
+}

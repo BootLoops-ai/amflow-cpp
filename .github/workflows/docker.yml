@@ -1,0 +1,61 @@
+name: docker
+
+# BootLoops fork: this workflow runs only when dispatched by hand and never
+# publishes an image (the image would bundle third-party engines under their
+# own licenses; see PATCHES.md). Upstream's push/tag triggers are removed in
+# this repository.
+on:
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+  # Opt JavaScript-based actions into Node.js 24 ahead of the platform
+  # switch (mirrors .github/workflows/ci.yml).  Becomes a no-op once
+  # upstream actions ship `runs.using: node24` natively.
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
+jobs:
+  build-and-push:
+    name: Build image (linux/amd64)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Extract tags & labels
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            # `:main` on every push to main
+            type=ref,event=branch
+            # `:pr-NNN` on pull requests (for trace-back convenience)
+            type=ref,event=pr
+            # `:1.1` on git tag v1.1, `:1.2` on v1.2, etc.
+            type=semver,pattern={{version}}
+            # `:latest` only on default-branch pushes / tag pushes
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/Dockerfile
+          platforms: linux/amd64
+          # BootLoops fork: build only, never push.
+          push: false
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          # GitHub Actions cache backend; persists FLINT / Kira /
+          # FireFly layers across runs and shaves cold ~25 min builds
+          # down to ~5 min when the upstream sources haven't changed.
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

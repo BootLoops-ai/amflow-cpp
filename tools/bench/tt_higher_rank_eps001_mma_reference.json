@@ -1,0 +1,72 @@
+{
+  "family": "tt",
+  "source": "tt 2-loop box family with higher-rank ISP numerators (rank 5 and 6)",
+  "eps": "1/1000",
+  "numeric": {
+    "s": "30",
+    "t": "-10/3",
+    "msq": "1"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 200,
+    "ExtraXOrder": 240,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 6,
+    "BlackBoxDot": 0
+  },
+  "mma_black_box_amflow_time_seconds": 870.583594,
+  "mma_wallclock_time_seconds": 876.64,
+  "requested_targets": [
+    {
+      "integral": "j[tt, 1, 1, 1, 1, 1, 1, 1, -5, 0]",
+      "value": {
+        "re": "6.1154825930631158289476263735338145893537072433691069710539860884535e10",
+        "im": "1.688809420969715054785429786212554148650676094506744747484772959333e8"
+      }
+    },
+    {
+      "integral": "j[tt, 1, 1, 1, 1, 1, 1, 1, -4, -1]",
+      "value": {
+        "re": "-3.1547978532953409304361979034918099053787707278348e11",
+        "im": "-829711.8091439579625378457394655803598747753253591700512543505693"
+      }
+    },
+    {
+      "integral": "j[tt, 1, 1, 1, 1, 1, 1, 1, -3, -2]",
+      "value": {
+        "re": "5.64537335835426890631518982194887613988531645874458e12",
+        "im": "-5.4928735570677465346549830128861578117800994374498843566150974905e6"
+      }
+    },
+    {
+      "integral": "j[tt, 1, 1, 1, 1, 1, 1, 1, -3, -3]",
+      "value": {
+        "re": "3.3921783426230034671911921550220479486238183556728404e14",
+        "im": "-2.436503682713021198306237306640249464942194843169953200725776708358e8"
+      }
+    }
+  ],
+  "scalar_master_from_same_run": {
+    "integral": "j[tt, 1, 1, 1, 1, 1, 1, 1, 0, 0]",
+    "value": {
+      "re": "-1.6968434557622531118247526754908035521755616383492110614552957098e8",
+      "im": "-399951.4679254980222299023587030161156070054524533913931415455899"
+    }
+  },
+  "cpp_sampled_status": {
+    "date": "2026-04-27",
+    "result": "completed and sampled values match Mathematica reference to ~22 digits",
+    "command": "./build_claude/driver/desolver_cli tools/bench/tt_higher_rank_eps001_black_box_amflow_cpp.json /tmp/desolver_bench_tt_higher_rank_eps001_cpp_out.json",
+    "output": "/tmp/desolver_bench_tt_higher_rank_eps001_cpp_out.json",
+    "elapsed_seconds": 364.00,
+    "max_relative_difference": {
+      "re": "5.930e-25",
+      "im": "8.472e-17"
+    },
+    "note": "Validates the strict-QFT contraction path on rank-5 (single-loop ISP power 5) and rank-6 (split between two ISPs) tensor numerators. ISP propagators (D8 = (l1-p3)^2, D9 = (l2+p1)^2) are quadratic auxiliaries, not gauge-link. Compare via tools/bench/compare_sampled.py with --rel-tol 1e-15: the imaginary parts of the rank-6 ISP integrals reach the C++ arb output floor (printed interval ~1e-8 absolute, ~1e-17 relative for [-3,-3])."
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "family": "bub2mlrg",
+  "source": "1-loop bubble with 2 masses at large hierarchy.",
+  "eps": "1/1000",
+  "numeric": {
+    "s": "100",
+    "mAsq": "1",
+    "mBsq": "100"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 240,
+    "ExtraXOrder": 280,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 3,
+    "EndingScheme": [
+      "Tradition",
+      "SingleMass"
+    ]
+  },
+  "mma_black_box_amflow_time_seconds": 40.61,
+  "mma_cache": "tools/bench/mma_refs/bubble_1L_largemass_eps001_mma_cache",
+  "requested_targets": [
+    {
+      "integral": "j[bub2mlrg, 1, 1]",
+      "value": {
+        "re": "996.5445883014608702567070349863616381902223050663298488802423",
+        "im": "-6.47588962100941406534526941015758018137299575547152843995151267666478714e-64"
+      }
+    }
+  ],
+  "sampled_values_from_same_mma_run": [
+    {
+      "integral": "j[bub2mlrg, 1, 1]",
+      "value": {
+        "re": "996.5445883014608702567070349863616381902223050663298488802423",
+        "im": "-6.47588962100941406534526941015758018137299575547152843995151267666478714e-64"
+      }
+    },
+    {
+      "integral": "j[bub2mlrg, 1, 0]",
+      "value": {
+        "re": "1000.4241966812767428578400413409849854506682784240362687382804",
+        "im": "-1.0639430643978803664011756447777916729157131404417520956321369032224445e-64"
+      }
+    },
+    {
+      "integral": "j[bub2mlrg, 0, 1]",
+      "value": {
+        "re": "99582.7665026092371335721270852463218650989850246163653485330067",
+        "im": "-1.25426087651338183447396382810397223914780869223079689719868825273269095e-64"
+      }
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "mode": "black_box_amflow",
+  "options": {
+    "working_pre": 120,
+    "chop_pre": 20,
+    "rationalize_pre": 100,
+    "silent_mode": true,
+    "x_order": 200,
+    "extra_x_order": 240,
+    "learn_x_order": -1,
+    "test_x_order": 5
+  },
+  "family": {
+    "name": "bub2me1",
+    "loops": [
+      "l"
+    ],
+    "legs": [
+      "p"
+    ],
+    "conservation": {},
+    "replacement": {
+      "p^2": "s"
+    },
+    "propagators": [
+      "l^2 - mAsq",
+      "(l + p)^2 - mBsq"
+    ]
+  },
+  "integrals": [
+    {
+      "indices": [
+        1,
+        1
+      ]
+    }
+  ],
+  "eps_samples": [
+    "1/100"
+  ],
+  "work_dir": "/tmp/amflow_bench_bubble_1L_diffmass_eps01_cpp",
+  "amf_options": {
+    "ending_schemes": [
+      "Tradition",
+      "SingleMass"
+    ],
+    "max_recursion_depth": 16,
+    "blackbox": {
+      "ibp_rank": 0,
+      "ibp_dot": 3,
+      "integral_order": 5,
+      "n_thread": 4,
+      "numeric_values": {
+        "s": "-3",
+        "mAsq": "1",
+        "mBsq": "4"
+      }
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "family": "tt",
+  "source": "upstream AMFlow examples/automatic_vs_manual/run.wl family (https://gitlab.com/multiloop-pku/amflow), sampled with Kira",
+  "eps": "1/1000",
+  "numeric": {
+    "s": "30",
+    "t": "-10/3",
+    "msq": "1"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 200,
+    "ExtraXOrder": 240,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 3,
+    "BlackBoxDot": 0
+  },
+  "mma_black_box_amflow_time_seconds": 596.193672,
+  "requested_targets": [
+    {
+      "integral": "j[tt, 1, 1, 1, 1, 1, 1, 1, -3, 0]",
+      "value": {
+        "re": "5.4830772035808460775027332513876290822444532512229610462524096364132e9",
+        "im": "1.48216892217463046712914259053212590292038624094585254275764938136e7"
+      }
+    },
+    {
+      "integral": "j[tt, 1, 1, 1, 1, 1, 1, 1, -2, -1]",
+      "value": {
+        "re": "-2.89747101148121759180003780280934726729040608987099113270217457059883e10",
+        "im": "133512.0087436712938215985347173085066962296923404704855235555227"
+      }
+    },
+    {
+      "integral": "j[tt, 1, 1, 1, 1, 1, 1, 1, -1, -2]",
+      "value": {
+        "re": "4.7245962828581210655267301879581503140462354536347e11",
+        "im": "-733955.4246464332658360641647147936926217218977811415971881319021"
+      }
+    },
+    {
+      "integral": "j[tt, 1, 1, 1, 1, 1, 1, 1, 0, -3]",
+      "value": {
+        "re": "-1.149625882110677938444981509310252436541114502859289e13",
+        "im": "1.06800900603085861730429031050936570444438156891511291043081440036e7"
+      }
+    }
+  ],
+  "scalar_master_from_same_run": {
+    "integral": "j[tt, 1, 1, 1, 1, 1, 1, 1, 0, 0]",
+    "value": {
+      "re": "-1.6968434557622531118247526754908035521755616383492110614552957098e8",
+      "im": "-399951.4679254980222299023587030161156070054524533913931415455899"
+    }
+  },
+  "cpp_sampled_status": {
+    "date": "2026-04-25",
+    "result": "completed and sampled values match Mathematica reference",
+    "command": "./build_repro/driver/desolver_cli tools/bench/tt_2loop_box_black_box_amflow_cpp.json /tmp/desolver_bench_tt_2loop_box_cpp_out.json",
+    "output": "/tmp/desolver_bench_tt_2loop_box_cpp_out.json",
+    "elapsed_seconds": 152.26,
+    "clean_work_dir_verification": {
+      "date": "2026-04-25",
+      "input": "/tmp/desolver_tt_clean_input_20260425_1225.json",
+      "work_dir": "/tmp/desolver_bench_tt_2loop_box_cpp_clean_20260425_1225",
+      "output": "/tmp/desolver_bench_tt_2loop_box_cpp_clean_20260425_1225_out.json",
+      "elapsed_seconds": 152.41,
+      "result": "completed and byte-identical to the prior C++ output"
+    },
+    "max_relative_difference": {
+      "re": "4.3240641477715615e-31",
+      "im": "4.8075407746153172e-26"
+    },
+    "note": "Requested target values were compared against the preserved Mathematica reference; Mathematica values and cache artifacts were not modified."
+  }
+}

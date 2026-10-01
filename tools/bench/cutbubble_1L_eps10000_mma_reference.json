@@ -1,0 +1,52 @@
+{
+  "family": "cutbubble",
+  "source": "1-loop massless cutbubble at eps = 1/10000 — Phase 3 oracle for the ε-extremes axis (small-eps boundary).  Same cutbubble family as cutbubble_1L_eps001 but evaluated at eps = 10⁻⁴ instead of eps = 10⁻² — two orders of magnitude closer to the physical D = 4 limit.  Tests the Laurent-expansion machinery near the physical limit where the contribution of high-order eps terms scales with 1/eps^n.",
+  "eps": "1/10000",
+  "numeric": {
+    "s": "4"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 200,
+    "ExtraXOrder": 240,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 1,
+    "EndingScheme": ["Tradition", "Cutkosky", "SingleMass"]
+  },
+  "mma_black_box_amflow_time_seconds": 23.569284,
+  "mma_wallclock_time_seconds": 24,
+  "requested_targets": [
+    {
+      "integral": "j[cutbubble, 1, 1]",
+      "value": {
+        "re": "0.03979895271301535423168909595799959402581894426902256494888907000051029515543",
+        "im": "0"
+      }
+    }
+  ],
+  "sampled_values_from_same_mma_run": [
+    {
+      "integral": "j[cutbubble, 1, 1]",
+      "value": {
+        "re": "0.03979895271301535423168909595799959402581894426902256494888907000051029515543",
+        "im": "0"
+      }
+    }
+  ],
+  "cpp_sampled_status": {
+    "date": "2026-05-12",
+    "result": "completed and matches Mathematica reference at rel = 1.02 × 10⁻³² (better than the project's standard ~10⁻³⁰ tolerance).  Phase 3 ε-extremes oracle at the small-eps end (eps = 10⁻⁴, two orders of magnitude closer to the physical D = 4 limit than the standard 10⁻²).  No audit divergence surfaced — the C++ Laurent-expansion machinery handles small eps without precision loss.",
+    "command": "./build/src/cli/amflow_cli tools/bench/cutbubble_1L_eps10000_black_box_amflow_cpp.json /tmp/amflow_bench_cutbubble_1L_eps10000_cpp_out.json",
+    "output": "/tmp/amflow_bench_cutbubble_1L_eps10000_cpp_out.json",
+    "elapsed_seconds": 16,
+    "max_relative_difference": {
+      "re": "1.020e-32",
+      "im": "0"
+    },
+    "note": "C++ wallclock 16 s, MMA 24 s.  Compare via tools/bench/compare_sampled.py."
+  }
+}

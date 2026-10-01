@@ -1,0 +1,83 @@
+{
+  "family": "box1mt",
+  "source": "1-loop massless box with THREE targets in a single BlackBoxAMFlow call.  Phase 3 batch-2 oracle \u2014 multi-target output.",
+  "eps": "1/1000",
+  "numeric": {
+    "s": "-3",
+    "t": "-1"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 200,
+    "ExtraXOrder": 240,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 1,
+    "EndingScheme": [
+      "Tradition",
+      "SingleMass"
+    ]
+  },
+  "mma_black_box_amflow_time_seconds": 56.48674,
+  "mma_wallclock_time_seconds": 56,
+  "requested_targets": [
+    {
+      "integral": "j[box1mt, 1, 1, 1, 1]",
+      "value": {
+        "re": "1.3318275595667416621362839878619988170198173610980659262193261964e6",
+        "im": "1.050806987926253924353226827438791978956026088253109134749177e-55"
+      }
+    }
+  ],
+  "sampled_values_from_same_mma_run": [
+    {
+      "integral": "j[box1mt, 2, 1, 1, 1]",
+      "value": {
+        "re": "-445497.3519284887892442519047375196801920818054816159003268914058",
+        "im": "-3.50969533916962680140164024095600597858359768343362334984734e-56"
+      }
+    },
+    {
+      "integral": "j[box1mt, 1, 1, 2, 1]",
+      "value": {
+        "re": "-445497.3519284887892442519047375196801920818054816159003268914058",
+        "im": "-3.50969533916962680140164024095600597858359768343362334984734e-56"
+      }
+    },
+    {
+      "integral": "j[box1mt, 0, 1, 0, 1]",
+      "value": {
+        "re": "1001.4249760453109284793926841762677792265214286908290392252958",
+        "im": "-7.5685107827042633178370032034226984025400039806428e-66"
+      }
+    },
+    {
+      "integral": "j[box1mt, 1, 0, 1, 0]",
+      "value": {
+        "re": "1000.32540237361649836516392849741532469530955220069044191065",
+        "im": "2.4893606986589421241752951986494862763269103155448e-66"
+      }
+    },
+    {
+      "integral": "j[box1mt, 1, 1, 1, 1]",
+      "value": {
+        "re": "1.3318275595667416621362839878619988170198173610980659262193261964e6",
+        "im": "1.050806987926253924353226827438791978956026088253109134749177e-55"
+      }
+    }
+  ],
+  "cpp_sampled_status": {
+    "date": "2026-05-12",
+    "result": "completed, matches MMA reference at rel <= 3.727e-30 (re) / 3.565e-31 (im) across all sampled values.  Phase 3 batch-2 oracle.",
+    "command": "./build/src/cli/amflow_cli tools/bench/box1_multitarget_black_box_amflow_cpp.json /tmp/amflow_box1_multitarget_cpp_out.json",
+    "output": "/tmp/amflow_box1_multitarget_cpp_out.json",
+    "max_relative_difference": {
+      "re": "3.727e-30",
+      "im": "3.565e-31"
+    },
+    "note": "Compare via tools/bench/compare_sampled.py."
+  }
+}

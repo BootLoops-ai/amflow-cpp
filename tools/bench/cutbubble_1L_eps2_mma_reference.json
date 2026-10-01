@@ -1,0 +1,52 @@
+{
+  "family": "cutbubble",
+  "source": "1-loop massless cutbubble at eps = 1/2 (D = 3) — Phase 3 oracle for the ε-extremes axis (large-eps boundary).  Same cutbubble family as cutbubble_1L_eps001 but evaluated at eps = 1/2 (i.e., D = 4 - 2*eps = 3).  Note: an initial attempt at eps = 1 (D = 2) hit an upstream MMA AMFlow limitation where the DESolver returned a partially-symbolic expression (1/2π) Im[DESolver`Private`variables[1, 1]], so eps = 1/2 was chosen as the next-most-extreme rational eps that yields a clean numeric result.  At eps = 1/2 the answer is 1/8 to ~60 digits (massless 2-particle phase space at s = 4 in D = 3).",
+  "eps": "1/2",
+  "numeric": {
+    "s": "4"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 200,
+    "ExtraXOrder": 240,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 1,
+    "EndingScheme": ["Tradition", "Cutkosky", "SingleMass"]
+  },
+  "mma_black_box_amflow_time_seconds": 25.108517,
+  "mma_wallclock_time_seconds": 25,
+  "requested_targets": [
+    {
+      "integral": "j[cutbubble, 1, 1]",
+      "value": {
+        "re": "0.12499999999999999999999999999999999999999999999999999999999999997619591733734",
+        "im": "0"
+      }
+    }
+  ],
+  "sampled_values_from_same_mma_run": [
+    {
+      "integral": "j[cutbubble, 1, 1]",
+      "value": {
+        "re": "0.12499999999999999999999999999999999999999999999999999999999999997619591733734",
+        "im": "0"
+      }
+    }
+  ],
+  "cpp_sampled_status": {
+    "date": "2026-05-12",
+    "result": "completed and matches Mathematica reference at rel = 1.9 × 10⁻⁶⁴ (essentially full-precision agreement on 1/8).  Phase 3 ε-extremes oracle at the large-eps end (D = 3 dimensional regularization).  No audit divergence surfaced — the C++ Laurent-expansion / DESolver paths handle eps = 1/2 without issue.",
+    "command": "./build/src/cli/amflow_cli tools/bench/cutbubble_1L_eps2_black_box_amflow_cpp.json /tmp/amflow_bench_cutbubble_1L_eps2_cpp_out.json",
+    "output": "/tmp/amflow_bench_cutbubble_1L_eps2_cpp_out.json",
+    "elapsed_seconds": 17,
+    "max_relative_difference": {
+      "re": "1.904e-64",
+      "im": "0"
+    },
+    "note": "C++ wallclock 17 s, MMA 25 s.  At eps = 1/2 the integral is exactly 1/8 (massless 2-particle phase space at s = 4 in D = 3), and both sides agree to ~64 digits.  Compare via tools/bench/compare_sampled.py."
+  }
+}

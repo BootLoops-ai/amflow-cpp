@@ -1,0 +1,64 @@
+{
+  "family": "vtx2",
+  "description": "Massless two-loop on-shell vertex/form-factor scalar integral with one ISP slot",
+  "eps": "1/1000",
+  "numeric": {
+    "s": "-1"
+  },
+  "options": {
+    "WorkingPre": 100,
+    "ChopPre": 20,
+    "RationalizePre": 80,
+    "XOrder": 100,
+    "ExtraXOrder": 120,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 2,
+    "BlackBoxDot": 0
+  },
+  "mma_cache": "tools/bench/mma_refs/vtx2_2loop_vertex_eps001_top_mma_cache",
+  "top_integral": {
+    "integral": "j[vtx2, 1, 1, 1, 1, 1, 1, 0]",
+    "value": {
+      "re": "2.497136183000321274544203524500872057700922165945644766293509392311415e11",
+      "im": "6.67684493663787272989290289535633013593248627180973538223396218644508266e-25"
+    }
+  },
+  "preferred_masters": [
+    {
+      "integral": "j[vtx2, 0, 0, 1, 1, 0, 1, 0]",
+      "value": {
+        "re": "251.3414734573824095638963563187471231614747792541029916853556",
+        "im": "-1.30269530614312826723090842047671103264738174956031257921064582e-34"
+      }
+    },
+    {
+      "integral": "j[vtx2, 1, 0, 1, 1, 1, 0, 0]",
+      "value": {
+        "re": "1.0028519826473515669320801507312537202488893149357391067320503104e6",
+        "im": "-7.6916746456401125275818616424275286738255281259029542301439063632e-32"
+      }
+    },
+    {
+      "integral": "j[vtx2, 0, 1, 0, 1, 1, 1, 0]",
+      "value": {
+        "re": "501930.5749859507728735381382434985342517197894501795429206600231",
+        "im": "-2.1610145056408535488837723584106321007465474629044327973815178918e-32"
+      }
+    }
+  ],
+  "root_reduction": {
+    "masters_match_cpp": true,
+    "kira_target_match_cpp": true,
+    "top_integral_rule": "vtx2[1,1,1,1,1,1,0] -> vtx2[0,1,0,1,1,1,0]*(9*d^2-57*d+90)/(d^2-8*d+16) + vtx2[1,0,1,1,1,0,0]*(4*d^2-24*d+36)/(d^2-8*d+16) + vtx2[0,0,1,1,0,1,0]*(54*d^3-486*d^2+1452*d-1440)/(d^3-12*d^2+48*d-64)"
+  },
+  "timing_seconds": {
+    "mma_black_box_amflow": 163.562814,
+    "cpp_black_box_amflow": 93.92
+  },
+  "cpp_sampled_status": {
+    "command": "./build_repro/driver/desolver_cli tools/bench/vtx2_2loop_vertex_black_box_amflow_cpp.json /tmp/desolver_bench_vtx2_cpp_after_fix_out.json",
+    "result": "completed and sampled values match Mathematica reference",
+    "output": "/tmp/desolver_bench_vtx2_cpp_after_fix_out.json"
+  }
+}

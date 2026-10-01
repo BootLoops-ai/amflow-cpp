@@ -1,0 +1,51 @@
+{
+  "family": "mercedes",
+  "source": "η_c → γγ style 3-loop Mercedes-Benz rim-insertion form factor, all 9 main propagators massless (single-scale ssq=1, eps=1/1000). MMA values reproduced from cached BlackBoxAMFlow re-run on 2026-05-20 (mma_black_box_amflow_time_seconds=822.197028); cross-checked against commit 47b31cf message digits.",
+  "eps": "1/1000",
+  "numeric": {
+    "ssq": "1"
+  },
+  "options": {
+    "working_pre": 120,
+    "x_order": 240,
+    "extra_x_order": 280,
+    "ibp_dot": 3,
+    "ibp_rank": 0
+  },
+  "mma_black_box_amflow_time_seconds": 822.197028,
+  "requested_targets": [
+    {
+      "integral": "j[mercedes, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0]",
+      "value": {
+        "re": "-5.49621034196971103287393516255932506291785051171749772064637661370957318e13",
+        "im": "-5.180209590641296701285277806431058310216913828452984377152220415075674e11"
+      }
+    }
+  ],
+  "cpp_verification_snapshot": {
+    "amflow_cli_acb_ball": {
+      "j[mercedes, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0]": {
+        "re": {
+          "center": "-54962103419697.1103287393516256",
+          "radius": "6.76e-18"
+        },
+        "im": {
+          "center": "-518020959064.129670128527780643",
+          "radius": "1.06e-19"
+        }
+      }
+    },
+    "agreement_vs_mma_reference": {
+      "j[mercedes, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0]": {
+        "integral": "j[mercedes, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0]",
+        "re_absolute_diff": "6.749E-18",
+        "im_absolute_diff": "1.058E-19",
+        "re_relative_diff": "1.228E-31",
+        "im_relative_diff": "2.043E-31",
+        "re_within_cpp_ball": true,
+        "im_within_cpp_ball": true
+      }
+    },
+    "cpp_amflow_cli_time_seconds": 508.0
+  }
+}

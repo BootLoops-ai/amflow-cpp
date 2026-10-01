@@ -1,0 +1,51 @@
+{
+  "family": "vac2m",
+  "source": "2-loop vacuum (sunrise topology, no external) with 2 distinct masses.",
+  "eps": "1/1000",
+  "numeric": {
+    "mAsq": "1",
+    "mBsq": "4"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 240,
+    "ExtraXOrder": 240,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 3,
+    "EndingScheme": [
+      "Tradition",
+      "SingleMass"
+    ]
+  },
+  "mma_black_box_amflow_time_seconds": 55.68,
+  "mma_cache": "tools/bench/mma_refs/vacuum_2L_2mass_eps001_mma_cache",
+  "requested_targets": [
+    {
+      "integral": "j[vac2m, 1, 1, 1]",
+      "value": {
+        "re": "2.4990827865805429553457317846076308394792953227322466010343126853e6",
+        "im": "-6.05080936286654901141191567169225177721585339877153132455313323885191074e-62"
+      }
+    }
+  ],
+  "sampled_values_from_same_mma_run": [
+    {
+      "integral": "j[vac2m, 1, 1, 1]",
+      "value": {
+        "re": "2.4990827865805429553457317846076308394792953227322466010343126853e6",
+        "im": "-6.05080936286654901141191567169225177721585339877153132455313323885191074e-62"
+      }
+    },
+    {
+      "integral": "j[vac2m, 1, 1, 0]",
+      "value": {
+        "re": "3.9978482553961644554529072333113119665214672448008858136883996678e6",
+        "im": "-2.05610477490602663098516030829364133321672296909649519465015098143737717573e-61"
+      }
+    }
+  ]
+}

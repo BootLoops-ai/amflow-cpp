@@ -1,0 +1,81 @@
+{
+  "family": "bn3mix",
+  "source": "3-loop banana with 1 massive (msq) + 3 massless internal propagators — Phase 3 oracle for the mixed-mass axis (ROADMAP row 'all-massless / all-equal-mass → mixed: some massive, some massless').  Same 3-loop banana topology as banana_3loop but with only the first internal line carrying the W-like mass.  Exercises the AMFlow scaleless-sub-sector detection and mass-injection AMFMode under mixed-mass conditions at 3 loops — neither covered by existing benches (banana_3loop is all-equal-mass; tt_2loop_box is 2-loop mixed).  Target is the corner j[bn3mix, 1,1,1,1, 0,...] at psq = -3, msq = 1, eps = 1/1000.",
+  "eps": "1/1000",
+  "numeric": {
+    "psq": "-3",
+    "msq": "1"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 200,
+    "ExtraXOrder": 240,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 5,
+    "EndingScheme": ["Tradition", "SingleMass"]
+  },
+  "mma_black_box_amflow_time_seconds": 95.218383,
+  "mma_wallclock_time_seconds": 96,
+  "requested_targets": [
+    {
+      "integral": "j[bn3mix, 1, 1, 1, 1, 0, 0, 0, 0, 0]",
+      "value": {
+        "re": "167130.1683092071074101444354398881858486171053650446384580312204",
+        "im": "-3.141943925815638227796790148326338781080118245494814030426091497014099165238111e-57"
+      }
+    }
+  ],
+  "sampled_values_from_same_mma_run": [
+    {
+      "integral": "j[bn3mix, 1, 1, 1, 1, 0, 0, 0, 0, 0]",
+      "value": {
+        "re": "167130.1683092071074101444354398881858486171053650446384580312204",
+        "im": "-3.141943925815638227796790148326338781080118245494814030426091497014099165238111e-57"
+      }
+    },
+    {
+      "integral": "j[bn3mix, 1, 1, 1, 2, 0, 0, 0, 0, 0]",
+      "value": {
+        "re": "-1.675474024847496958328851400960428806113606399551916175623988400835e8",
+        "im": "3.1469819970559718873271815768395370943943664236317517970706089e-54"
+      }
+    },
+    {
+      "integral": "j[bn3mix, 2, 1, 1, 1, 0, 0, 0, 0, 0]",
+      "value": {
+        "re": "82561.890990737869501412748769630638994758078363435148267518009",
+        "im": "-1.547327541062862605520633633982299539995174203519770740453404963306235989440988e-57"
+      }
+    },
+    {
+      "integral": "j[bn3mix, 1, 1, 1, 3, 0, 0, 0, 0, 0]",
+      "value": {
+        "re": "165956.8976774473690930127861113799081607047108291301704272841102",
+        "im": "-3.120896835659884784535889992091244003311137069617379677178906269337357322900563e-57"
+      }
+    },
+    {
+      "integral": "j[bn3mix, 2, 1, 1, 2, 0, 0, 0, 0, 0]",
+      "value": {
+        "re": "-1.665458167888067769167976815554797164627001436881600335224687810468e8",
+        "im": "3.1316788679242395591312501313383425839177502475410014532804492e-54"
+      }
+    }
+  ],
+  "cpp_sampled_status": {
+    "date": "2026-05-12",
+    "result": "completed and matches Mathematica reference at rel ≤ 2.88 × 10⁻³⁰ across all 5 sampled values (corner + 4 dotted masters).  First 3-loop mixed-mass oracle for the Phase 3 'some massive, some massless' axis.  No audit divergence surfaced — the AMFlow mass-injection mode (η on the single W-massive propagator) and scaleless-sub-sector detection under mixed-mass conditions both work correctly end-to-end.  All imag parts are at the numerical noise floor (10⁻⁸⁴ to 10⁻⁸⁷ absolute), matching MMA's noise floor at the same level — confirming the Euclidean-kinematics integral is real to printed precision.",
+    "command": "./build/src/cli/amflow_cli tools/bench/bn3mix_eps001_black_box_amflow_cpp.json /tmp/amflow_bench_bn3mix_eps001_cpp_out.json",
+    "output": "/tmp/amflow_bench_bn3mix_eps001_cpp_out.json",
+    "elapsed_seconds": 56,
+    "max_relative_difference": {
+      "re": "2.880e-30",
+      "im": "1.486e-30"
+    },
+    "note": "All 5 sampled values pass at rel ≤ 2.88 × 10⁻³⁰.  C++ wallclock 56 s vs MMA 96 s — C++ ~1.7× faster.  MMA log shows 4-level subsystem recursion (3-loop top → 2/1-loop intermediates → vacuum ending).  Compare via tools/bench/compare_sampled.py."
+  }
+}

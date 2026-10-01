@@ -1,0 +1,26 @@
+{
+  "family": "mercedesM3",
+  "source": "η_c → γγ scalar QED 3-loop Mercedes-Benz rim-insertion form factor, staged-mass probe mass3 (propagators 1-3 carry c-quark mass). Requires BlackBoxDot=5 due to pseudo-master scaling.",
+  "eps": "1/1000",
+  "numeric": {
+    "ssq": "-3",
+    "msq": "1"
+  },
+  "options": {
+    "working_pre": 120,
+    "x_order": 240,
+    "extra_x_order": 280,
+    "ibp_dot": 5,
+    "ibp_rank": 0
+  },
+  "mma_black_box_amflow_time_seconds": 2482.502487,
+  "requested_targets": [
+    {
+      "integral": "j[mercedesM3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0]",
+      "value": {
+        "re": "6.34417217894517003427255698946516364960912132723419862678605654705e7",
+        "im": "8.552446159765699113275430148906470818743330180187582951906679805e-51"
+      }
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "family": "eseCL",
+  "source": "QED 3-loop electron self-energy — non-planar Crossed Ladder (CL3) — pairing (1,5)(2,4)(3,6). NOTE: equivalent to (1,4)(2,6)(3,5) under chain reversal (v_i ↔ v_{7-i}), so what we originally called 'BE3' Mercedes-style was the same Feynman graph; both routings give the identical integral, validated by independent C++ runs.",
+  "eps": "1/1000",
+  "numeric": {
+    "ssq": "-3",
+    "msq": "1"
+  },
+  "options": {
+    "working_pre": 120,
+    "x_order": 240,
+    "extra_x_order": 280,
+    "ibp_dot": 3,
+    "ibp_rank": 0
+  },
+  "mma_black_box_amflow_time_seconds": 1158.621652,
+  "requested_targets": [
+    {
+      "integral": "j[eseCL, 1, 1, 1, 1, 1, 1, 1, 1, 0]",
+      "value": {
+        "re": "0.21019360331245135853346392588287404304770693394616994486064670232461683319064",
+        "im": "-3.28361346241474244297885595657862838549434198651931110606183324398543762006e-61"
+      }
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "family": "vtx2",
+  "description": "Direct masters-only check for the vtx2 two-loop vertex benchmark",
+  "eps": "1/1000",
+  "numeric": {
+    "s": "-1"
+  },
+  "options": {
+    "WorkingPre": 100,
+    "ChopPre": 20,
+    "RationalizePre": 80,
+    "XOrder": 100,
+    "ExtraXOrder": 120,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 2,
+    "BlackBoxDot": 0
+  },
+  "mma_black_box_amflow_time_seconds": 114.839804,
+  "cpp_black_box_amflow_time_seconds": 65.84,
+  "mma_cache": "tools/bench/mma_refs/vtx2_2loop_vertex_eps001_masters_only_mma_cache",
+  "masters_only": [
+    {
+      "integral": "j[vtx2, 0, 0, 1, 1, 0, 1, 0]",
+      "mma": {
+        "re": "251.3414734573824095638963563187470708418102280423854634828469",
+        "im": "1.02498546773429370844560652811041833295102925771052386076749139842e-31"
+      },
+      "cpp_sampled": {
+        "re": "251.341473457382409563896356319",
+        "im": "1.02498546773429370844560652811e-31",
+        "relative_re_error": "1.0063168434184370956840758310042771406321380320448761376338757618902428288703048e-30",
+        "status": "matches"
+      }
+    },
+    {
+      "integral": "j[vtx2, 1, 0, 1, 1, 1, 0, 0]",
+      "mma": {
+        "re": "1.0028519826473515669320801507312537202488893149357391067320503104e6",
+        "im": "-7.6916746456401125275818616424275286738255281259029542301439063632e-32"
+      },
+      "cpp_sampled": {
+        "re": "1002851.98264735156693208015073",
+        "im": "-7.69167464564011252758186164243e-32",
+        "relative_re_error": "1.2530812186666922836454205452437544660453451601562020554352317090612967605408233e-30",
+        "status": "matches"
+      }
+    },
+    {
+      "integral": "j[vtx2, 0, 1, 0, 1, 1, 1, 0]",
+      "mma": {
+        "re": "501930.5749859507728735381382434985342733827269170251814515480429",
+        "im": "-4.2038739934662356262462895775084502523822480724793373292063847752e-32"
+      },
+      "cpp_sampled": {
+        "re": "501930.574985950772873538138243",
+        "im": "-4.20387399346623562624628957751e-32",
+        "relative_re_error": "9.9323352317535364404108659090587934415397452734011103429514146523044042489144237e-31",
+        "status": "matches"
+      }
+    }
+  ],
+  "conclusion": "All three direct vtx2 preferred-master sampled values match Mathematica at eps=1/1000. The raw Mathematica cache is preserved under tools/bench/mma_refs/."
+}

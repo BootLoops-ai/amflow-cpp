@@ -1,0 +1,44 @@
+{
+  "mode": "solve_integrals",
+  "options": {
+    "chop_pre": 20,
+    "rationalize_pre": 20,
+    "silent_mode": true
+  },
+  "family": {
+    "name": "box1",
+    "loops": ["l"],
+    "legs": ["p1", "p2", "p3", "p4"],
+    "conservation": {
+      "p4": "-p1 - p2 - p3"
+    },
+    "replacement": {
+      "p1^2": "0",
+      "p2^2": "0",
+      "p3^2": "0",
+      "p4^2": "0",
+      "(p1 + p2)^2": "s",
+      "(p1 + p3)^2": "t"
+    },
+    "propagators": [
+      "l^2",
+      "(l + p1)^2",
+      "(l + p1 + p2)^2",
+      "(l + p1 + p2 + p4)^2"
+    ]
+  },
+  "integrals": [
+    { "indices": [1, 0, 1, 0] }
+  ],
+  "goal_digits": 10,
+  "eps_order": 3,
+  "work_dir": "/tmp/desolver_bench_box1_cpp",
+  "amf_options": {
+    "blackbox": {
+      "numeric_values": {
+        "s": "100",
+        "t": "-1"
+      }
+    }
+  }
+}

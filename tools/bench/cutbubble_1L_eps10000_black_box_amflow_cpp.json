@@ -1,0 +1,45 @@
+{
+  "mode": "black_box_amflow",
+  "options": {
+    "working_pre": 120,
+    "chop_pre": 20,
+    "rationalize_pre": 100,
+    "silent_mode": true,
+    "x_order": 200,
+    "extra_x_order": 240,
+    "learn_x_order": -1,
+    "test_x_order": 5
+  },
+  "family": {
+    "name": "cutbubble",
+    "loops": ["l"],
+    "legs": ["p"],
+    "conservation": {},
+    "replacement": {
+      "p^2": "s"
+    },
+    "propagators": [
+      "l^2",
+      "(l + p)^2"
+    ],
+    "cut": [1, 1]
+  },
+  "integrals": [
+    { "indices": [1, 1] }
+  ],
+  "eps_samples": ["1/10000"],
+  "work_dir": "/tmp/desolver_bench_cutbubble_1L_eps10000_cpp",
+  "amf_options": {
+    "ending_schemes": ["Tradition", "Cutkosky", "SingleMass"],
+    "max_recursion_depth": 8,
+    "blackbox": {
+      "ibp_rank": 0,
+      "ibp_dot": 1,
+      "integral_order": 5,
+      "n_thread": 4,
+      "numeric_values": {
+        "s": "4"
+      }
+    }
+  }
+}

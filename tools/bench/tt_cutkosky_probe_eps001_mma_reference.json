@@ -1,0 +1,45 @@
+{
+  "family": "tt",
+  "source": "tt 2-loop box family with EndingScheme = {Tradition, Cutkosky, SingleMass}",
+  "eps": "1/1000",
+  "numeric": {
+    "s": "30",
+    "t": "-10/3",
+    "msq": "1"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 200,
+    "ExtraXOrder": 240,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 1,
+    "EndingScheme": ["Tradition", "Cutkosky", "SingleMass"]
+  },
+  "mma_black_box_amflow_time_seconds": 412.193481,
+  "mma_wallclock_time_seconds": 413.52,
+  "requested_targets": [
+    {
+      "integral": "j[tt, 1, 1, 1, 1, 1, 1, 1, 0, 0]",
+      "value": {
+        "re": "-1.69684345576225311182475267549080355217556163834921106145526690139e8",
+        "im": "-399951.4679254980222299023587030161156070054524533913931344176589"
+      }
+    }
+  ],
+  "cpp_sampled_status": {
+    "date": "2026-04-27",
+    "result": "completed and sampled values match Mathematica reference",
+    "command": "./build_claude/driver/desolver_cli tools/bench/tt_cutkosky_probe_eps001_black_box_amflow_cpp.json /tmp/desolver_bench_tt_cutkosky_probe_eps001_cpp_out.json",
+    "output": "/tmp/desolver_bench_tt_cutkosky_probe_eps001_cpp_out.json",
+    "elapsed_seconds": 143.20,
+    "max_relative_difference": {
+      "re": "1.033e-19",
+      "im": "5.558e-17"
+    },
+    "note": "Validates the EndingScheme list with Cutkosky enabled. The tt kinematics (s=30, t=-10/3, msq=1) is below the Cutkosky threshold for the boundary integrals encountered, so Tradition fires throughout — this confirms the Cutkosky entry in the priority list does not perturb numerics when not invoked. The top integral matches both the tt baseline (tt_2loop_box_eps001_mma_reference.json) and this Cutkosky-enabled run, demonstrating EndingScheme is purely a recursion-strategy switch. C++ wallclock floor is set by the chosen arb output precision; comparing with --rel-tol 1e-15 reflects the printed-interval width, not the underlying numeric agreement."
+  }
+}

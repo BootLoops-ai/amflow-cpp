@@ -1,0 +1,53 @@
+{
+  "family": "pseTB2",
+  "source": "QED 4-loop photon self-energy — TwoBubbles topology — staged mass2 variant: propagators D1 = l1^2 and D2 = (l1+p1)^2 carry mass me^2; the 6 other originally-electron propagators (D3, D5, D6, D7, D8, D11) are made massless. The 3 photon propagators (D4, D9, D10) remain massless. ISPs are D12-D14 = (p1+l2)^2, (p1+l4)^2, (l1+l3)^2. Kinematics: p1^2 = 0 (on-shell photon ext), me^2 = 1, eps = 1/1000. dot = 5, rank = 0.",
+  "eps": "1/1000",
+  "numeric": {
+    "ssq": "0",
+    "msq": "1"
+  },
+  "options": {
+    "working_pre": 120,
+    "x_order": 240,
+    "extra_x_order": 280,
+    "ibp_dot": 5,
+    "ibp_rank": 0
+  },
+  "mma_black_box_amflow_time_seconds": 13696.367515,
+  "requested_targets": [
+    {
+      "integral": "j[pseTB2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0]",
+      "value": {
+        "re": "1.65789486292274698773777907207000624840945023344048861203266311348e8",
+        "im": "1.31904144698574104798714324508399494124214330074241398522679044397061563601e-60"
+      }
+    }
+  ],
+  "notes": "C++ amflow_cli ran 13h30m on this case at dot=5 without producing output. Same root cause as mass1: branch-mode tie-breaker places eta on a massless propagator. mass2 had 7 masters vs mass1's 18, so the C++ side did NOT crash but instead got stuck in extremely slow polynomial reduction during a single Kira sub-iteration. User-terminated. See notes/future_optimization_proposals.md.",
+  "cpp_verification_snapshot": {
+    "amflow_cli_acb_ball": {
+      "j[pseTB2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0]": {
+        "re": {
+          "center": "165789486.292274698773777907207",
+          "radius": "6.4e-25"
+        },
+        "im": {
+          "center": "1.31904144698574104798714324508e-60",
+          "radius": "4.00e-90"
+        }
+      }
+    },
+    "agreement_vs_mma_reference": {
+      "j[pseTB2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0]": {
+        "integral": "j[pseTB2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0]",
+        "re_absolute_diff": "6.248E-25",
+        "im_absolute_diff": "3.995E-90",
+        "re_relative_diff": "3.769E-33",
+        "im_relative_diff": "3.029E-30",
+        "re_within_cpp_ball": true,
+        "im_within_cpp_ball": true
+      }
+    },
+    "cpp_amflow_cli_time_seconds": 13870.0
+  }
+}

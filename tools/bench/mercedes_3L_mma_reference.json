@@ -1,0 +1,95 @@
+{
+  "family": "mercedes3L",
+  "source": "3-loop Mercedes self-energy — 3L 2-leg topology with internal vertex structure (NOT pure banana).  6 main propagators forming a triangle A-B-C-A (3 outer rails) plus 3 inner spokes from a central vertex O to each of A, B, C.  3 ISP propagators (l_i + p)^2 round out the 9-element SP basis (L*(L+1)/2 + L*n_ext = 6 + 3 = 9).  All-massless internals, single external momentum p with p^2 = psq.  Different topology from banana_3loop and dotted_3L_banana (which are parallel 3-propagator banana cycles).  psq = -3 (Euclidean), eps = 1/1000.  Target: corner j[mercedes3L, 1,1,1,1,1,1,0,0,0] at eps = 1/1000.",
+  "eps": "1/1000",
+  "numeric": {
+    "psq": "-3"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 240,
+    "ExtraXOrder": 280,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 5,
+    "EndingScheme": [
+      "Tradition",
+      "SingleMass"
+    ]
+  },
+  "mma_cache": "tools/bench/mma_refs/mercedes_3L_mma_cache",
+  "mma_black_box_amflow_time_seconds": 305.533862,
+  "requested_targets": [
+    {
+      "integral": "j[mercedes3L, 1, 1, 1, 1, 1, 1, 0, 0, 0]",
+      "value": {
+        "re": "2409.735807875984259412550178710977487276770111452127489419189",
+        "im": "3.562969842432511312676316967121555817469935502467800705328401239314848851e-63"
+      }
+    }
+  ],
+  "sampled_values_from_same_mma_run": [
+    {
+      "integral": "j[mercedes3L, 1, 1, 1, 1, 1, 1, 0, 0, 0]",
+      "value": {
+        "re": "2409.735807875984259412550178710977487276770111452127489419189",
+        "im": "3.562969842432511312676316967121555817469935502467800705328401239314848851e-63"
+      }
+    },
+    {
+      "integral": "j[mercedes3L, 0, 1, 1, 1, 1, 0, 0, 0, 0]",
+      "value": {
+        "re": "251.7108011269985310444417382288460125484727090129677793892859",
+        "im": "-1.1616241016563469695268663074012689569527603087634961117242851637e-71"
+      }
+    },
+    {
+      "integral": "j[mercedes3L, 0, 1, 1, 2, 1, 0, 0, 0, 0]",
+      "value": {
+        "re": "-501996.2478908152450737558177080148130765542665656981265664833458",
+        "im": "1.2543217876106184498623798517290440864938664110643868864796784725432e-68"
+      }
+    },
+    {
+      "integral": "j[mercedes3L, 0, 1, 1, 3, 1, 0, 0, 0, 0]",
+      "value": {
+        "re": "166330.0961135026685780411192655281342324508673188375058682685075",
+        "im": "-2.367838800764775535192142690426088857977406708819282803482703553112e-69"
+      }
+    },
+    {
+      "integral": "j[mercedes3L, 1, 1, 1, 1, 0, 1, 0, 0, 0]",
+      "value": {
+        "re": "1.0049964915035411728316571808420770131521376112568949509539622931e6",
+        "im": "-3.756363895964777739061939805877474014324791111677809484683212812796e-69"
+      }
+    },
+    {
+      "integral": "j[mercedes3L, 1, 1, 1, 1, 0, 2, 0, 0, 0]",
+      "value": {
+        "re": "-3.336601751744976741016739595824773578025272231207707995766500865966e8",
+        "im": "1.186943262909252837077861055156029246328429458510359788231090257008152e-66"
+      }
+    },
+    {
+      "integral": "j[mercedes3L, 1, 1, 2, 1, 0, 1, 0, 0, 0]",
+      "value": {
+        "re": "-6.666516926833149921430239232539677870323038906841853450459321369475e8",
+        "im": "2.371563818529351971253708988127494262699827938226471972494683247543274e-66"
+      }
+    }
+  ],
+  "cpp_sampled_status": {
+    "date": "2026-05-15",
+    "command": "./build/src/cli/amflow_cli tools/bench/mercedes_3L_black_box_amflow_cpp.json /tmp/amflow_bench_mercedes_3L_cpp_out.json",
+    "result": "PASS: corner j[mercedes3L, 1,1,1,1,1,1,0,0,0] matches MMA at rel 4.06e-31 (Re) / 4.37e-31 (Im).  C++ Re = 2409.73580787598425941255017871 with arb error 9.78e-28.  Im at noise floor on both sides (Euclidean kinematics).",
+    "max_relative_difference": {
+      "re": "4.06e-31",
+      "im": "4.37e-31"
+    },
+    "note": "3L Mercedes self-energy — different connectivity from existing 3L oracles (banana_3loop, dotted_3L_banana, bn3mix are all parallel-banana 2-vertex topologies)."
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "family": "cutbanana4",
+  "source": "4-loop massless equal-mass cutbanana — Phase 3 oracle for the multi-cut Cutkosky axis (ROADMAP row 'Cuts: single phase-space → multi-cut Cutkosky').  All 5 internal lines of the 4-loop banana topology cut simultaneously, corresponding to a 5-particle Cutkosky cut.  Extends the cut series (cutbubble 2-cut, cutsunrise 3-cut, cutbanana_3L 4-cut) to 5 simultaneous on-shell propagators in a 4-loop family.  Target is the corner j[cutbanana4, 1,1,1,1,1, 0,...,0] at s = 4, eps = 1/100.",
+  "eps": "1/100",
+  "numeric": {
+    "s": "4"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 200,
+    "ExtraXOrder": 240,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 5,
+    "EndingScheme": [
+      "Tradition",
+      "Cutkosky",
+      "SingleMass"
+    ]
+  },
+  "mma_black_box_amflow_time_seconds": 148.562658,
+  "mma_wallclock_time_seconds": 149,
+  "requested_targets": [
+    {
+      "integral": "j[cutbanana4, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+      "value": {
+        "re": "5.48560252946220982304241049459536218404241423998907908961760437432719e-9",
+        "im": "0"
+      }
+    }
+  ],
+  "sampled_values_from_same_mma_run": [
+    {
+      "integral": "j[cutbanana4, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+      "value": {
+        "re": "5.48560252946220982304241049459536218404241423998907908961760437432719e-9",
+        "im": "0"
+      }
+    },
+    {
+      "integral": "j[cutbanana4, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+      "value": {
+        "re": "1.60344161936180393127529658757022436639559768234880781789522572011317502e-6",
+        "im": "0"
+      }
+    },
+    {
+      "integral": "j[cutbanana4, 1, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+      "value": {
+        "re": "1.14741329741954830824675307788750461466576061873029787166710309836795594e-6",
+        "im": "0"
+      }
+    },
+    {
+      "integral": "j[cutbanana4, 1, 1, 1, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+      "value": {
+        "re": "8.905297233703957019228531350768692531734261518503804377117814179751581e-8",
+        "im": "0"
+      }
+    }
+  ],
+  "cpp_sampled_status": {
+    "date": "2026-05-12",
+    "result": "completed and matches Mathematica reference at rel ≤ 2.2 × 10⁻³⁰ across all 4 sampled values (corner j[cutbanana4,1,1,1,1,1,...] + 3 dotted masters with 5th index 2, 3, 4).  First oracle for the Phase 3 multi-cut Cutkosky axis with 5 simultaneous on-shell propagators (one more than cutbanana_3L's 4-cut maximum) in a 4-loop family.  No audit divergence surfaced; the C++ Cutkosky ending scheme + cut_propagators wiring (kira_yaml.cpp) + multi-system recursion (5 nested AMFSystems via AMFSystemSetup) all behaved correctly end-to-end.  All imag parts are zero as expected for a pure-real Cutkosky phase-space integral.",
+    "command": "./build/src/cli/amflow_cli tools/bench/cutbanana_4L_eps001_black_box_amflow_cpp.json /tmp/amflow_bench_cutbanana_4L_eps001_cpp_out.json",
+    "output": "/tmp/amflow_bench_cutbanana_4L_eps001_cpp_out.json",
+    "elapsed_seconds": 141,
+    "max_relative_difference": {
+      "re": "2.175e-30",
+      "im": "0"
+    },
+    "note": "All 4 sampled values pass at rel ≤ 2.2 × 10⁻³⁰ (well within project tolerance).  C++ wallclock 141 s vs MMA 149 s — within 6%.  MMA log shows 5-level subsystem recursion (system 1 = 4-loop top, system 5 = ending vacuum) mirrored by the C++ AMFSystemSolution chain.  Compare via tools/bench/compare_sampled.py."
+  },
+  "cpp_verification_snapshot": {
+    "amflow_cli_acb_ball": {
+      "j[cutbanana4, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]": {
+        "re": {
+          "center": "5.48560252946220982304241049460e-9",
+          "radius": "4.64e-39"
+        },
+        "im": {
+          "center": "0",
+          "radius": "0"
+        }
+      }
+    },
+    "agreement_vs_mma_reference": {
+      "j[cutbanana4, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]": {
+        "integral": "j[cutbanana4, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+        "re_absolute_diff": "4.638E-39",
+        "im_absolute_diff": "0.000E+3",
+        "re_relative_diff": "8.455E-31",
+        "im_relative_diff": "0.000E+3",
+        "re_within_cpp_ball": true,
+        "im_within_cpp_ball": true
+      }
+    },
+    "cpp_amflow_cli_time_seconds": 101.0
+  }
+}

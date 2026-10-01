@@ -1,0 +1,70 @@
+{
+  "family": "bubble2m",
+  "source": "1-loop bubble with two DISTINCT propagator masses, three invariants {s, mAsq, mBsq}.  Phase 3 batch-2 oracle, multi-mass at 1 loop.",
+  "eps": "1/1000",
+  "numeric": {
+    "s": "4",
+    "mAsq": "1",
+    "mBsq": "2"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 200,
+    "ExtraXOrder": 240,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 1,
+    "EndingScheme": [
+      "Tradition",
+      "SingleMass"
+    ]
+  },
+  "mma_black_box_amflow_time_seconds": 49.187596,
+  "mma_wallclock_time_seconds": 50,
+  "requested_targets": [
+    {
+      "integral": "j[bubble2m, 1, 1]",
+      "value": {
+        "re": "999.7125243410275230488547966225277982998831259098089637827849",
+        "im": "-4.7332331051638538220010099756642056281212153171156072e-63"
+      }
+    }
+  ],
+  "sampled_values_from_same_mma_run": [
+    {
+      "integral": "j[bubble2m, 1, 0]",
+      "value": {
+        "re": "1000.4241966812767428578400413409849854506682784240362687382804",
+        "im": "-3.20273057728278630805557309416702069812354396884735923609092074089145e-67"
+      }
+    },
+    {
+      "integral": "j[bubble2m, 0, 1]",
+      "value": {
+        "re": "1999.4619914857507626952818204015221947543581314560601513573396",
+        "im": "-2.5183543680024192950704149057245854554648866218365e-66"
+      }
+    },
+    {
+      "integral": "j[bubble2m, 1, 1]",
+      "value": {
+        "re": "999.7125243410275230488547966225277982998831259098089637827849",
+        "im": "-4.7332331051638538220010099756642056281212153171156072e-63"
+      }
+    }
+  ],
+  "cpp_sampled_status": {
+    "date": "2026-05-12",
+    "result": "completed, matches MMA reference at rel <= 9.85e-31 (re) / 1.82e-30 (im) across all sampled values.  Phase 3 batch-2 oracle.",
+    "command": "./build/src/cli/amflow_cli tools/bench/bubble_1L_diffmass_black_box_amflow_cpp.json /tmp/amflow_bubble_1L_diffmass_cpp_out.json",
+    "output": "/tmp/amflow_bubble_1L_diffmass_cpp_out.json",
+    "max_relative_difference": {
+      "re": "9.846e-31",
+      "im": "1.821e-30"
+    },
+    "note": "Compare via tools/bench/compare_sampled.py."
+  }
+}

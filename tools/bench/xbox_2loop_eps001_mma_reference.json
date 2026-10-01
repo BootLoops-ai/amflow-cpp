@@ -1,0 +1,43 @@
+{
+  "family": "xbox",
+  "source": "Smirnov 2-loop non-planar massless on-shell crossed double-box (xbox)",
+  "eps": "1/1000",
+  "numeric": {
+    "s": "-3",
+    "t": "-1"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 200,
+    "ExtraXOrder": 240,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 1
+  },
+  "mma_black_box_amflow_time_seconds": 309.545858,
+  "mma_wallclock_time_seconds": 310.85,
+  "requested_targets": [
+    {
+      "integral": "j[xbox, 1, 1, 1, 1, 1, 1, 1, 0, 0]",
+      "value": {
+        "re": "2.499372538455932328122454037737352479208928775460235864478052218740095e11",
+        "im": "1.5707366989158001477431871958677740100830930440976322259658094581539e9"
+      }
+    }
+  ],
+  "cpp_sampled_status": {
+    "date": "2026-04-27",
+    "result": "completed and sampled values match Mathematica reference to ~22 digits",
+    "command": "./build_claude/driver/desolver_cli tools/bench/xbox_2loop_eps001_black_box_amflow_cpp.json /tmp/desolver_bench_xbox_2loop_eps001_cpp_out.json",
+    "output": "/tmp/desolver_bench_xbox_2loop_eps001_cpp_out.json",
+    "elapsed_seconds": 145.62,
+    "max_relative_difference": {
+      "re": "1.059e-30",
+      "im": "1.417e-30"
+    },
+    "note": "Validates the AMFlow path on a non-planar 2-loop topology (massless on-shell). Compare via tools/bench/compare_sampled.py. C++ wallclock measured under parallel load with two other benches sharing fer64/kira; serial wallclock is similar magnitude."
+  }
+}

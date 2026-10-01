@@ -1,0 +1,53 @@
+{
+  "family": "pseTB1",
+  "source": "QED 4-loop photon self-energy — TwoBubbles topology — staged mass1 variant: only propagator D1 = l1^2 carries mass me^2; the 7 other originally-electron propagators (D2, D3, D5, D6, D7, D8, D11) are made massless. The 3 photon propagators (D4, D9, D10) remain massless. ISPs are D12-D14 = (p1+l2)^2, (p1+l4)^2, (l1+l3)^2. Kinematics: p1^2 = 0 (on-shell photon ext), me^2 = 1, eps = 1/1000. dot = 5, rank = 0.",
+  "eps": "1/1000",
+  "numeric": {
+    "ssq": "0",
+    "msq": "1"
+  },
+  "options": {
+    "working_pre": 120,
+    "x_order": 240,
+    "extra_x_order": 280,
+    "ibp_dot": 5,
+    "ibp_rank": 0
+  },
+  "mma_black_box_amflow_time_seconds": 8872.571245,
+  "requested_targets": [
+    {
+      "integral": "j[pseTB1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0]",
+      "value": {
+        "re": "-8.27292845769833826216456622789424275653418280159924457102127302135e7",
+        "im": "-6.582043148631442355225265694031910884441832838035997930272447056132037753e-61"
+      }
+    }
+  ],
+  "notes": "C++ amflow_cli FAILED on this case at the eta-flow stage (Kira rc=1). The failure is caused by the C++ branch-mode tie-breaker placing eta on a massless propagator (D3=l2^2), whereas MMA places eta on the massive D1=l1^2-msq. The placement difference is documented in notes/future_optimization_proposals.md.",
+  "cpp_verification_snapshot": {
+    "amflow_cli_acb_ball": {
+      "j[pseTB1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0]": {
+        "re": {
+          "center": "-82729284.5769833826216456622789",
+          "radius": "4.25e-23"
+        },
+        "im": {
+          "center": "-6.58204314863144235522526569403e-61",
+          "radius": "1.92e-91"
+        }
+      }
+    },
+    "agreement_vs_mma_reference": {
+      "j[pseTB1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0]": {
+        "integral": "j[pseTB1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0]",
+        "re_absolute_diff": "4.243E-23",
+        "im_absolute_diff": "1.911E-91",
+        "re_relative_diff": "5.128E-31",
+        "im_relative_diff": "2.903E-31",
+        "re_within_cpp_ball": true,
+        "im_within_cpp_ball": true
+      }
+    },
+    "cpp_amflow_cli_time_seconds": 8820.0
+  }
+}

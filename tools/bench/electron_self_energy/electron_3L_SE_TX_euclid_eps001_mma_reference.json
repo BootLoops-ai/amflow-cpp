@@ -1,0 +1,26 @@
+{
+  "family": "eseTX",
+  "source": "QED 3-loop electron self-energy — Transverse-Cross (TX) — pairing (1,6)(2,4)(3,5). Outer envelope photon gamma_16 + 2 inner crossed photons gamma_24, gamma_35. 2-particle reducible (cut e2+e6). e2 and e6 carry the same momentum p-l1 by topology (not routing artifact), so the IBP family has 7 distinct main propagators + 2 ISPs; the target integral is [2,1,1,1,1,1,1,0,0] — index 2 on the shared electron propagator. Validates AMFlow on doubled-propagator family.",
+  "eps": "1/1000",
+  "numeric": {
+    "ssq": "-3",
+    "msq": "1"
+  },
+  "options": {
+    "working_pre": 120,
+    "x_order": 240,
+    "extra_x_order": 280,
+    "ibp_dot": 3,
+    "ibp_rank": 0
+  },
+  "mma_black_box_amflow_time_seconds": 575.862116,
+  "requested_targets": [
+    {
+      "integral": "j[eseTX, 2, 1, 1, 1, 1, 1, 1, 0, 0]",
+      "value": {
+        "re": "0.38672567986847384361904621532594707539975819916719882131684772201394748738268",
+        "im": "-9.0349463339157072081986722652305853366484203795971258280637130883926457e-64"
+      }
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+# Keep the Docker build context lean.
+#
+# Anything we don't actually need inside the build stage stays out
+# so `COPY . /src` doesn't drag in caches, vendor mirrors, or local
+# build artefacts.
+
+# Build outputs
+build/
+build_*/
+cmake-build-*/
+
+# Local scratch / oracle caches (not needed for image build)
+tmp/
+tools/bench/mma_refs/
+*.log
+*.out
+
+# IDE / OS junk
+.vscode/
+.idea/
+.DS_Store
+*.swp
+
+# Git internals — not used during the build itself
+.git/
+.gitignore
+
+# Upstream MMA reference (gitignored anyway, but be explicit)
+reference/
+
+# CI artefacts
+/.github/
+
+# Python virtualenvs (if anyone left one)
+.venv/
+venv/
+__pycache__/
+
+# Existing Docker workdir scratch
+docker/build/

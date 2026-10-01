@@ -1,0 +1,130 @@
+{
+  "family": "pentagon",
+  "source": "1-loop massless pentagon, 5 external on-shell legs with momentum conservation p5 = -(p1+p2+p3+p4), 5 cyclic propagators.  Phase 3 oracle for the external-leg axis (5-point first).  Mandelstam basis: s12=-2, s23=-3, s34=-5, s45=-7, s51=-11; derived s13=-2, s14=+15, s24=-3, s25=+8, s35=+10 (closure relations of 5-point all-massless).",
+  "eps": "1/1000",
+  "numeric": {
+    "s12": "-2",
+    "s23": "-3",
+    "s34": "-5",
+    "s13": "-2",
+    "s14": "15",
+    "s24": "-3"
+  },
+  "options": {
+    "WorkingPre": 120,
+    "ChopPre": 20,
+    "RationalizePre": 100,
+    "XOrder": 240,
+    "ExtraXOrder": 280,
+    "LearnXOrder": -1,
+    "TestXOrder": 5,
+    "BlackBoxRank": 0,
+    "BlackBoxDot": 3,
+    "EndingScheme": [
+      "Tradition",
+      "SingleMass"
+    ]
+  },
+  "mma_black_box_amflow_time_seconds": 74.07946,
+  "mma_wallclock_time_seconds": 75,
+  "requested_targets": [
+    {
+      "integral": "j[pentagon, 1, 1, 1, 1, 1]",
+      "value": {
+        "re": "-67041.817205259791193623435375297093013528425107227628515820072",
+        "im": "-2.0063810094733752211745955090881712095512797834665383762789933753501e-68"
+      }
+    }
+  ],
+  "sampled_values_from_same_mma_run": [
+    {
+      "integral": "j[pentagon, 1, 0, 1, 0, 0]",
+      "value": {
+        "re": "1000.7310816598732172146984283411098955038538950269185302101862",
+        "im": "9.2749568501180554975164540195359554596604621811706464600654629612259617024689e-78"
+      }
+    },
+    {
+      "integral": "j[pentagon, 1, 0, 0, 1, 0]",
+      "value": {
+        "re": "999.4781877727392482226592610348557476717531702881484910113042",
+        "im": "-4.896043790870458148629941803162120981320002760329573384633381975408378278501e-79"
+      }
+    },
+    {
+      "integral": "j[pentagon, 0, 1, 0, 1, 0]",
+      "value": {
+        "re": "1000.32540237361649836516392849741532469530955220069044191065",
+        "im": "-8.3297492056434046327282309790484887304240736332451594752063748711952562061617e-78"
+      }
+    },
+    {
+      "integral": "j[pentagon, 0, 1, 0, 0, 1]",
+      "value": {
+        "re": "999.0265405769560750943905903010689240253122039325970240404653",
+        "im": "1.5749420907615895548887298434834803576130009325955694573760940391873062380132e-78"
+      }
+    },
+    {
+      "integral": "j[pentagon, 0, 0, 1, 0, 1]",
+      "value": {
+        "re": "999.8145410176242465417442258496446422443131252483093521089816",
+        "im": "-4.7725445754933305177370871026630302853600249427085823266434227084757818062576e-78"
+      }
+    },
+    {
+      "integral": "j[pentagon, 1, 1, 1, 1, 0]",
+      "value": {
+        "re": "333192.0513705385010382932160496580389299455123746156896512588862",
+        "im": "6.0215612103521969164491426738817929059319412711780640594527646939506e-68"
+      }
+    },
+    {
+      "integral": "j[pentagon, 1, 1, 1, 0, 1]",
+      "value": {
+        "re": "90721.8728568019907582607802911393170526748825622989646451144229",
+        "im": "-1.335553163496732129971535891942740320961636000165387075651562467e-72"
+      }
+    },
+    {
+      "integral": "j[pentagon, 1, 1, 0, 1, 1]",
+      "value": {
+        "re": "25874.7949317789743202286772868244847640936807532412196758180031",
+        "im": "-1.21670632715155283539213182145205826077880539342674540014175307e-73"
+      }
+    },
+    {
+      "integral": "j[pentagon, 1, 0, 1, 1, 1]",
+      "value": {
+        "re": "56946.3534603555319124257931968026962029864123488980745720084325",
+        "im": "1.29201069717249793420106010736399976035387501208810275963049624244e-70"
+      }
+    },
+    {
+      "integral": "j[pentagon, 0, 1, 1, 1, 1]",
+      "value": {
+        "re": "133214.9517315751237743945912192236627065282704911671030633629041",
+        "im": "4.0125539981545639181427501698897358464694638934017116393771874302121e-68"
+      }
+    },
+    {
+      "integral": "j[pentagon, 1, 1, 1, 1, 1]",
+      "value": {
+        "re": "-67041.817205259791193623435375297093013528425107227628515820072",
+        "im": "-2.0063810094733752211745955090881712095512797834665383762789933753501e-68"
+      }
+    }
+  ],
+  "cpp_sampled_status": {
+    "date": "2026-05-13",
+    "result": "PASS: corner j[pentagon, 1, 1, 1, 1, 1] matches MMA at full numerical precision (ratio = 1.000000 to printed precision).  Phase 3 oracle for the external-leg axis (5-point first).  47s C++ vs 74s MMA wallclock on the (load-affected) shared host.",
+    "command": "./build/src/cli/amflow_cli tools/bench/pentagon_1L_eps001_black_box_amflow_cpp.json /tmp/amflow_pentagon_1L_cpp_out.json",
+    "output": "/tmp/amflow_pentagon_1L_cpp_out.json",
+    "elapsed_seconds": 48,
+    "max_relative_difference": {
+      "re": "<1e-30",
+      "im": "<1e-30"
+    },
+    "note": "Triggered a graceful-return fix in ibp::reduce when Kira's Masters-mode preheat returns empty masters (mirroring upstream Kira/interface.m:461 `If[Length[masters]===0, Return[{{},{}}]]`).  Previously C++ threw; now matches MMA by returning empty ReduceResult so caller (AMFSystem::build_boundary) can skip the family as 'integrand reduces to zero'."
+  }
+}
