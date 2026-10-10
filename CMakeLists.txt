@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 project(AMFlowCpp
-    VERSION 1.1.0
+    VERSION 1.1.1
     DESCRIPTION "AMFlow.cpp — C++17 reimplementation of the AMFlow algorithm (numeric/algebra/ode/qft/ibp/pipeline/api/cli)"
     HOMEPAGE_URL "https://github.com/chang18/amflow-cpp"
     LANGUAGES CXX

@@ -213,9 +213,16 @@ reported honestly as a structural divergence).
 ### 4. Scale and operations
 
 - **DE checkpoint/resume** for the per-system eta-flow solves (crash
-  recovery on multi-hour runs).
+  recovery on multi-hour runs). The checkpoint key covers every numeric
+  option (`rationalize_pre`, `chop_pre`, the expansion orders, ...) and the
+  value of every solve-affecting environment variable (`AMFLOW_DIFFEQ_NUMD`,
+  `AMFLOW_SPARSE_CHOP_DIGITS`, ...), so a re-run with any of them changed
+  re-solves instead of replaying the stored solution.
 - **eps-grid parallelism** and **mode:diffeq** with numeric-d substitution
-  (`AMFLOW_DIFFEQ_NUMD`) inside the diffeq target reduce.
+  (`AMFLOW_DIFFEQ_NUMD`) inside the diffeq target reduce. With the
+  substitution active the per-eps solve uses the exact `(4 - P/Q)/2` as its
+  eps, matching the DE tables, which carry `d = P/Q` exactly; the sample is
+  not rationalized in that mode.
 - **Node-tree parallelism** (`amf_options.node_parallel` /
   `AMFLOW_NODE_PARALLEL`): a non-ending node's sibling sub-system solves
   are mutually independent and are dispatched to a thread pool, for wide

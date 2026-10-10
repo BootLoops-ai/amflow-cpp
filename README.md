@@ -67,7 +67,7 @@ security boundary.
 
 [![CI](https://github.com/chang18/amflow-cpp/actions/workflows/ci.yml/badge.svg)](https://github.com/chang18/amflow-cpp/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.1.1-blue.svg)](CHANGELOG.md)
 [![C++17](https://img.shields.io/badge/C%2B%2B-17-blue.svg)](https://en.cppreference.com/w/cpp/17)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20087172.svg)](https://doi.org/10.5281/zenodo.20087172)
 

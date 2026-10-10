@@ -230,6 +230,8 @@ C++ 入口是 `amflow::api::run_json(const json&)` ([`include/amflow/api/run_jso
 
 精度值在 API 层是**十进制位**, 实现内部转换成 binary bit (见 [`docs/INVARIANTS.md`](INVARIANTS.md) §1).
 
+这张表里的每个值都是 per-system 求解 checkpoint (`AMFLOW_SYSTEM_CHECKPOINT`, 默认 `<ibp_cache>/syssolve`) key 的一部分, 连同 [`docs/CONTRIBUTING_zh.md`](CONTRIBUTING_zh.md#调试开关) 列出的影响求解的环境变量; 改动任何一项都会重新求解而不是重放已存的解. 设置 `AMFLOW_DIFFEQ_NUMD=P/Q` 时, 唯一的 `eps_samples` 项必须等于 `(4 - P/Q)/2`, 整个求解使用的就是这个精确有理数, 而不是它截断到 `rationalize_pre` 位的近似.
+
 ---
 
 ## AMF options

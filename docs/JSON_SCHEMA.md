@@ -254,6 +254,15 @@ Precision values are **decimal digits** at the API; conversion to
 binary bits happens internally
 (see [`docs/INVARIANTS.md`](INVARIANTS.md) §1).
 
+Every value in this table is part of the key of the per-system solve
+checkpoint (`AMFLOW_SYSTEM_CHECKPOINT`, default `<ibp_cache>/syssolve`),
+together with the solve-affecting environment variables listed in
+[`docs/CONTRIBUTING.md`](CONTRIBUTING.md#debug-flags); changing any of
+them re-solves rather than replaying a stored solution.  With
+`AMFLOW_DIFFEQ_NUMD=P/Q` set the single `eps_samples` entry must equal
+`(4 - P/Q)/2`, and that exact rational — not its `rationalize_pre`-digit
+truncation — is the eps used throughout the solve.
+
 ---
 
 ## AMF options

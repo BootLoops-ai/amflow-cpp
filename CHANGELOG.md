@@ -43,6 +43,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   "deferred"); JSON dispatcher rejection is unchanged.
 
 
+## [1.1.1] — 2026-10-10
+
+Two silent-wrong-result paths in the numeric solve, found while running
+`black_box_amflow` with the numeric-d substitution at a large
+`working_pre - rationalize_pre` gap.
+
+### Fixed
+- **Numeric-d eps frame.**  With `AMFLOW_DIFFEQ_NUMD=P/Q` the
+  differential-equation tables carry `d = P/Q` exactly, but the per-eps
+  substitution map stored the eps sample rationalized to
+  `rationalize_pre` decimal digits (a truncation: `1/113` became
+  `round(10^D/113)/10^D`).  Region exponents and boundary coefficients
+  were then evaluated in a slightly different frame from the DE; the
+  residual `b*(eps_q - eps)` entered the Taylor system's diagonal and,
+  once it exceeded the sparse chop threshold (default knobs:
+  `working_pre - rationalize_pre >= 40`), was pivoted on and the solve
+  returned a wrong value or an exact `0` with exit code 0.
+  `build_numeric_q_for_eps` now uses the exact `(4 - P/Q)/2` whenever
+  the variable is set; runs without it are unchanged.
+- **Stale solve-checkpoint replay.**  `system_checkpoint_key` hashed
+  only the family, preferred masters, etac, eps grid, working precision,
+  direction and ending flag, so a re-run under the same checkpoint root
+  with a different `rationalize_pre`, `chop_pre`, `x_order`,
+  `extra_x_order`, `AMFLOW_DIFFEQ_NUMD` value (or the variable cleared),
+  `AMFLOW_SPARSE_CHOP_DIGITS`, `AMFLOW_NO_SPARSE_CHOP`,
+  `AMFLOW_RESONANCE_CHOP` or `AMFLOW_X00_PIVOT_GUARD` replayed the old
+  solution.  The key now folds in every numeric option group and the
+  values of the solve-affecting environment overrides; the checkpoint
+  format version is bumped to 2 so every older file misses, and the
+  loader rejects a file whose version differs from the binary's.
+
+### Added
+- `ode::sparse_chop_digits()` is exported (was file-local) and its
+  header comment states the actual default
+  `max(chop_pre, working_pre - 40)`.
+- Tests: `tests/test_pipeline_numd_frame.cpp`,
+  `tests/test_pipeline_system_checkpoint.cpp`, and
+  `sparse_chop_digits` cases in `tests/test_ode_sparse.cpp`
+  (all Kira-free).
+
 ## [1.1.0] — 2026-05-12
 
 Post-v1.0 audit-driven correctness pass + Phase 3 oracle diversity
@@ -240,5 +280,6 @@ numerical-parity test/benchmark harness.
 - `SolveIntegralsGaugeLink`, HQET / SCET / Wilson-line workflows — see
   [`docs/AUDIT_MMA_PARITY.md`](docs/AUDIT_MMA_PARITY.md).
 
+[1.1.1]: CHANGELOG.md
 [1.1.0]: https://github.com/chang18/amflow-cpp/releases/tag/v1.1
 [1.0.0]: https://github.com/chang18/amflow-cpp/releases/tag/v1.0

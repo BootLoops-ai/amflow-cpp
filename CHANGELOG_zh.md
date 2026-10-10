@@ -23,6 +23,18 @@
 - 复数值数值 kinematics 改为 out-of-scope (之前是 "deferred"); JSON dispatcher 拒绝行为不变.
 
 
+## [1.1.1] — 2026-10-10
+
+数值求解中的两条 silent-wrong-result 路径, 在 `black_box_amflow` + numeric-d 代入、`working_pre - rationalize_pre` 间隔较大时发现.
+
+### Fixed
+- **Numeric-d eps frame.** 设置 `AMFLOW_DIFFEQ_NUMD=P/Q` 时微分方程表里 `d = P/Q` 是精确的, 但 per-eps 代入表存的是把 eps 样本截断到 `rationalize_pre` 位小数的有理数 (`1/113` 变成 `round(10^D/113)/10^D`). region exponent 和边界系数于是和 DE 处在略有不同的 frame; 残差 `b*(eps_q - eps)` 进入 Taylor 系统对角线, 一旦超过 sparse chop 阈值 (默认旋钮下 `working_pre - rationalize_pre >= 40`) 就被当作 pivot, 求解返回错误值或精确 `0` 且退出码为 0. `build_numeric_q_for_eps` 现在在该变量设置时直接用精确的 `(4 - P/Q)/2`; 未设置时行为不变.
+- **过期 solve-checkpoint 重放.** `system_checkpoint_key` 原本只 hash family、preferred masters、etac、eps grid、工作精度、方向和 ending 标志, 因此在同一 checkpoint root 下改 `rationalize_pre`、`chop_pre`、`x_order`、`extra_x_order`、`AMFLOW_DIFFEQ_NUMD` 的值 (或取消设置)、`AMFLOW_SPARSE_CHOP_DIGITS`、`AMFLOW_NO_SPARSE_CHOP`、`AMFLOW_RESONANCE_CHOP`、`AMFLOW_X00_PIVOT_GUARD` 重跑会重放旧解. key 现在折入全部数值选项组和影响求解的环境变量的值; checkpoint 格式版本升到 2, 旧文件一律 miss, loader 也拒绝版本不符的文件.
+
+### Added
+- `ode::sparse_chop_digits()` 导出 (原为文件内部), 头文件注释写明实际默认值 `max(chop_pre, working_pre - 40)`.
+- 测试: `tests/test_pipeline_numd_frame.cpp`、`tests/test_pipeline_system_checkpoint.cpp`, 以及 `tests/test_ode_sparse.cpp` 中的 `sparse_chop_digits` 用例 (均不需要 Kira).
+
 ## [1.1.0] — 2026-05-12
 
 post-v1.0 的 audit 驱动正确性 pass + Phase 3 oracle diversity 扩展. 这俩一起关闭了 post-release 行级 MMA parity audit ([`docs/AUDIT_MMA_PARITY.md`](docs/AUDIT_MMA_PARITY.md)) 暴露的所有静默错值路径, 开了项目的五个 "我们当时没想到" oracle diversity 轴.
@@ -85,5 +97,6 @@ v1.1.0 之后 audit 表为 **86 🟢 / 0 🟡 / 7 🔴 (6 fixed + 1 D5 无限期
 ### Out of scope
 - `SolveIntegralsGaugeLink`, HQET / SCET / Wilson-line 工作流 — 见 [`docs/AUDIT_MMA_PARITY.md`](docs/AUDIT_MMA_PARITY.md).
 
+[1.1.1]: CHANGELOG.md
 [1.1.0]: https://github.com/chang18/amflow-cpp/releases/tag/v1.1
 [1.0.0]: https://github.com/chang18/amflow-cpp/releases/tag/v1.0

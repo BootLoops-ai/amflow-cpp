@@ -36,7 +36,7 @@ cat out.json | python3 -m json.tool | head -40
 
 | 组件 | 版本 | 镜像内路径 | License |
 |---|---|---|---|
-| `amflow_cli` | 1.1.0 | `/usr/local/bin/amflow_cli` | MIT |
+| `amflow_cli` | 1.1.1 | `/usr/local/bin/amflow_cli` | MIT |
 | FLINT | 3.4.0 | `/opt/flint/{bin,include,lib}` | LGPL-3 |
 | Kira | 3.1 | `/opt/kira/{bin,lib,share}` + `/usr/local/bin/kira` (symlink) | GPL-3 |
 | FireFly | `kira-2` 分支 | `/opt/kira/lib/libfirefly.so.*` | (FireFly project license) |

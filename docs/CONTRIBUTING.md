@@ -173,7 +173,9 @@ add new trace categories there when introducing them. Currently:
 | `AMFLOW_KIRA_DUMP=1` | Keep the Kira workdir after a run |
 | `AMFLOW_JORDAN_DUMP=...` | Dump Jordan-form intermediate matrices to file |
 | `AMFLOW_NO_SPARSE_CHOP=1` | Disable the sparse-row chop heuristic |
-| `AMFLOW_SPARSE_CHOP_DIGITS=N` | Override sparse-chop digit count (default = `numeric::chop_pre()`) |
+| `AMFLOW_SPARSE_CHOP_DIGITS=N` | Override sparse-chop digit count (default = `max(chop_pre, working_pre - 40)`, see `ode::sparse_chop_digits()`) |
+| `AMFLOW_DIFFEQ_NUMD=P/Q` | Bake `d = P/Q` into the diffeq reductions (single-eps runs only; the per-eps solve then uses the exact eps `(4 - P/Q)/2`) |
+| `AMFLOW_SYSTEM_CHECKPOINT=dir` | Root for per-system solve checkpoints (default `<ibp_cache>/syssolve`); the key covers the numeric options and the solve-affecting env vars above |
 | `AMFLOW_DEBUG_BC=1` | Emit boundary-condition and `solve_one_eps` diagnostics |
 | `AMFLOW_DEBUG_DBO=1` | Emit `determine_block_boundary_order` diagnostics |
 | `AMFLOW_DEBUG_PRECISE=1` | Verbose precision tracing in normalize / Jordan paths |

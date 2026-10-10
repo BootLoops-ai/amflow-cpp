@@ -150,7 +150,9 @@ AMF_REF_CFG=$PWD/cfg_bubble_1L.wl math -script run_amflow_kira.wl
 | `AMFLOW_KIRA_DUMP=1` | 运行后保留 Kira workdir |
 | `AMFLOW_JORDAN_DUMP=...` | dump Jordan 形式中间矩阵到文件 |
 | `AMFLOW_NO_SPARSE_CHOP=1` | 关掉稀疏行 chop 启发 |
-| `AMFLOW_SPARSE_CHOP_DIGITS=N` | 覆盖稀疏 chop 位数 (默认 = `numeric::chop_pre()`) |
+| `AMFLOW_SPARSE_CHOP_DIGITS=N` | 覆盖稀疏 chop 位数 (默认 = `max(chop_pre, working_pre - 40)`, 见 `ode::sparse_chop_digits()`) |
+| `AMFLOW_DIFFEQ_NUMD=P/Q` | 把 `d = P/Q` 直接代入 diffeq reduction (仅限单 eps 运行; per-eps 求解随后使用精确的 eps `(4 - P/Q)/2`) |
+| `AMFLOW_SYSTEM_CHECKPOINT=dir` | per-system 求解 checkpoint 的根目录 (默认 `<ibp_cache>/syssolve`); key 覆盖数值选项和上表中影响求解的环境变量 |
 | `AMFLOW_DEBUG_BC=1` | 发 boundary-condition 与 `solve_one_eps` 诊断 |
 | `AMFLOW_DEBUG_DBO=1` | 发 `determine_block_boundary_order` 诊断 |
 | `AMFLOW_DEBUG_PRECISE=1` | normalize / Jordan 路径里的精细精度追踪 |
