@@ -13,8 +13,64 @@
 #include <flint/acb.h>
 #include <flint/arb.h>
 #include <flint/arf.h>
+#include <flint/fmpq.h>
+#include <flint/fmpz.h>
+#include <flint/mag.h>
 
 namespace amflow::numeric {
+
+// ---------------------------------------------------------------------------
+//  Simplest rational within tolerance.  See acb_wrap.hpp.
+// ---------------------------------------------------------------------------
+
+bool arb_to_fmpq_simplest(fmpq_t out, arb_srcptr x, int digits) {
+    if (!arb_is_finite(x)) return false;
+    if (digits < 0) digits = 0;
+
+    fmpq_t mid, tol, rad, lo, hi;
+    fmpq_init(mid);
+    fmpq_init(tol);
+    fmpq_init(rad);
+    fmpq_init(lo);
+    fmpq_init(hi);
+
+    // All three ingredients are exact: an arf midpoint and a mag radius are
+    // dyadic rationals, and 10^-digits is formed from an integer power.
+    arf_get_fmpq(mid, arb_midref(x));
+    mag_get_fmpq(rad, arb_radref(x));
+    {
+        fmpz_t pow10;
+        fmpz_init(pow10);
+        fmpz_set_ui(pow10, 10);
+        fmpz_pow_ui(pow10, pow10, static_cast<unsigned long>(digits));
+        fmpq_one(tol);
+        fmpq_div_fmpz(tol, tol, pow10);
+        fmpz_clear(pow10);
+    }
+    if (fmpq_cmp(rad, tol) > 0) fmpq_set(tol, rad);
+
+    fmpq_sub(lo, mid, tol);
+    fmpq_add(hi, mid, tol);
+    fmpq_simplest_between(out, lo, hi);
+
+    fmpq_clear(mid);
+    fmpq_clear(tol);
+    fmpq_clear(rad);
+    fmpq_clear(lo);
+    fmpq_clear(hi);
+    return true;
+}
+
+bool acb_real_to_fmpq_simplest(fmpq_t out, acb_srcptr x, int digits) {
+    arf_t thr;
+    arf_init(thr);
+    arf_one(thr);
+    arf_mul_2exp_si(thr, thr, -decimal_digits_to_bits(digits));
+    const bool im_zero = (arf_cmpabs(arb_midref(acb_imagref(x)), thr) < 0);
+    arf_clear(thr);
+    if (!im_zero) return false;
+    return arb_to_fmpq_simplest(out, acb_realref(x), digits);
+}
 
 // ---------------------------------------------------------------------------
 //  Chop predicate.  See comment in acb_wrap.hpp / numeric.md §8c.

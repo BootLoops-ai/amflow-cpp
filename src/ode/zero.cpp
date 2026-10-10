@@ -2152,7 +2152,6 @@ calcx00_impl(const std::vector<BlockEquation>&            /*nheq*/,
                 if (ratdig > resolvable) ratdig = static_cast<int>(resolvable);
                 if (ratdig < 1) ratdig = 1;
             }
-            long rat_bits = decimal_digits_to_bits(ratdig) + 32;
 
             fmpq_mat_t Mblock, Bblock, Sblock;
             fmpq_mat_init(Mblock, 2 * n_var, 2 * n_var);
@@ -2161,61 +2160,38 @@ calcx00_impl(const std::vector<BlockEquation>&            /*nheq*/,
 
             bool rationalize_ok = true;
             {
-                arb_t scale;
-                arb_init(scale);
-                arb_set_si(scale, 10);
-                arb_pow_ui(scale, scale,
-                           static_cast<unsigned long>(ratdig),
-                           rat_bits);
-
-                fmpz_t pow10;
-                fmpz_init(pow10);
-                fmpz_set_si(pow10, 10);
-                fmpz_pow_ui(pow10, pow10,
-                            static_cast<unsigned long>(ratdig));
-
-                arb_t scaled, part;
-                arb_init(scaled);
-                arb_init(part);
-                fmpz_t numer;
-                fmpz_init(numer);
-
+                // Each part is recovered as the simplest rational within
+                // 10^-ratdig (numeric::arb_to_fmpq_simplest); a non-finite
+                // part fails the rationalization.
                 auto rationalize_acb = [&](acb_srcptr src,
                                            fmpq_t out_re,
                                            fmpq_t out_im) -> bool {
-                    arb_set(part, acb_realref(src));
-                    arb_mul(scaled, part, scale, rat_bits);
-                    if (!arb_is_finite(scaled)) {
+                    if (!numeric::arb_to_fmpq_simplest(out_re, acb_realref(src),
+                                                       ratdig)) {
                         if (std::getenv("AMF_DBG_X00")) {
                             char* s = arb_get_str(acb_realref(src), 12,
                                                   ARB_STR_NO_RADIUS);
                             fprintf(stderr,
                                     "[X00-rat] non-finite RE: src.re=%s "
-                                    "rat_bits=%ld ratdig=%d\n",
-                                    s, rat_bits, ratdig);
+                                    "ratdig=%d\n",
+                                    s, ratdig);
                             flint_free(s);
                         }
                         return false;
                     }
-                    arf_get_fmpz(numer, arb_midref(scaled), ARF_RND_NEAR);
-                    fmpq_set_fmpz_frac(out_re, numer, pow10);
-
-                    arb_set(part, acb_imagref(src));
-                    arb_mul(scaled, part, scale, rat_bits);
-                    if (!arb_is_finite(scaled)) {
+                    if (!numeric::arb_to_fmpq_simplest(out_im, acb_imagref(src),
+                                                       ratdig)) {
                         if (std::getenv("AMF_DBG_X00")) {
                             char* s = arb_get_str(acb_imagref(src), 12,
                                                   ARB_STR_NO_RADIUS);
                             fprintf(stderr,
                                     "[X00-rat] non-finite IM: src.im=%s "
-                                    "rat_bits=%ld ratdig=%d\n",
-                                    s, rat_bits, ratdig);
+                                    "ratdig=%d\n",
+                                    s, ratdig);
                             flint_free(s);
                         }
                         return false;
                     }
-                    arf_get_fmpz(numer, arb_midref(scaled), ARF_RND_NEAR);
-                    fmpq_set_fmpz_frac(out_im, numer, pow10);
                     return true;
                 };
 
@@ -2246,11 +2222,6 @@ calcx00_impl(const std::vector<BlockEquation>&            /*nheq*/,
                 }
                 fmpq_clear(a_re);
                 fmpq_clear(a_im);
-                fmpz_clear(numer);
-                fmpz_clear(pow10);
-                arb_clear(scaled);
-                arb_clear(part);
-                arb_clear(scale);
             }
 
             int ok = 0;

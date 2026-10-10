@@ -221,22 +221,19 @@ namespace {
 // Rationalize a *real* AcbValue to a fmpq_t.  Returns false if Im part is
 // nonzero within rationalize_pre digits.
 //
-// Cap `rationalize_digits` at the largest value `working_prec` can
-// resolve unambiguously.  When `rationalize_digits >
-// floor(working_prec_bits * log10(2))` the rationalization captures
-// binary-representation noise in the input AcbValue as a "real"
-// rational like
+// The value is recovered as the simplest rational within the tolerance
+// (numeric::acb_real_to_fmpq_simplest), so a region exponent that is
+// mathematically a + b*eps with a rational eps comes back exactly, and the
+// diagonal subtraction `mat(i,i) - ini/eta` in BuildTaylor carries no
+// residual that the sparse solver could pivot on.  (A decimal truncation
+// numer/10^D cannot represent b/113 and left a residual of order 10^-D,
+// which above the chop threshold produced wrong values or an exact zero.)
 //
-//     18 * 10^29 + 41359
-//     ────────────────── = 9/5 + 4.1e-26
-//           10^30
-//
-// for an input that is mathematically exact 9/5.  Downstream the
-// spurious residual flows into BuildTaylor's diagonal subtraction
-// `mat(i,i) - ini/eta`, leaks a 1e-25 entry into ConstructMatrix at
-// the unsolved-free-coefficient column, and SparseGaussian pivots on
-// it (amplifying all other entries by 1/ε ≈ 1e25).  Capping rounds
-// to the nearest exact rational at the precision actually supported.
+// `rationalize_digits` is capped at the largest value `working_prec` can
+// resolve unambiguously: beyond floor(working_prec_bits * log10(2)) the
+// tolerance would be below the binary-representation noise of the input
+// (an input that is mathematically 9/5 then rationalizes to 9/5 + 4e-26
+// instead of 9/5).
 bool acb_real_to_fmpq_local(fmpq_t out, acb_srcptr x,
                              int rationalize_digits, long prec) {
     // Effective working precision in decimal digits, minus a small safety
@@ -248,38 +245,7 @@ bool acb_real_to_fmpq_local(fmpq_t out, acb_srcptr x,
     if (rationalize_digits > working_digits) {
         rationalize_digits = static_cast<int>(working_digits);
     }
-
-    arf_t mid_im;
-    arf_init(mid_im);
-    arf_abs(mid_im, arb_midref(acb_imagref(x)));
-    // Precision-output fix: see src/ode/path.cpp — a double
-    // 10^-d threshold underflows to 0 for d >~ 308 and rejects exact zeros.
-    arf_t thr;
-    arf_init(thr);
-    arf_one(thr);
-    arf_mul_2exp_si(thr, thr,
-                    -static_cast<long>(decimal_digits_to_bits(rationalize_digits)));
-    bool im_zero = (arf_cmp(mid_im, thr) < 0);
-    arf_clear(thr);
-    arf_clear(mid_im);
-    if (!im_zero) return false;
-
-    long bits = decimal_digits_to_bits(rationalize_digits) + 32;
-    arb_t scale, scaled, xb;
-    arb_init(scale); arb_init(scaled); arb_init(xb);
-    arb_set_si(scale, 10);
-    arb_pow_ui(scale, scale, static_cast<unsigned long>(rationalize_digits), bits);
-    arb_set(xb, acb_realref(x));
-    arb_mul(scaled, xb, scale, bits);
-    fmpz_t numer, pow10;
-    fmpz_init(numer); fmpz_init(pow10);
-    arf_get_fmpz(numer, arb_midref(scaled), ARF_RND_NEAR);
-    fmpz_set_si(pow10, 10);
-    fmpz_pow_ui(pow10, pow10, static_cast<unsigned long>(rationalize_digits));
-    fmpq_set_fmpz_frac(out, numer, pow10);
-    fmpz_clear(numer); fmpz_clear(pow10);
-    arb_clear(scale); arb_clear(scaled); arb_clear(xb);
-    return true;
+    return numeric::acb_real_to_fmpq_simplest(out, x, rationalize_digits);
 }
 
 // Full BuildTaylor:

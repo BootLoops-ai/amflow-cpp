@@ -172,48 +172,14 @@ std::ostream& operator<<(std::ostream& os, const RationalMatrix& m) {
 
 namespace {
 
-// Round x to the nearest fraction p/q such that |x - p/q| < 10^-digits.
-// Multiply midpoint by 10^digits, round to integer, divide.  Mirrors
-// Mathematica's Rationalize.
+// Rationalize a root coordinate as the simplest rational within 10^-digits
+// (arb_to_fmpq_simplest; the semantics of Mathematica's Rationalize).  A
+// root that is mathematically rational, e.g. 1/3 from 3*eta - 1, comes back
+// as that rational.
 void arb_to_rational(fmpq_t out, arb_srcptr x, int digits) {
-    arf_t mid;
-    arf_init(mid);
-    arf_set(mid, arb_midref(x));
-
-    if (arf_is_zero(mid)) {
-        fmpq_zero(out);
-        arf_clear(mid);
-        return;
+    if (!arb_to_fmpq_simplest(out, x, digits)) {
+        throw std::runtime_error("get_poles: root coordinate is not finite");
     }
-
-    long bits = decimal_digits_to_bits(digits) + 32;
-    arb_t scale, scaled;
-    arb_init(scale);
-    arb_init(scaled);
-    arb_set_si(scale, 10);
-    arb_pow_ui(scale, scale, static_cast<unsigned long>(digits), bits);
-
-    arb_t xb;
-    arb_init(xb);
-    arb_set_arf(xb, mid);
-    arb_mul(scaled, xb, scale, bits);
-
-    fmpz_t numer, pow;
-    fmpz_init(numer);
-    fmpz_init(pow);
-
-    arf_get_fmpz(numer, arb_midref(scaled), ARF_RND_NEAR);
-    fmpz_set_si(pow, 10);
-    fmpz_pow_ui(pow, pow, static_cast<unsigned long>(digits));
-
-    fmpq_set_fmpz_frac(out, numer, pow);
-
-    fmpz_clear(numer);
-    fmpz_clear(pow);
-    arb_clear(scale);
-    arb_clear(scaled);
-    arb_clear(xb);
-    arf_clear(mid);
 }
 
 // Convert fmpq_poly to primitive fmpz_poly (clear common denominator + content).

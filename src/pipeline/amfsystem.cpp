@@ -432,7 +432,8 @@ numeric::RationalFunction mfrac_to_eta_rational(const algebra::Mfrac& src, long 
     return numeric::RationalFunction(std::move(num_p), std::move(den_p));
 }
 
-// Approximate an acb value as an fmpq (RationalizePre digits).
+// Rationalize the real part of an acb value as the simplest rational within
+// 10^-RationalizePre (numeric::arb_to_fmpq_simplest).
 //
 // PRECISION-MISMATCH FIX (see src/ode/inf.cpp:acb_real_to_fmpq_local): when
 // `rationalize_pre` > working_prec * log10(2), the rationalization captures
@@ -451,30 +452,10 @@ void acb_to_fmpq_rational(fmpq_t out, const acb_t v, long prec) {
         digits = static_cast<int>(working_digits);
     }
 
-    const long bits = std::max<long>(prec, numeric::decimal_digits_to_bits(digits) + 32);
-    arb_t scale, scaled, xb;
-    arb_init(scale);
-    arb_init(scaled);
-    arb_init(xb);
-    arb_set_si(scale, 10);
-    arb_pow_ui(scale, scale, static_cast<unsigned long>(digits), bits);
-    arb_set(xb, acb_realref(v));
-    arb_mul(scaled, xb, scale, bits);
-
-    fmpz_t numer, pow10;
-    fmpz_init(numer);
-    fmpz_init(pow10);
-    arf_get_fmpz(numer, arb_midref(scaled), ARF_RND_NEAR);
-    fmpz_set_si(pow10, 10);
-    fmpz_pow_ui(pow10, pow10, static_cast<unsigned long>(digits));
-    fmpq_set_fmpz_frac(out, numer, pow10);
-    fmpq_canonicalise(out);
-
-    fmpz_clear(numer);
-    fmpz_clear(pow10);
-    arb_clear(scale);
-    arb_clear(scaled);
-    arb_clear(xb);
+    if (!numeric::arb_to_fmpq_simplest(out, acb_realref(v), digits)) {
+        throw std::runtime_error(
+            "acb_to_fmpq_rational: value is not finite");
+    }
 }
 
 }  // namespace
@@ -511,14 +492,15 @@ void eps_sample_to_fmpq(fmpq_t out, const numeric::AcbValue& eps, long prec) {
     // the d -> 4 - 2*eps substitution of `mfrac_substitute` is a no-op on
     // them.  The
     // region exponents and boundary coefficients, however, are evaluated
-    // at whatever rational is stored here.  Rationalizing the sample to
-    // `rationalize_pre` decimal digits (a truncation, not an exact
-    // recovery: 1/113 does not survive it) would put them in a slightly
-    // different frame; the difference b*(eps_q - eps) then enters the
-    // Taylor system's diagonal and, once it exceeds the sparse chop
-    // threshold, is pivoted on and the solve returns a wrong value or an
-    // exact zero.  Use the exact value from the env instead — the startup
-    // assert has already verified that the single eps sample equals it.
+    // at whatever rational is stored here, and any difference between the
+    // two frames, b*(eps_q - eps), enters the Taylor system's diagonal
+    // and, once it exceeds the sparse chop threshold, is pivoted on so
+    // the solve returns a wrong value or an exact zero.  Use the exact
+    // value from the env — the startup assert has already verified that
+    // the single eps sample equals it.  Without the env the sample is
+    // recovered as the simplest rational within the rationalization
+    // tolerance (which also returns 1/113 for a tight ball around it;
+    // a decimal truncation did not).
     if (numd_exact_eps(out)) return;
     acb_to_fmpq_rational(out, eps.raw(), prec);
 }
@@ -7953,7 +7935,7 @@ AMFSystem::solve_one_eps(std::size_t eps_index, const numeric::AcbValue& eps) {
                     auto eq = numeric_q.find("eps");
                     if (eq != numeric_q.end()) {
                         // The exact rational actually substituted for eps
-                        // (acb_to_fmpq_rational of the sample).
+                        // (the numeric-d value, or the sample rationalized).
                         os << "  \"eps\": \""
                            << bdump_fmpq_str(eq->second.raw()) << "\",\n";
                     }

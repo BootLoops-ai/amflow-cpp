@@ -113,43 +113,10 @@ bool acb_real_to_fmpq(fmpq_t out, acb_srcptr x, int rationalize_digits, long pre
     if (rationalize_digits > working_digits) {
         rationalize_digits = static_cast<int>(working_digits);
     }
-
-    arf_t mid_im;
-    arf_init(mid_im);
-    arf_abs(mid_im, arb_midref(acb_imagref(x)));
-    // Precision-output fix: std::pow(10.0,-d) underflows a
-    // double to exactly 0 for d >~ 308, making this test reject even an
-    // exactly-zero imaginary part; any run with rationalize_pre > ~308 then
-    // dies with "failed to rationalise unit direction".  Use a 2^-k
-    // threshold (arf_t is unbounded) instead of a double.
-    arf_t thr;
-    arf_init(thr);
-    arf_one(thr);
-    arf_mul_2exp_si(thr, thr,
-                    -static_cast<long>(numeric::decimal_digits_to_bits(rationalize_digits)));
-    bool im_zero = (arf_cmp(mid_im, thr) < 0);
-    arf_clear(thr);
-    arf_clear(mid_im);
-    if (!im_zero) return false;
-
-    long bits = numeric::decimal_digits_to_bits(rationalize_digits) + 32;
-    arb_t scale, scaled;
-    arb_init(scale); arb_init(scaled);
-    arb_set_si(scale, 10);
-    arb_pow_ui(scale, scale, static_cast<unsigned long>(rationalize_digits), bits);
-    arb_t xb;
-    arb_init(xb);
-    arb_set(xb, acb_realref(x));
-    arb_mul(scaled, xb, scale, bits);
-    fmpz_t numer, pow10;
-    fmpz_init(numer); fmpz_init(pow10);
-    arf_get_fmpz(numer, arb_midref(scaled), ARF_RND_NEAR);
-    fmpz_set_si(pow10, 10);
-    fmpz_pow_ui(pow10, pow10, static_cast<unsigned long>(rationalize_digits));
-    fmpq_set_fmpz_frac(out, numer, pow10);
-    fmpz_clear(numer); fmpz_clear(pow10);
-    arb_clear(scale); arb_clear(scaled); arb_clear(xb);
-    return true;
+    // The imaginary-part test and the simplest-rational recovery live in
+    // numeric::acb_real_to_fmpq_simplest (an arf threshold, so
+    // rationalize_pre > ~308 does not underflow the way a double 10^-d did).
+    return numeric::acb_real_to_fmpq_simplest(out, x, rationalize_digits);
 }
 
 AcbValue min_distance_to_poles(const RationalComplex& point,
