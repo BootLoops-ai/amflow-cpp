@@ -8,6 +8,7 @@
 #include <flint/acb.h>
 #include <flint/arb.h>
 #include <flint/fmpq.h>
+#include <flint/fmpz.h>
 
 #include "amflow/numeric/acb_wrap.hpp"
 #include "amflow/numeric/options.hpp"
@@ -309,4 +310,185 @@ TEST(FreeHelperChop, DelegatesToMember) {
     EXPECT_FALSE(dsn::acb_is_chop_zero(v.raw(), 20));
     v.set_zero();
     EXPECT_TRUE(dsn::acb_is_chop_zero(v.raw(), 20));
+}
+
+// ---------------------------------------------------------------------------
+//  arb_to_fmpq_simplest / acb_real_to_fmpq_simplest
+// ---------------------------------------------------------------------------
+
+namespace {
+
+struct FmpqHolder {
+    fmpq_t q;
+    FmpqHolder()  { fmpq_init(q); }
+    ~FmpqHolder() { fmpq_clear(q); }
+};
+
+// A ball around the exact rational p/q with the given radius 10^-rad_digits.
+void ball_around(arb_t out, long p, long q, int rad_digits, long prec = 400) {
+    FmpqHolder v;
+    fmpq_set_si(v.q, p, q);
+    arb_set_fmpq(out, v.q, prec);
+    if (rad_digits > 0) {
+        arb_t r;
+        arb_init(r);
+        arb_set_si(r, 10);
+        arb_pow_ui(r, r, static_cast<unsigned long>(rad_digits), prec);
+        arb_inv(r, r, prec);
+        arb_add_error(out, r);
+        arb_clear(r);
+    }
+}
+
+std::string fmpq_str(const fmpq_t q) {
+    char* s = fmpq_get_str(nullptr, 10, q);
+    std::string out(s);
+    flint_free(s);
+    return out;
+}
+
+}  // namespace
+
+TEST(RationalizeSimplest, TightBallAroundOneOver113IsExact) {
+    arb_t x;
+    arb_init(x);
+    ball_around(x, 1, 113, 90);
+    FmpqHolder got, want;
+    ASSERT_TRUE(dsn::arb_to_fmpq_simplest(got.q, x, 60));
+    fmpq_set_si(want.q, 1, 113);
+    EXPECT_TRUE(fmpq_equal(got.q, want.q)) << "got " << fmpq_str(got.q);
+    arb_clear(x);
+}
+
+TEST(RationalizeSimplest, NineFifthsIsExact) {
+    arb_t x;
+    arb_init(x);
+    ball_around(x, 9, 5, 0, 200);
+    FmpqHolder got, want;
+    ASSERT_TRUE(dsn::arb_to_fmpq_simplest(got.q, x, 30));
+    fmpq_set_si(want.q, 9, 5);
+    EXPECT_TRUE(fmpq_equal(got.q, want.q)) << "got " << fmpq_str(got.q);
+    arb_clear(x);
+}
+
+TEST(RationalizeSimplest, PiWithinToleranceAndNotTallerThanTruncation) {
+    arb_t pi;
+    arb_init(pi);
+    arb_const_pi(pi, 200);
+    FmpqHolder got;
+    ASSERT_TRUE(dsn::arb_to_fmpq_simplest(got.q, pi, 30));
+
+    // |out - pi| < 10^-30, checked in a 200-bit ball.
+    arb_t diff, bound;
+    arb_init(diff);
+    arb_init(bound);
+    arb_set_fmpq(diff, got.q, 200);
+    arb_sub(diff, diff, pi, 200);
+    arb_abs(diff, diff);
+    arb_set_si(bound, 10);
+    arb_pow_ui(bound, bound, 30, 200);
+    arb_inv(bound, bound, 200);
+    EXPECT_TRUE(arb_lt(diff, bound)) << "got " << fmpq_str(got.q);
+
+    // Denominator below 10^30 (the truncation's denominator).
+    fmpz_t pow10;
+    fmpz_init(pow10);
+    fmpz_set_ui(pow10, 10);
+    fmpz_pow_ui(pow10, pow10, 30);
+    EXPECT_LT(fmpz_cmp(fmpq_denref(got.q), pow10), 0) << "got " << fmpq_str(got.q);
+    fmpz_clear(pow10);
+
+    arb_clear(diff);
+    arb_clear(bound);
+    arb_clear(pi);
+}
+
+TEST(RationalizeSimplest, WideBallToleranceIsRadius) {
+    // Radius 1e-10 dominates 10^-60: the simplest rational within the ball.
+    arb_t x;
+    arb_init(x);
+    ball_around(x, 1, 3, 10);
+    FmpqHolder got, want;
+    ASSERT_TRUE(dsn::arb_to_fmpq_simplest(got.q, x, 60));
+    fmpq_set_si(want.q, 1, 3);
+    EXPECT_TRUE(fmpq_equal(got.q, want.q)) << "got " << fmpq_str(got.q);
+    arb_clear(x);
+}
+
+TEST(RationalizeSimplest, ZeroBallIsZero) {
+    arb_t x;
+    arb_init(x);
+    arb_zero(x);
+    FmpqHolder got;
+    fmpq_set_si(got.q, 7, 3);
+    ASSERT_TRUE(dsn::arb_to_fmpq_simplest(got.q, x, 60));
+    EXPECT_TRUE(fmpq_is_zero(got.q));
+
+    // A tiny midpoint inside the tolerance also gives 0.
+    ball_around(x, 1, 1, 0);
+    arb_mul_2exp_si(x, x, -300);
+    ASSERT_TRUE(dsn::arb_to_fmpq_simplest(got.q, x, 60));
+    EXPECT_TRUE(fmpq_is_zero(got.q));
+    arb_clear(x);
+}
+
+TEST(RationalizeSimplest, NegativeValueIsExact) {
+    arb_t x;
+    arb_init(x);
+    ball_around(x, -227, 113, 90);
+    FmpqHolder got, want;
+    ASSERT_TRUE(dsn::arb_to_fmpq_simplest(got.q, x, 60));
+    fmpq_set_si(want.q, -227, 113);
+    EXPECT_TRUE(fmpq_equal(got.q, want.q)) << "got " << fmpq_str(got.q);
+    arb_clear(x);
+}
+
+TEST(RationalizeSimplest, NonFiniteIsRejected) {
+    arb_t x;
+    arb_init(x);
+    arb_indeterminate(x);
+    FmpqHolder got;
+    fmpq_set_si(got.q, 7, 3);
+    EXPECT_FALSE(dsn::arb_to_fmpq_simplest(got.q, x, 60));
+    FmpqHolder untouched;
+    fmpq_set_si(untouched.q, 7, 3);
+    EXPECT_TRUE(fmpq_equal(got.q, untouched.q));
+
+    arb_pos_inf(x);
+    EXPECT_FALSE(dsn::arb_to_fmpq_simplest(got.q, x, 60));
+    arb_clear(x);
+}
+
+TEST(RationalizeSimplest, AcbWrapperRejectsImaginaryPart) {
+    acb_t z;
+    acb_init(z);
+    ball_around(acb_realref(z), 1, 113, 90);
+    FmpqHolder got, want;
+    fmpq_set_si(want.q, 1, 113);
+
+    // Real input: accepted, exact.
+    ASSERT_TRUE(dsn::acb_real_to_fmpq_simplest(got.q, z, 60));
+    EXPECT_TRUE(fmpq_equal(got.q, want.q)) << "got " << fmpq_str(got.q);
+
+    // Imaginary part 10^-20 at digits 60: rejected, output untouched.
+    arb_set_si(acb_imagref(z), 10);
+    arb_pow_ui(acb_imagref(z), acb_imagref(z), 20, 200);
+    arb_inv(acb_imagref(z), acb_imagref(z), 200);
+    fmpq_set_si(got.q, 7, 3);
+    EXPECT_FALSE(dsn::acb_real_to_fmpq_simplest(got.q, z, 60));
+    FmpqHolder untouched;
+    fmpq_set_si(untouched.q, 7, 3);
+    EXPECT_TRUE(fmpq_equal(got.q, untouched.q));
+
+    // The same imaginary part at digits 10 is below threshold: accepted.
+    EXPECT_TRUE(dsn::acb_real_to_fmpq_simplest(got.q, z, 10));
+    EXPECT_TRUE(fmpq_equal(got.q, want.q)) << "got " << fmpq_str(got.q);
+
+    // Negative real part through the wrapper.
+    arb_zero(acb_imagref(z));
+    ball_around(acb_realref(z), -9, 5, 0, 200);
+    ASSERT_TRUE(dsn::acb_real_to_fmpq_simplest(got.q, z, 30));
+    fmpq_set_si(want.q, -9, 5);
+    EXPECT_TRUE(fmpq_equal(got.q, want.q)) << "got " << fmpq_str(got.q);
+    acb_clear(z);
 }

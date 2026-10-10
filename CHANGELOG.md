@@ -45,7 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [1.1.1] — 2026-10-10
 
-Two silent-wrong-result paths in the numeric solve, found while running
+Silent-wrong-result paths in the numeric solve, found while running
 `black_box_amflow` with the numeric-d substitution at a large
 `working_pre - rationalize_pre` gap.
 
@@ -62,6 +62,25 @@ Two silent-wrong-result paths in the numeric solve, found while running
   returned a wrong value or an exact `0` with exit code 0.
   `build_numeric_q_for_eps` now uses the exact `(4 - P/Q)/2` whenever
   the variable is set; runs without it are unchanged.
+- **Rationalization recovers the simplest rational within the
+  tolerance.**  Every site that turns a numeric value into an exact
+  rational (the region exponents entering the Taylor system's diagonal,
+  path points and unit directions, pole locations, the boundary-matching
+  matrix, and the eps sample when the numeric-d variable is unset)
+  truncated the midpoint to `rationalize_pre` decimal digits
+  (`round(m*10^D)/10^D`).  With the eps frame exact, a region exponent
+  `a + b*eps` is a rational with the denominator of eps, which a decimal
+  truncation cannot represent: the residual of order `10^-D` it left
+  behind was the remaining mismatch that the sparse solver pivoted on
+  (a run still returned a bare `0` or a wrong value one digit past the
+  chop threshold).  The new `numeric::arb_to_fmpq_simplest` returns the
+  rational with the smallest denominator within `max(radius, 10^-D)` of
+  the ball (`fmpq_simplest_between` on exactly formed bounds), which is
+  what Mathematica's `Rationalize[x, 10^-D]` does and what upstream
+  AMFlow relies on: an exact-looking value comes back exactly and a
+  generic value comes back within the same tolerance as before, never
+  taller.  The per-site caps at the working precision and the
+  imaginary-part tests are unchanged.
 - **Stale solve-checkpoint replay.**  `system_checkpoint_key` hashed
   only the family, preferred masters, etac, eps grid, working precision,
   direction and ending flag, so a re-run under the same checkpoint root
@@ -75,11 +94,15 @@ Two silent-wrong-result paths in the numeric solve, found while running
   loader rejects a file whose version differs from the binary's.
 
 ### Added
+- `numeric::arb_to_fmpq_simplest` / `numeric::acb_real_to_fmpq_simplest`
+  (`include/amflow/numeric/acb_wrap.hpp`): the shared simplest-rational
+  recovery used by all rationalization sites.
 - `ode::sparse_chop_digits()` is exported (was file-local) and its
   header comment states the actual default
   `max(chop_pre, working_pre - 40)`.
 - Tests: `tests/test_pipeline_numd_frame.cpp`,
-  `tests/test_pipeline_system_checkpoint.cpp`, and
+  `tests/test_pipeline_system_checkpoint.cpp`, the `RationalizeSimplest`
+  cases in `tests/test_numeric_acb_wrap.cpp`, and
   `sparse_chop_digits` cases in `tests/test_ode_sparse.cpp`
   (all Kira-free).
 

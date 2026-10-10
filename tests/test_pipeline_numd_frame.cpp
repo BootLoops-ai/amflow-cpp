@@ -8,7 +8,9 @@
 // rationalized to `rationalize_pre` decimal digits (a truncation) would
 // sit in a different frame and the mismatch is pivoted on by the sparse
 // solver once it exceeds the chop threshold.  Without the env var the
-// entry is the truncation, unchanged.
+// entry is the sample recovered as the simplest rational within the
+// rationalization tolerance, which for a tight ball around 1/113 is 1/113
+// itself.
 
 #include <gtest/gtest.h>
 
@@ -113,7 +115,7 @@ TEST_F(NumdFrameFixture, NumdSet_HelperParsesEnv) {
     EXPECT_TRUE(fmpq_equal(untouched.q, seven_thirds.q));
 }
 
-TEST_F(NumdFrameFixture, NumdUnset_EpsEntryIsDecimalTruncation) {
+TEST_F(NumdFrameFixture, NumdUnset_EpsEntryIsSimplestRational) {
     EnvGuard env("AMFLOW_DIFFEQ_NUMD");
     env.unset();
 
@@ -121,55 +123,64 @@ TEST_F(NumdFrameFixture, NumdUnset_EpsEntryIsDecimalTruncation) {
     Fmpq got;
     pipeline::detail::eps_sample_to_fmpq(got.q, eps, dsn::working_prec_bits());
 
-    // Existing semantics: numer / 10^rationalize_pre, i.e. NOT 1/113 ...
+    // The sample is a tight ball around 1/113 (radius far below 10^-60),
+    // so the simplest rational within the tolerance is 1/113 itself: the
+    // same frame as the exact numeric-d value.
     Fmpq exact;
     fmpq_set_si(exact.q, 1, 113);
-    EXPECT_FALSE(fmpq_equal(got.q, exact.q));
-
-    // ... the denominator divides 10^60 ...
-    Fmpq pow10;
-    {
-        fmpz_t p;
-        fmpz_init(p);
-        fmpz_set_ui(p, 10);
-        fmpz_pow_ui(p, p, 60);
-        fmpq_set_fmpz(pow10.q, p);
-        fmpz_clear(p);
-    }
-    Fmpq scaled;
-    fmpq_mul(scaled.q, got.q, pow10.q);
-    EXPECT_TRUE(fmpz_is_one(fmpq_denref(scaled.q)))
-        << "10^60 * eps_q should be an integer";
-
-    // ... and |eps_q - 1/113| < 10^-59 (in fact <= 0.5 * 10^-60).
-    Fmpq diff;
-    fmpq_sub(diff.q, got.q, exact.q);
-    fmpq_abs(diff.q, diff.q);
-    Fmpq bound;
-    {
-        fmpz_t p;
-        fmpz_init(p);
-        fmpz_set_ui(p, 10);
-        fmpz_pow_ui(p, p, 59);
-        fmpq_set_si(bound.q, 1, 1);
-        fmpq_div_fmpz(bound.q, bound.q, p);
-        fmpz_clear(p);
-    }
-    EXPECT_LT(fmpq_cmp(diff.q, bound.q), 0);
-    EXPECT_GT(fmpq_sgn(diff.q), 0);
+    EXPECT_TRUE(fmpq_equal(got.q, exact.q))
+        << "expected exactly 1/113, got numerator/denominator "
+        << fmpz_get_str(nullptr, 10, fmpq_numref(got.q)) << "/"
+        << fmpz_get_str(nullptr, 10, fmpq_denref(got.q));
 }
 
-TEST_F(NumdFrameFixture, NumdSet_WrongFrameWouldDifferFromTruncation) {
-    // The two paths disagree for a denominator that does not divide a
-    // power of ten — this is the frame difference the fix removes.
+TEST_F(NumdFrameFixture, NumdUnset_GenericSampleStaysWithinTolerance) {
+    // A sample that is not a short rational (a 200-digit-irrational-looking
+    // value: the ball around sqrt(2)/100) rationalizes to a value within
+    // 10^-60 whose denominator is below 10^60.
+    EnvGuard env("AMFLOW_DIFFEQ_NUMD");
+    env.unset();
+
+    dsn::AcbValue eps;
+    arb_sqrt_ui(acb_realref(eps.raw()), 2, dsn::working_prec_bits());
+    arb_div_ui(acb_realref(eps.raw()), acb_realref(eps.raw()), 100,
+               dsn::working_prec_bits());
+    Fmpq got;
+    pipeline::detail::eps_sample_to_fmpq(got.q, eps, dsn::working_prec_bits());
+
+    arb_t diff, bound;
+    arb_init(diff);
+    arb_init(bound);
+    arb_set_fmpq(diff, got.q, 400);
+    arb_sub(diff, diff, acb_realref(eps.raw()), 400);
+    arb_abs(diff, diff);
+    arb_set_si(bound, 10);
+    arb_pow_ui(bound, bound, 60, 400);
+    arb_inv(bound, bound, 400);
+    EXPECT_TRUE(arb_lt(diff, bound));
+    arb_clear(diff);
+    arb_clear(bound);
+
+    fmpz_t pow10;
+    fmpz_init(pow10);
+    fmpz_set_ui(pow10, 10);
+    fmpz_pow_ui(pow10, pow10, 60);
+    EXPECT_LT(fmpz_cmp(fmpq_denref(got.q), pow10), 0);
+    fmpz_clear(pow10);
+}
+
+TEST_F(NumdFrameFixture, NumdSet_AgreesWithRecoveredSampleForTightBall) {
+    // For a tight ball around the exact sample the two paths now agree;
+    // the env path remains authoritative (it does not depend on the ball
+    // being tight).
     EnvGuard env("AMFLOW_DIFFEQ_NUMD");
     const auto eps = sample_1_over_113();
-    Fmpq exact_path, trunc_path;
+    Fmpq exact_path, sample_path;
 
     env.set("450/113");
     pipeline::detail::eps_sample_to_fmpq(exact_path.q, eps, dsn::working_prec_bits());
     env.unset();
-    pipeline::detail::eps_sample_to_fmpq(trunc_path.q, eps, dsn::working_prec_bits());
+    pipeline::detail::eps_sample_to_fmpq(sample_path.q, eps, dsn::working_prec_bits());
 
-    EXPECT_FALSE(fmpq_equal(exact_path.q, trunc_path.q));
+    EXPECT_TRUE(fmpq_equal(exact_path.q, sample_path.q));
 }

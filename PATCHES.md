@@ -222,7 +222,11 @@ reported honestly as a structural divergence).
   (`AMFLOW_DIFFEQ_NUMD`) inside the diffeq target reduce. With the
   substitution active the per-eps solve uses the exact `(4 - P/Q)/2` as its
   eps, matching the DE tables, which carry `d = P/Q` exactly; the sample is
-  not rationalized in that mode.
+  not rationalized in that mode. Every other rationalization (region
+  exponents, path points, poles, the boundary-matching matrix) recovers the
+  simplest rational within `10^-rationalize_pre` rather than truncating to
+  decimal digits, so an exponent `a + b*eps` is exact and leaves no residual
+  for the sparse solver to pivot on.
 - **Node-tree parallelism** (`amf_options.node_parallel` /
   `AMFLOW_NODE_PARALLEL`): a non-ending node's sibling sub-system solves
   are mutually independent and are dispatched to a thread pool, for wide

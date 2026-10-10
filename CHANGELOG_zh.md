@@ -25,15 +25,17 @@
 
 ## [1.1.1] — 2026-10-10
 
-数值求解中的两条 silent-wrong-result 路径, 在 `black_box_amflow` + numeric-d 代入、`working_pre - rationalize_pre` 间隔较大时发现.
+数值求解中的几条 silent-wrong-result 路径, 在 `black_box_amflow` + numeric-d 代入、`working_pre - rationalize_pre` 间隔较大时发现.
 
 ### Fixed
 - **Numeric-d eps frame.** 设置 `AMFLOW_DIFFEQ_NUMD=P/Q` 时微分方程表里 `d = P/Q` 是精确的, 但 per-eps 代入表存的是把 eps 样本截断到 `rationalize_pre` 位小数的有理数 (`1/113` 变成 `round(10^D/113)/10^D`). region exponent 和边界系数于是和 DE 处在略有不同的 frame; 残差 `b*(eps_q - eps)` 进入 Taylor 系统对角线, 一旦超过 sparse chop 阈值 (默认旋钮下 `working_pre - rationalize_pre >= 40`) 就被当作 pivot, 求解返回错误值或精确 `0` 且退出码为 0. `build_numeric_q_for_eps` 现在在该变量设置时直接用精确的 `(4 - P/Q)/2`; 未设置时行为不变.
+- **有理化改为取容差内最简有理数.** 所有把数值变成精确有理数的位置 (进入 Taylor 系统对角线的 region exponent、路径点和单位方向、极点位置、边界匹配矩阵、以及未设 numeric-d 变量时的 eps 样本) 原本把中点截断到 `rationalize_pre` 位小数 (`round(m*10^D)/10^D`). eps frame 精确之后, region exponent `a + b*eps` 是分母为 eps 分母的有理数, 小数截断表示不了, 留下的 `10^-D` 量级残差正是 sparse 求解器继续 pivot 的那个失配 (chop 阈值再往上一位, 仍返回裸 `0` 或错误值). 新的 `numeric::arb_to_fmpq_simplest` 返回 ball 的 `max(radius, 10^-D)` 容差内分母最小的有理数 (`fmpq_simplest_between`, 边界精确构造), 即 Mathematica `Rationalize[x, 10^-D]` 的语义, 也是上游 AMFlow 依赖的语义: 看起来精确的值原样返回, 一般值在同样容差内返回且不会更高. 各位置按工作精度的 cap 和虚部检查不变.
 - **过期 solve-checkpoint 重放.** `system_checkpoint_key` 原本只 hash family、preferred masters、etac、eps grid、工作精度、方向和 ending 标志, 因此在同一 checkpoint root 下改 `rationalize_pre`、`chop_pre`、`x_order`、`extra_x_order`、`AMFLOW_DIFFEQ_NUMD` 的值 (或取消设置)、`AMFLOW_SPARSE_CHOP_DIGITS`、`AMFLOW_NO_SPARSE_CHOP`、`AMFLOW_RESONANCE_CHOP`、`AMFLOW_X00_PIVOT_GUARD` 重跑会重放旧解. key 现在折入全部数值选项组和影响求解的环境变量的值; checkpoint 格式版本升到 2, 旧文件一律 miss, loader 也拒绝版本不符的文件.
 
 ### Added
+- `numeric::arb_to_fmpq_simplest` / `numeric::acb_real_to_fmpq_simplest` (`include/amflow/numeric/acb_wrap.hpp`): 所有有理化位置共用的最简有理数恢复.
 - `ode::sparse_chop_digits()` 导出 (原为文件内部), 头文件注释写明实际默认值 `max(chop_pre, working_pre - 40)`.
-- 测试: `tests/test_pipeline_numd_frame.cpp`、`tests/test_pipeline_system_checkpoint.cpp`, 以及 `tests/test_ode_sparse.cpp` 中的 `sparse_chop_digits` 用例 (均不需要 Kira).
+- 测试: `tests/test_pipeline_numd_frame.cpp`、`tests/test_pipeline_system_checkpoint.cpp`、`tests/test_numeric_acb_wrap.cpp` 中的 `RationalizeSimplest` 用例, 以及 `tests/test_ode_sparse.cpp` 中的 `sparse_chop_digits` 用例 (均不需要 Kira).
 
 ## [1.1.0] — 2026-05-12
 
