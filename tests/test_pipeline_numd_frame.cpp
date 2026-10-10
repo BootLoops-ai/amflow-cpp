@@ -8,8 +8,8 @@
 // rationalized to `rationalize_pre` decimal digits (a truncation) would
 // sit in a different frame and the mismatch is pivoted on by the sparse
 // solver once it exceeds the chop threshold.  Without the env var the
-// entry is the sample recovered as the simplest rational within the
-// rationalization tolerance, which for a tight ball around 1/113 is 1/113
+// entry is the sample's midpoint recovered as the simplest rational within
+// the rationalization tolerance, which for a sample of 1/113 is 1/113
 // itself.
 
 #include <gtest/gtest.h>
@@ -123,9 +123,9 @@ TEST_F(NumdFrameFixture, NumdUnset_EpsEntryIsSimplestRational) {
     Fmpq got;
     pipeline::detail::eps_sample_to_fmpq(got.q, eps, dsn::working_prec_bits());
 
-    // The sample is a tight ball around 1/113 (radius far below 10^-60),
-    // so the simplest rational within the tolerance is 1/113 itself: the
-    // same frame as the exact numeric-d value.
+    // The sample's midpoint is 1/113 to working precision, so the simplest
+    // rational within 10^-60 of it is 1/113 itself: the same frame as the
+    // exact numeric-d value.
     Fmpq exact;
     fmpq_set_si(exact.q, 1, 113);
     EXPECT_TRUE(fmpq_equal(got.q, exact.q))
@@ -169,10 +169,10 @@ TEST_F(NumdFrameFixture, NumdUnset_GenericSampleStaysWithinTolerance) {
     fmpz_clear(pow10);
 }
 
-TEST_F(NumdFrameFixture, NumdSet_AgreesWithRecoveredSampleForTightBall) {
-    // For a tight ball around the exact sample the two paths now agree;
-    // the env path remains authoritative (it does not depend on the ball
-    // being tight).
+TEST_F(NumdFrameFixture, NumdSet_AgreesWithRecoveredSample) {
+    // For a sample whose midpoint is the exact value the two paths agree;
+    // the env path remains authoritative (it does not depend on the sample
+    // being exact to working precision).
     EnvGuard env("AMFLOW_DIFFEQ_NUMD");
     const auto eps = sample_1_over_113();
     Fmpq exact_path, sample_path;

@@ -403,8 +403,10 @@ TEST(RationalizeSimplest, PiWithinToleranceAndNotTallerThanTruncation) {
     arb_clear(pi);
 }
 
-TEST(RationalizeSimplest, WideBallToleranceIsRadius) {
-    // Radius 1e-10 dominates 10^-60: the simplest rational within the ball.
+TEST(RationalizeSimplest, WideBallRadiusIsIgnored) {
+    // Radius 1e-10 around a midpoint that is 1/3 to 400 bits, at 60 digits:
+    // the radius plays no part, the midpoint alone is rationalized, and the
+    // simplest rational within 10^-60 of it is 1/3.
     arb_t x;
     arb_init(x);
     ball_around(x, 1, 3, 10);
@@ -413,6 +415,68 @@ TEST(RationalizeSimplest, WideBallToleranceIsRadius) {
     fmpq_set_si(want.q, 1, 3);
     EXPECT_TRUE(fmpq_equal(got.q, want.q)) << "got " << fmpq_str(got.q);
     arb_clear(x);
+}
+
+TEST(RationalizeSimplest, RadiusLargerThanToleranceKeepsMidpointDigits) {
+    // Midpoint = pi truncated to 60 decimal digits, radius 1e-25, digits 60:
+    // the result is within 10^-60 of the midpoint (the radius, 35 orders of
+    // magnitude wider, is ignored).
+    fmpz_t pow10, numer;
+    fmpz_init(pow10);
+    fmpz_init(numer);
+    fmpz_set_ui(pow10, 10);
+    fmpz_pow_ui(pow10, pow10, 60);
+    {
+        arb_t pi;
+        arb_init(pi);
+        arb_const_pi(pi, 400);
+        arb_mul_fmpz(pi, pi, pow10, 400);
+        arf_get_fmpz(numer, arb_midref(pi), ARF_RND_FLOOR);
+        arb_clear(pi);
+    }
+    FmpqHolder mid;
+    fmpq_set_fmpz_frac(mid.q, numer, pow10);
+
+    arb_t x;
+    arb_init(x);
+    arb_set_fmpq(x, mid.q, 400);
+    {
+        arb_t r;
+        arb_init(r);
+        arb_set_si(r, 10);
+        arb_pow_ui(r, r, 25, 400);
+        arb_inv(r, r, 400);
+        arb_add_error(x, r);
+        arb_clear(r);
+    }
+    FmpqHolder got;
+    ASSERT_TRUE(dsn::arb_to_fmpq_simplest(got.q, x, 60));
+
+    // |got - midpoint of x| < 10^-60, exactly in fmpq arithmetic.
+    FmpqHolder actual_mid, diff, bound;
+    arf_get_fmpq(actual_mid.q, arb_midref(x));
+    fmpq_sub(diff.q, got.q, actual_mid.q);
+    fmpq_abs(diff.q, diff.q);
+    fmpq_one(bound.q);
+    fmpq_div_fmpz(bound.q, bound.q, pow10);
+    EXPECT_LT(fmpq_cmp(diff.q, bound.q), 0) << "got " << fmpq_str(got.q);
+    // And far closer to the midpoint than the radius would allow: the
+    // difference is below 10^-50.
+    FmpqHolder bound50;
+    {
+        fmpz_t p50;
+        fmpz_init(p50);
+        fmpz_set_ui(p50, 10);
+        fmpz_pow_ui(p50, p50, 50);
+        fmpq_one(bound50.q);
+        fmpq_div_fmpz(bound50.q, bound50.q, p50);
+        fmpz_clear(p50);
+    }
+    EXPECT_LT(fmpq_cmp(diff.q, bound50.q), 0) << "got " << fmpq_str(got.q);
+
+    arb_clear(x);
+    fmpz_clear(pow10);
+    fmpz_clear(numer);
 }
 
 TEST(RationalizeSimplest, ZeroBallIsZero) {
@@ -424,7 +488,7 @@ TEST(RationalizeSimplest, ZeroBallIsZero) {
     ASSERT_TRUE(dsn::arb_to_fmpq_simplest(got.q, x, 60));
     EXPECT_TRUE(fmpq_is_zero(got.q));
 
-    // A tiny midpoint inside the tolerance also gives 0.
+    // A tiny midpoint within 10^-digits of 0 also gives 0.
     ball_around(x, 1, 1, 0);
     arb_mul_2exp_si(x, x, -300);
     ASSERT_TRUE(dsn::arb_to_fmpq_simplest(got.q, x, 60));

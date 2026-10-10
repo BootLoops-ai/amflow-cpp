@@ -310,15 +310,18 @@ bool acb_is_chop_zero(acb_srcptr x, int chop_digits);
 
 // Simplest rational within tolerance -- the semantics of Mathematica's
 // Rationalize[x, 10^-digits], which upstream AMFlow uses wherever a numeric
-// value is turned into an exact rational.  For a ball x with midpoint m and
-// radius r, tol = max(r, 10^-digits) and the result is the rational with
-// the smallest denominator in [m - tol, m + tol] (fmpq_simplest_between on
-// exactly formed bounds).  An exact-looking value such as a + b/113 inside a
-// tight ball comes back as a + b/113 itself; a generic real comes back as a
-// rational within 10^-digits of it that is never taller than the decimal
-// truncation round(m*10^digits)/10^digits.  A zero ball, or any ball that
-// contains 0 within tol, gives 0.  Returns false and leaves `out` untouched
-// when x is not finite.  `digits` below 0 is treated as 0 (tol >= 1).
+// value is turned into an exact rational.  Only the midpoint m of the ball
+// is used (the radius is ignored: downstream consumers rely on the
+// midpoint's digits and the radii reaching these sites are overestimates,
+// exactly as with the decimal truncation this replaces).  The result is
+// the rational with the smallest denominator in [m - 10^-digits,
+// m + 10^-digits] (fmpq_simplest_between on exactly formed bounds; m is
+// taken as an exact fmpq via arf_get_fmpq).  An exact-looking value such
+// as a + b/113 comes back as a + b/113 itself; a generic real comes back as
+// a rational within 10^-digits of m that is never taller than the decimal
+// truncation round(m*10^digits)/10^digits.  A zero midpoint, or any m
+// within 10^-digits of 0, gives 0.  Returns false and leaves `out`
+// untouched when x is not finite.  `digits` below 0 is treated as 0.
 bool arb_to_fmpq_simplest(fmpq_t out, arb_srcptr x, int digits);
 
 // Real part of x through arb_to_fmpq_simplest, after rejecting a value whose

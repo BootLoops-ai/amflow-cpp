@@ -15,7 +15,6 @@
 #include <flint/arf.h>
 #include <flint/fmpq.h>
 #include <flint/fmpz.h>
-#include <flint/mag.h>
 
 namespace amflow::numeric {
 
@@ -27,17 +26,16 @@ bool arb_to_fmpq_simplest(fmpq_t out, arb_srcptr x, int digits) {
     if (!arb_is_finite(x)) return false;
     if (digits < 0) digits = 0;
 
-    fmpq_t mid, tol, rad, lo, hi;
+    fmpq_t mid, tol, lo, hi;
     fmpq_init(mid);
     fmpq_init(tol);
-    fmpq_init(rad);
     fmpq_init(lo);
     fmpq_init(hi);
 
-    // All three ingredients are exact: an arf midpoint and a mag radius are
-    // dyadic rationals, and 10^-digits is formed from an integer power.
+    // Both ingredients are exact: an arf midpoint is a dyadic rational and
+    // 10^-digits is formed from an integer power.  The radius is ignored
+    // (see the header comment).
     arf_get_fmpq(mid, arb_midref(x));
-    mag_get_fmpq(rad, arb_radref(x));
     {
         fmpz_t pow10;
         fmpz_init(pow10);
@@ -47,7 +45,6 @@ bool arb_to_fmpq_simplest(fmpq_t out, arb_srcptr x, int digits) {
         fmpq_div_fmpz(tol, tol, pow10);
         fmpz_clear(pow10);
     }
-    if (fmpq_cmp(rad, tol) > 0) fmpq_set(tol, rad);
 
     fmpq_sub(lo, mid, tol);
     fmpq_add(hi, mid, tol);
@@ -55,7 +52,6 @@ bool arb_to_fmpq_simplest(fmpq_t out, arb_srcptr x, int digits) {
 
     fmpq_clear(mid);
     fmpq_clear(tol);
-    fmpq_clear(rad);
     fmpq_clear(lo);
     fmpq_clear(hi);
     return true;

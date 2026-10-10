@@ -74,8 +74,9 @@ Silent-wrong-result paths in the numeric solve, found while running
   behind was the remaining mismatch that the sparse solver pivoted on
   (a run still returned a bare `0` or a wrong value one digit past the
   chop threshold).  The new `numeric::arb_to_fmpq_simplest` returns the
-  rational with the smallest denominator within `max(radius, 10^-D)` of
-  the ball (`fmpq_simplest_between` on exactly formed bounds), which is
+  rational with the smallest denominator within `10^-D` of the ball's
+  midpoint (`fmpq_simplest_between` on exactly formed bounds; the radius
+  is ignored, as the truncation ignored it), which is
   what Mathematica's `Rationalize[x, 10^-D]` does and what upstream
   AMFlow relies on: an exact-looking value comes back exactly and a
   generic value comes back within the same tolerance as before, never
