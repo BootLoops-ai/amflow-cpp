@@ -3,6 +3,7 @@
 
 #include "amflow/pipeline/system_checkpoint.hpp"
 
+#include "amflow/numeric/options.hpp"
 #include "amflow/pipeline/amfsystem.hpp"
 #include "amflow/qft/jintegral.hpp"
 
@@ -27,10 +28,13 @@ namespace fs = std::filesystem;
 
 namespace {
 
-// Serialization format version.  Bumped if the on-disk layout changes so a
-// stale file from an older binary is rejected as a MISS rather than
-// mis-parsed.
-constexpr int kCkptVersion = 1;
+// Serialization format version.  Bumped if the on-disk layout changes, or
+// if the set of inputs folded into the key grows, so a stale file from an
+// older binary is rejected as a MISS rather than mis-parsed or replayed.
+//   v1: family / preferred / etac / eps grid / prec / direction / ending.
+//   v2: + every numeric option and environment override that changes the
+//       solve (see numeric_option_fingerprint below).
+constexpr int kCkptVersion = 2;
 
 inline void fnv1a(std::uint64_t& h, const void* data, std::size_t n) {
     const auto* p = static_cast<const unsigned char*>(data);
@@ -41,6 +45,61 @@ inline void fnv1a(std::uint64_t& h, const void* data, std::size_t n) {
 }
 inline void fnv1a(std::uint64_t& h, const std::string& s) {
     fnv1a(h, s.data(), s.size());
+}
+
+// Environment overrides that change the numeric solve.  Their VALUES are
+// folded into the key ("" when unset), so a re-run with any of them
+// changed, set or cleared re-keys and re-solves instead of replaying a
+// checkpoint produced under different numerics.
+const char* const kSolveEnvKnobs[] = {
+    "AMFLOW_DIFFEQ_NUMD",          // numeric-d substitution in the DE tables
+    "AMFLOW_SPARSE_CHOP_DIGITS",   // sparse-layer chop threshold
+    "AMFLOW_NO_SPARSE_CHOP",       // sparse-layer chop disabled
+    "AMFLOW_RESONANCE_CHOP",       // resonance-detection tolerance
+    "AMFLOW_X00_PIVOT_GUARD",      // uncertifiable-pivot guard
+    "AMFLOW_ODE_HALF_COSETS",
+    "AMFLOW_BC_PARTIAL_ZEROFILL",
+    "AMFLOW_TOFUCHSIAN_KERNEL_RESCUE",
+    "AMFLOW_XORDER_TAIL_BOUND",
+    "AMFLOW_X00_ONECOL",
+    "AMFLOW_X00_SYNTH_BC",
+    "AMFLOW_X00_BC_FILE",
+    "AMFLOW_ALLOW_CUT_FALSE_ZERO",
+    "AMFLOW_EIKONAL_REGIONS",
+    "AMFLOW_MERCEDES_CUT",
+    "AMFLOW_MERCEDES_CONV_RE",
+    "AMFLOW_MERCEDES_CONV_IM",
+};
+
+// Fingerprint of everything that selects the numerics of a solve but is
+// not part of the system's identity: the global / expansion / running
+// option groups (working_pre is folded separately as bits by the caller;
+// silent_mode does not change the result) and the env knobs above.
+// Order and spelling are fixed — this string is hashed, never parsed.
+std::string numeric_option_fingerprint() {
+    const auto& g = numeric::global_options();
+    const auto& x = numeric::expansion_options();
+    const auto& r = numeric::running_options();
+    std::ostringstream oss;
+    oss << "wp=" << g.working_pre
+        << ";cp=" << g.chop_pre
+        << ";rp=" << g.rationalize_pre
+        << ";d0=" << g.d0
+        << ";xo=" << x.x_order
+        << ";exo=" << x.extra_x_order
+        << ";lxo=" << x.learn_x_order
+        << ";txo=" << x.test_x_order
+        << ";rr=" << r.run_radius
+        << ";rl=" << r.run_length
+        << ";rc=" << r.run_candidate
+        << ";rd=" << static_cast<int>(r.run_direction)
+        << ";cre=" << r.custom_direction_re
+        << ";cim=" << r.custom_direction_im;
+    for (const char* name : kSolveEnvKnobs) {
+        const char* v = std::getenv(name);
+        oss << ";" << name << "=" << (v ? v : "");
+    }
+    return oss.str();
 }
 
 std::string hex16(std::uint64_t v) {
@@ -144,6 +203,11 @@ std::string system_checkpoint_key(const std::string& family,
     fnv1a(h, std::to_string(direction));
     fnv1a(h, std::string("\0end\0", 5));
     fnv1a(h, std::to_string(is_ending ? 1 : 0));
+    // Numeric options + env overrides: a different rationalize_pre,
+    // chop_pre, x_order, numeric-d value, chop override, ... is a
+    // different solve and must not replay this key's solution.
+    fnv1a(h, std::string("\0opt\0", 5));
+    fnv1a(h, numeric_option_fingerprint());
     return hex16(h);
 }
 
@@ -179,6 +243,7 @@ bool system_checkpoint_load(const std::string& root,
     long nsol = 0;
     if (!(f >> tag >> ver)) return fail("hdr");
     if (tag != "AMFLOW_SYSCKPT") return fail("magic");
+    if (ver != "v" + std::to_string(kCkptVersion)) return fail("version");
     {
         std::string kw;
         if (!(f >> kw >> nsol) || kw != "nsol" || nsol < 0) return fail("nsol");

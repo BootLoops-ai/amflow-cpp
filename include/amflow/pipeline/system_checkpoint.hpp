@@ -58,9 +58,14 @@ std::string system_checkpoint_resolve_root(const std::string& ibp_cache_dir);
 // Build the stable per-system content key (16 hex chars).  Folds in the
 // family name, the preferred-master keys (order-preserving — the solution
 // vector is indexed by this order), the η-coefficient vector, the ε-grid
-// (lossless), the working precision in bits, the path direction, and the
-// ending flag.  Two invocations of the same config produce the same key;
-// any change that would alter the solution changes the key.
+// (lossless), the working precision in bits, the path direction, the
+// ending flag, and — read from the process state at call time — every
+// numeric option (chop_pre, rationalize_pre, d0, the expansion orders, the
+// running options) and every environment override that changes the solve
+// (AMFLOW_DIFFEQ_NUMD, AMFLOW_SPARSE_CHOP_DIGITS, AMFLOW_NO_SPARSE_CHOP,
+// AMFLOW_RESONANCE_CHOP, AMFLOW_X00_PIVOT_GUARD, ...; "" when unset).  Two
+// invocations of the same config produce the same key; any change that
+// would alter the solution changes the key.
 std::string system_checkpoint_key(const std::string& family,
                                    const std::vector<std::string>& preferred_keys,
                                    const std::vector<int>& etac,
