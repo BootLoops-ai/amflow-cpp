@@ -9,7 +9,9 @@
 #include "amflow/numeric/options.hpp"
 #include "amflow/ode/sparse.hpp"
 
+#include <cstdlib>
 #include <stdexcept>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -373,6 +375,71 @@ TEST(ChopSparse, RemovesValuesBelowThreshold) {
     ode::chop_sparse(row);
     ASSERT_EQ(row.size(), 1u);
     EXPECT_EQ(row[0].col, 0);
+}
+
+// ---------------------------------------------------------------------------
+//  sparse_chop_digits
+// ---------------------------------------------------------------------------
+
+namespace {
+
+// Save / restore one environment variable around a test body.
+class EnvGuard {
+public:
+    explicit EnvGuard(const char* name) : name_(name) {
+        const char* v = std::getenv(name);
+        had_ = (v != nullptr);
+        if (had_) old_ = v;
+    }
+    ~EnvGuard() {
+        if (had_) ::setenv(name_.c_str(), old_.c_str(), 1);
+        else      ::unsetenv(name_.c_str());
+    }
+    void set(const char* v) { ::setenv(name_.c_str(), v, 1); }
+    void unset()            { ::unsetenv(name_.c_str()); }
+private:
+    std::string name_;
+    bool        had_ = false;
+    std::string old_;
+};
+
+void set_wp_cp(int wp, int cp) {
+    auto g = dsn::global_options();
+    g.working_pre = wp;
+    g.chop_pre    = cp;
+    dsn::set_global_options(g);
+}
+
+}  // namespace
+
+class SparseChopDigitsFixture : public ::testing::Test {
+protected:
+    void SetUp() override    { dsn::set_default_options(); env_.unset(); }
+    void TearDown() override { dsn::set_default_options(); }
+    EnvGuard env_{"AMFLOW_SPARSE_CHOP_DIGITS"};
+};
+
+TEST_F(SparseChopDigitsFixture, FormulaMaxChopPreWorkingPreMinus40) {
+    set_wp_cp(100, 40);
+    EXPECT_EQ(ode::sparse_chop_digits(), 60);   // max(40, 100 - 40)
+    set_wp_cp(50, 40);
+    EXPECT_EQ(ode::sparse_chop_digits(), 40);   // wp <= 60 -> chop_pre
+    set_wp_cp(100, 80);
+    EXPECT_EQ(ode::sparse_chop_digits(), 80);   // chop_pre wins
+    set_wp_cp(200, 40);
+    EXPECT_EQ(ode::sparse_chop_digits(), 160);  // max(40, 200 - 40)
+}
+
+TEST_F(SparseChopDigitsFixture, EnvOverrideWins) {
+    set_wp_cp(100, 40);
+    env_.set("55");
+    EXPECT_EQ(ode::sparse_chop_digits(), 55);
+    env_.set("-3");
+    EXPECT_EQ(ode::sparse_chop_digits(), 0);    // negative clamps to 0
+    env_.set("abc");
+    EXPECT_EQ(ode::sparse_chop_digits(), 60);   // unparsable -> formula
+    env_.unset();
+    EXPECT_EQ(ode::sparse_chop_digits(), 60);
 }
 
 // ---------------------------------------------------------------------------

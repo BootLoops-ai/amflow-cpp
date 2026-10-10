@@ -30,6 +30,8 @@ set(AMFLOW_TEST_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/test_ibp_kira.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/test_ibp_kira_stall.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/test_ibp_cache.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_pipeline_system_checkpoint.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_pipeline_numd_frame.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/test_ibp_reduce.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/test_amflow_factorize.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/test_amflow_amfsystem.cpp

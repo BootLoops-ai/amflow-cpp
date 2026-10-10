@@ -146,9 +146,15 @@ SparseGaussianResult sparse_gaussian(const ConstructedMatrix& cm,
                                      const std::vector<numeric::AcbValue>& nh,
                                      long prec = numeric::working_prec_bits());
 
-// Chop values in a sparse row using AMFLOW_SPARSE_CHOP_DIGITS env var
-// (defaults to numeric::chop_pre()).  Set AMFLOW_NO_SPARSE_CHOP=1 to
-// suppress all chopping.  Modifies `row` in place.
+// Decimal digits below which the sparse layer treats an entry as zero:
+// the value of AMFLOW_SPARSE_CHOP_DIGITS when set to a non-negative
+// integer, else max(numeric::chop_pre(), working_pre - 40) for
+// working_pre > 60 and numeric::chop_pre() otherwise.
+int sparse_chop_digits();
+
+// Chop values in a sparse row below 10^-sparse_chop_digits().  Set
+// AMFLOW_NO_SPARSE_CHOP=1 to suppress all chopping.  Modifies `row` in
+// place.
 void chop_sparse(SparseRow& row);
 void chop_sparse(SparseSystem& sys);
 

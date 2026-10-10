@@ -25,6 +25,8 @@ bool sparse_chop_enabled() {
     return std::getenv("AMFLOW_NO_SPARSE_CHOP") == nullptr;
 }
 
+}  // namespace
+
 int sparse_chop_digits() {
     const char* env = std::getenv("AMFLOW_SPARSE_CHOP_DIGITS");
     if (env && *env) {
@@ -51,8 +53,6 @@ int sparse_chop_digits() {
     int floor_val = (wp > 60) ? (wp - 40) : chop_pre_val;
     return std::max(chop_pre_val, floor_val);
 }
-
-}  // namespace
 
 // ===========================================================================
 //  Sparsify
