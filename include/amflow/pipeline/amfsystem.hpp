@@ -406,6 +406,22 @@ private:
     fp_probe_solve_eps_batched(std::size_t eps_index, const numeric::AcbValue& eps);
 };
 
+// Rational eps frame used for the per-eps numeric substitution map
+// ("eps" / "__amf_eps" entries) of a system solve.  Exposed for unit tests.
+namespace detail {
+
+// If AMFLOW_DIFFEQ_NUMD=P/Q is set and parses, writes (4 - P/Q)/2 to `out`
+// and returns true; otherwise leaves `out` untouched and returns false.
+bool numd_exact_eps(fmpq_t out);
+
+// The "eps" entry: the exact numeric-d value when AMFLOW_DIFFEQ_NUMD is set
+// (so every frame of the solve matches the DE, which carries d = P/Q
+// exactly); otherwise the sample rationalized to `rationalize_pre` decimal
+// digits (capped by what `prec` bits can resolve).
+void eps_sample_to_fmpq(fmpq_t out, const numeric::AcbValue& eps, long prec);
+
+}  // namespace detail
+
 // Per-scheme ending check (mirrors AMFSystemEndingQ).
 bool ending_q(const qft::FamilyConfig& fc,
               const std::vector<qft::JIntegral>& preferred,

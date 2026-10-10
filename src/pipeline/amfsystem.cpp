@@ -480,6 +480,52 @@ void acb_to_fmpq_rational(fmpq_t out, const acb_t v, long prec) {
 }  // namespace
 
 // ===========================================================================
+//  Per-eps rational frame helpers (exposed for unit tests)
+// ===========================================================================
+
+namespace detail {
+
+bool numd_exact_eps(fmpq_t out) {
+    const std::string numd = ibp::diffeq_numd_env();
+    if (numd.empty()) return false;
+    fmpq_t d_q;
+    fmpq_init(d_q);
+    const bool parsed = (fmpq_set_str(d_q, numd.c_str(), 10) == 0);
+    if (parsed) {
+        fmpq_canonicalise(d_q);
+        fmpq_t four;
+        fmpq_init(four);
+        fmpq_set_si(four, 4, 1);
+        fmpq_sub(d_q, four, d_q);        // 4 - d
+        fmpq_div_2exp(out, d_q, 1);      // (4 - d)/2 = eps
+        fmpq_clear(four);
+    }
+    fmpq_clear(d_q);
+    return parsed;
+}
+
+void eps_sample_to_fmpq(fmpq_t out, const numeric::AcbValue& eps, long prec) {
+    // Frame consistency with a numeric-d differential equation.  When
+    // AMFLOW_DIFFEQ_NUMD=P/Q is set, the DE tables arrive with d = P/Q
+    // baked in exactly, so the DE sits at eps = (4 - P/Q)/2 exactly and
+    // the d -> 4 - 2*eps substitution of `mfrac_substitute` is a no-op on
+    // them.  The
+    // region exponents and boundary coefficients, however, are evaluated
+    // at whatever rational is stored here.  Rationalizing the sample to
+    // `rationalize_pre` decimal digits (a truncation, not an exact
+    // recovery: 1/113 does not survive it) would put them in a slightly
+    // different frame; the difference b*(eps_q - eps) then enters the
+    // Taylor system's diagonal and, once it exceeds the sparse chop
+    // threshold, is pivoted on and the solve returns a wrong value or an
+    // exact zero.  Use the exact value from the env instead — the startup
+    // assert has already verified that the single eps sample equals it.
+    if (numd_exact_eps(out)) return;
+    acb_to_fmpq_rational(out, eps.raw(), prec);
+}
+
+}  // namespace detail
+
+// ===========================================================================
 //  Counter for system IDs
 // ===========================================================================
 
@@ -626,7 +672,7 @@ build_numeric_q_for_eps(const ibp::ReduceOptions& bb,
     std::map<std::string, FmpqHolder> out;
     {
         FmpqHolder h;
-        acb_to_fmpq_rational(h.raw(), eps.raw(), prec);
+        detail::eps_sample_to_fmpq(h.raw(), eps, prec);
         out.emplace("eps", h);
         out.emplace("__amf_eps", h);
     }
