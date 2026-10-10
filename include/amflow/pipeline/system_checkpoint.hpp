@@ -61,11 +61,14 @@ std::string system_checkpoint_resolve_root(const std::string& ibp_cache_dir);
 // (lossless), the working precision in bits, the path direction, the
 // ending flag, and — read from the process state at call time — every
 // numeric option (chop_pre, rationalize_pre, d0, the expansion orders, the
-// running options) and every environment override that changes the solve
-// (AMFLOW_DIFFEQ_NUMD, AMFLOW_SPARSE_CHOP_DIGITS, AMFLOW_NO_SPARSE_CHOP,
-// AMFLOW_RESONANCE_CHOP, AMFLOW_X00_PIVOT_GUARD, ...; "" when unset).  Two
-// invocations of the same config produce the same key; any change that
-// would alter the solution changes the key.
+// running options) and the solve-affecting environment overrides listed in
+// kSolveEnvKnobs (src/pipeline/system_checkpoint.cpp: AMFLOW_DIFFEQ_NUMD,
+// AMFLOW_SPARSE_CHOP_DIGITS, AMFLOW_NO_SPARSE_CHOP, AMFLOW_RESONANCE_CHOP,
+// AMFLOW_X00_PIVOT_GUARD, AMFLOW_FORCE_ENDING_DEPTH, AMFLOW_FIXEDPOINT_PROBE,
+// ...; "" when unset).  Debug dumps, parallelism and eps-grid shaping
+// variables are not folded (they do not change a system's solution).  Two
+// invocations of the same config produce the same key; a change to any
+// folded input changes the key.
 std::string system_checkpoint_key(const std::string& family,
                                    const std::vector<std::string>& preferred_keys,
                                    const std::vector<int>& etac,

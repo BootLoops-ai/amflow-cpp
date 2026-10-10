@@ -215,9 +215,11 @@ reported honestly as a structural divergence).
 - **DE checkpoint/resume** for the per-system eta-flow solves (crash
   recovery on multi-hour runs). The checkpoint key covers every numeric
   option (`rationalize_pre`, `chop_pre`, the expansion orders, ...) and the
-  value of every solve-affecting environment variable (`AMFLOW_DIFFEQ_NUMD`,
-  `AMFLOW_SPARSE_CHOP_DIGITS`, ...), so a re-run with any of them changed
-  re-solves instead of replaying the stored solution.
+  values of the solve-affecting environment overrides it lists
+  (`AMFLOW_DIFFEQ_NUMD`, `AMFLOW_SPARSE_CHOP_DIGITS`,
+  `AMFLOW_FORCE_ENDING_DEPTH`, ...; see `kSolveEnvKnobs` in
+  `src/pipeline/system_checkpoint.cpp`), so a re-run with any of them
+  changed re-solves instead of replaying the stored solution.
 - **eps-grid parallelism** and **mode:diffeq** with numeric-d substitution
   (`AMFLOW_DIFFEQ_NUMD`) inside the diffeq target reduce. With the
   substitution active the per-eps solve uses the exact `(4 - P/Q)/2` as its

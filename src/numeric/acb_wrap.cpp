@@ -26,6 +26,14 @@ bool arb_to_fmpq_simplest(fmpq_t out, arb_srcptr x, int digits) {
     if (!arb_is_finite(x)) return false;
     if (digits < 0) digits = 0;
 
+    // A midpoint below 2^-bits(digits) <= 10^-digits rationalizes to 0;
+    // answer before materializing it, so a midpoint with a huge negative
+    // exponent never allocates a denominator of that many bits.
+    if (arf_cmpabs_2exp_si(arb_midref(x), -decimal_digits_to_bits(digits)) < 0) {
+        fmpq_zero(out);
+        return true;
+    }
+
     fmpq_t mid, tol, lo, hi;
     fmpq_init(mid);
     fmpq_init(tol);

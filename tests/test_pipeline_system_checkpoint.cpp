@@ -58,7 +58,9 @@ protected:
     EnvGuard nochop_{"AMFLOW_NO_SPARSE_CHOP"};
     EnvGuard reson_{"AMFLOW_RESONANCE_CHOP"};
     EnvGuard guard_{"AMFLOW_X00_PIVOT_GUARD"};
-    std::vector<EnvGuard*> guards_{&numd_, &chop_, &nochop_, &reson_, &guard_};
+    EnvGuard ending_{"AMFLOW_FORCE_ENDING_DEPTH"};
+    std::vector<EnvGuard*> guards_{&numd_, &chop_, &nochop_, &reson_, &guard_,
+                                   &ending_};
 
     std::string key() const {
         std::vector<dsn::AcbValue> eps;
@@ -149,5 +151,21 @@ TEST_F(SystemCheckpointKeyFixture, ChangesWithSolveEnvOverrides) {
     EXPECT_NE(base, k4);
     guard_.unset();
 
+    EXPECT_EQ(base, key());
+}
+
+TEST_F(SystemCheckpointKeyFixture, ChangesWithForceEndingDepthEnv) {
+    // The ending scheme of every node below the depth changes, and an
+    // ancestor's stored solution subsumes its descendants, so the value
+    // must re-key.
+    const std::string base = key();
+    ending_.set("2");
+    const std::string k1 = key();
+    EXPECT_NE(base, k1);
+    ending_.set("3");
+    const std::string k2 = key();
+    EXPECT_NE(base, k2);
+    EXPECT_NE(k1, k2);
+    ending_.unset();
     EXPECT_EQ(base, key());
 }

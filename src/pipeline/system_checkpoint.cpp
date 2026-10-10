@@ -57,6 +57,9 @@ const char* const kSolveEnvKnobs[] = {
     "AMFLOW_NO_SPARSE_CHOP",       // sparse-layer chop disabled
     "AMFLOW_RESONANCE_CHOP",       // resonance-detection tolerance
     "AMFLOW_X00_PIVOT_GUARD",      // uncertifiable-pivot guard
+    "AMFLOW_FORCE_ENDING_DEPTH",   // trivial ending scheme below a depth
+    "AMFLOW_FIXEDPOINT_PROBE",     // fixed-point probe route at the root
+    "AMFLOW_ALLOW_FIXEDPOINT_RECURSION",  // recursion guard off
     "AMFLOW_ODE_HALF_COSETS",
     "AMFLOW_BC_PARTIAL_ZEROFILL",
     "AMFLOW_TOFUCHSIAN_KERNEL_RESCUE",

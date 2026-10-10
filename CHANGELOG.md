@@ -61,7 +61,8 @@ Silent-wrong-result paths in the numeric solve, found while running
   `working_pre - rationalize_pre >= 40`), was pivoted on and the solve
   returned a wrong value or an exact `0` with exit code 0.
   `build_numeric_q_for_eps` now uses the exact `(4 - P/Q)/2` whenever
-  the variable is set; runs without it are unchanged.
+  the variable is set; without it the eps entry goes through the same
+  simplest-rational recovery as the other sites (next bullet).
 - **Rationalization recovers the simplest rational within the
   tolerance.**  Every site that turns a numeric value into an exact
   rational (the region exponents entering the Taylor system's diagonal,
@@ -77,11 +78,11 @@ Silent-wrong-result paths in the numeric solve, found while running
   rational with the smallest denominator within `10^-D` of the ball's
   midpoint (`fmpq_simplest_between` on exactly formed bounds; the radius
   is ignored, as the truncation ignored it), which is
-  what Mathematica's `Rationalize[x, 10^-D]` does and what upstream
-  AMFlow relies on: an exact-looking value comes back exactly and a
-  generic value comes back within the same tolerance as before, never
-  taller.  The per-site caps at the working precision and the
-  imaginary-part tests are unchanged.
+  the semantics of Mathematica's `Rationalize[x, 10^-D]`: an
+  exact-looking value comes back exactly and a generic value comes back
+  within `10^-D` of the midpoint (the old rounding error was at most
+  half that), never taller than the truncation.  The per-site caps at
+  the working precision and the imaginary-part tests are unchanged.
 - **Stale solve-checkpoint replay.**  `system_checkpoint_key` hashed
   only the family, preferred masters, etac, eps grid, working precision,
   direction and ending flag, so a re-run under the same checkpoint root

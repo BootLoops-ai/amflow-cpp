@@ -493,6 +493,14 @@ TEST(RationalizeSimplest, ZeroBallIsZero) {
     arb_mul_2exp_si(x, x, -300);
     ASSERT_TRUE(dsn::arb_to_fmpq_simplest(got.q, x, 60));
     EXPECT_TRUE(fmpq_is_zero(got.q));
+
+    // A midpoint of 2^-100000 at 60 digits is 0 as well, answered before
+    // the midpoint is materialized as a fraction.
+    arb_one(x);
+    arb_mul_2exp_si(x, x, -100000);
+    fmpq_set_si(got.q, 7, 3);
+    ASSERT_TRUE(dsn::arb_to_fmpq_simplest(got.q, x, 60));
+    EXPECT_TRUE(fmpq_is_zero(got.q));
     arb_clear(x);
 }
 
