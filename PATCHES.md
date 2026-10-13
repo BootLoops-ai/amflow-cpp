@@ -299,6 +299,31 @@ The rank-selected fallback for resonant blocks that follows them in
   [arXiv:1411.0911]; Barkatou and Pfluegel (Moser reduction). Default off;
   behavior is unchanged unless the knob is set and the projector search
   fails.
+- **Fixed-point and cut-boundary switches.** Five names that a downstream
+  driver, PMflow (part of the BootLoops toolkit), uses to close the boundary
+  of families where the eta→inf recursion does not end on its own. PMflow
+  sets `AMFLOW_ETAC_OVERRIDE` and `AMFLOW_DUMP_EPS_GRID`, reads the file
+  written under `AMFLOW_FIXEDPOINT_PROBE`, and recognizes the two guard
+  errors in the run's output. The three variables are unset by default;
+  the two guards are on by default.
+  - `AMFLOW_FIXEDPOINT_PROBE=<file.json>`: at the top system, skip the
+    boundary recursion, write the matrix `A(eps)` of `M(0) = A(eps)·v` to
+    the file, and exit without solving the targets.
+  - `AMFLOW_ETAC_OVERRIDE=<list>`: replace the automatic eta placement of
+    the top system with a comma-separated per-propagator list.
+  - `AMFLOW_DUMP_EPS_GRID`: print the eps grid, master values, reduction
+    coefficients and target values of the black-box solve to stderr
+    (output only).
+  - `GRAVITYFLOW_FIXEDPOINT`: the name of the error raised when a boundary
+    family reproduces its parent's propagators with no smaller top sector;
+    `AMFLOW_ALLOW_FIXEDPOINT_RECURSION=1` suppresses it.
+  - `GRAVITYFLOW_CUTREGION`: the name of the error raised when a family with
+    a cut quadratic propagator loses every eta→inf region, which would give
+    false zeros; `AMFLOW_ALLOW_CUT_FALSE_ZERO=1` suppresses it.
+
+  The two `GRAVITYFLOW_` names are error tags, not environment variables.
+  `docs/CONTRIBUTING.md` lists the values each switch takes and whether it
+  enters the checkpoint key.
 
 ### 4. Scale and operations
 

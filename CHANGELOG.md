@@ -124,6 +124,11 @@ Silent-wrong-result paths in the numeric solve, found while running
   lattice and `kira3_truncate_sp`) and lists every file the fork added
   or changed; `NOTICE` marks the sections the fork appended; the ten
   C++ files the fork added carry an Anthropic copyright line.
+- `docs/CONTRIBUTING.md` and `PATCHES.md` document the switches used by
+  the PMflow driver: `AMFLOW_FIXEDPOINT_PROBE`, `AMFLOW_ETAC_OVERRIDE`,
+  `AMFLOW_DUMP_EPS_GRID`, and the `GRAVITYFLOW_FIXEDPOINT` and
+  `GRAVITYFLOW_CUTREGION` guards with their overrides
+  `AMFLOW_ALLOW_FIXEDPOINT_RECURSION` and `AMFLOW_ALLOW_CUT_FALSE_ZERO`.
 
 ## [1.1.0] — 2026-05-12
 
