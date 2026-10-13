@@ -163,8 +163,8 @@ TEST(LibpDerivTest, ComputeDerivative_LinearCombo) {
 //
 // Scope note: differentiation w.r.t. a *Replacement-defined*
 // kinematic invariant (e.g., `s` defined via `p^2 -> s`) is now
-// handled by the momentum-derivative chain rule
-// (`LIBPDerivivative`, `Kira/interface.m`) ported into
+// handled by a momentum-derivative chain rule that takes the place of
+// T. Peraro's LiteIBP `LIBPDerivivative` (via AMFlow's `Kira/interface.m`), in
 // `libp_deriv.cpp` — see `*_KinematicChain` and `*Box1_Wrt_*` tests.
 // For variables not appearing in any reduced_replacement value
 // (η, propagator masses) the chain Jacobian is zero and the

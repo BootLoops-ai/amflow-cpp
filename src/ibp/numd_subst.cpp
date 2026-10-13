@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Anthropic, PBC. Added by the BootLoops fork of AMFlow.cpp; see NOTICE and PATCHES.md.
 // ibp::diffeq_numd_* — AMFLOW_DIFFEQ_NUMD numeric-d substitution inside
 // the diffeq target_reduce leg (the etanumd_convert.sh sed INTERNALIZED).
 //

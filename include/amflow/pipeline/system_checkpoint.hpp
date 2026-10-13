@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Anthropic, PBC. Added by the BootLoops fork of AMFlow.cpp; see NOTICE and PATCHES.md.
 // pipeline::system_checkpoint — persist completed per-system DE solves.
 //
 // PROBLEM: a multi-hour 3-loop η-flow (15-propagator self-energies, bananas, …) walks a tree of

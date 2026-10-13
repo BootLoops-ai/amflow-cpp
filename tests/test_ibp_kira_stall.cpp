@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Anthropic, PBC. Added by the BootLoops fork of AMFlow.cpp; see NOTICE and PATCHES.md.
 // Regression for the monolithic-eta FireFly "Regenerate" 0-CPU deadlock
 // (the aux-mass-DE stall) and the kira_run stall watchdog that prevents it.
 //

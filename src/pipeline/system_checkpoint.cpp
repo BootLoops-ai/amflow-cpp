@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Anthropic, PBC. Added by the BootLoops fork of AMFlow.cpp; see NOTICE and PATCHES.md.
 // pipeline::system_checkpoint — implementation.  See header for the design.
 
 #include "amflow/pipeline/system_checkpoint.hpp"

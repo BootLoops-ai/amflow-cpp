@@ -1,11 +1,12 @@
 > **BootLoops fork.** This repository is the BootLoops project's patched fork of
 > [AMFlow.cpp](https://github.com/chang18/amflow-cpp) (MIT; Zenodo
 > [10.5281/zenodo.20087172](https://doi.org/10.5281/zenodo.20087172)), the C++17
-> reimplementation of the auxiliary-mass-flow method written and maintained by
-> the AMFlow.cpp contributors (maintainer: GitHub
-> [\@chang18](https://github.com/chang18)): a snapshot of upstream `main` at
+> port, written and maintained by the AMFlow.cpp contributors (maintainer: GitHub
+> [\@chang18](https://github.com/chang18)), of the Mathematica package AMFlow by
+> Xiao Liu and Yan-Qing Ma: a snapshot of upstream `main` at
 > commit `006a275` (2026-05-22; v1.1.0 plus the [Unreleased] CHANGELOG entries)
-> with the BootLoops project's modifications applied; upstream's history and
+> with the BootLoops project's modifications applied. This repository does not
+> carry upstream's commit history; upstream's history and
 > releases live at the link above. We are grateful to the AMFlow.cpp maintainer:
 > the 228-case Mathematica-oracle benchmark and the GoogleTest suite that ship
 > with upstream are what made every change in this fork checkable. The
@@ -13,7 +14,14 @@
 > collaborators Chen-Yu Wang, Zhi-Feng Liu, Wei Tao, Peng Zhang and Rui-Jun
 > Huang, and the original Mathematica package
 > [AMFlow](https://gitlab.com/multiloop-pku/amflow) (MIT) is by Xiao Liu and
-> Yan-Qing Ma (AMFlow 2.0 with Rui-Jun Huang); please cite their papers, listed
+> Yan-Qing Ma (AMFlow 2.0 with Rui-Jun Huang). The BootLoops additions were
+> written with the Mathematica source of AMFlow 2.0 open. The derivative
+> routines of AMFlow's Kira interface, which AMFlow.cpp ports in
+> `src/ibp/libp_deriv.cpp`, are from LiteIBP by Tiziano Peraro
+> ([finiteflow-mathtools](https://github.com/peraro/finiteflow-mathtools));
+> that repository carries no license file (see [NOTICE](NOTICE) and the License
+> section of [PATCHES.md](PATCHES.md#license)).
+> Please cite the AMFlow authors' papers, listed
 > with the other scientific credits in
 > [PATCHES.md](PATCHES.md#scientific-credit-and-thanks), together with upstream's
 > `CITATION.cff`, whenever results obtained with this fork are published. The IBP
@@ -24,13 +32,16 @@
 > Lewis); see the same section for references. What changed relative to that
 > base and why: [PATCHES.md](PATCHES.md); build and run notes for the additions:
 > [BUILD.md](BUILD.md); our validation harness for the engine:
-> [bootloops-wrappers/](bootloops-wrappers/). Upstream license and notices
-> (`LICENSE`, `NOTICE`, `CITATION.cff`) are unchanged; our modifications are
-> released under the same MIT license, Copyright (c) 2026 Anthropic, PBC. Created by
+> [bootloops-wrappers/](bootloops-wrappers/). Upstream's `LICENSE` and
+> `CITATION.cff` are unchanged. `NOTICE` is upstream's text, unchanged, followed
+> by sections that this fork appended and marked as its own. Our modifications are
+> released under the same MIT license, except as stated under "LiteIBP" in `NOTICE`,
+> Copyright (c) 2026 Anthropic, PBC. Created by
 > Matthew D. Schwartz; code for the modifications written by Claude (Anthropic) under
 > his supervision. This is not an officially supported Anthropic product; it is
 > maintained by Matthew D. Schwartz (https://www.bootloops.ai).
-> The provenance section, `AGENTS_zh.md`, `CONTRIBUTING_zh.md`, `NOTICE`,
+> The provenance section, `AGENTS_zh.md`, `CONTRIBUTING_zh.md`, the first
+> 35 lines of `NOTICE`,
 > `CITATION.cff`, the CI badge and the maintainer contact below are upstream
 > AMFlow.cpp's and describe upstream's own development; they do not describe the
 > BootLoops modifications. Questions or bugs concerning the BootLoops

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 // ibp::libp_deriv — implementation.
-//
+// Provenance (AMFlow Kira interface; LiteIBP by T. Peraro): see libp_deriv.hpp.
 
 #include "amflow/ibp/libp_deriv.hpp"
 

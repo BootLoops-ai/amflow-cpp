@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Anthropic, PBC. Added by the BootLoops fork of AMFlow.cpp; see NOTICE and PATCHES.md.
 // Tests for amflow::ibp::ibp_cache — key canonicalization.
 //
 // The cache key is FNV-1a over the Kira input files.  Env knobs that

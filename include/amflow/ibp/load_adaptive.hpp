@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Anthropic, PBC. Added by the BootLoops fork of AMFlow.cpp; see NOTICE and PATCHES.md.
 // ibp::load_adaptive — farm-mode load-adaptive parallelism.
 //
 // PROBLEM: N farm jobs launched together each spawn kira `-p<n_thread>`

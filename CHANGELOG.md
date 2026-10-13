@@ -108,6 +108,23 @@ Silent-wrong-result paths in the numeric solve, found while running
   `sparse_chop_digits` cases in `tests/test_ode_sparse.cpp`
   (all Kira-free).
 
+### Documentation
+- Version 1.1.1 is a release of the BootLoops fork of AMFlow.cpp, not of
+  upstream AMFlow.cpp, whose latest release is 1.1.0.  The entries of
+  this section are the fork's; `PATCHES.md` describes the fork's other
+  changes.
+- Provenance statements corrected, with no change to the code
+  (`NOTICE`, `PATCHES.md`, `README.md`, `README_zh.md`, header comments):
+  the derivative routines in `src/ibp/libp_deriv.cpp` are credited to
+  T. Peraro's LiteIBP, from which they descend through AMFlow's Kira
+  interface, and the license status of LiteIBP is stated; `PATCHES.md`
+  says which additions follow the Mathematica source of AMFlow 2.0,
+  lists five additions it had left out (the momentum-derivative chain
+  rule, the kernel-shear rescue, `symbolic_ibp`, the half-integer coset
+  lattice and `kira3_truncate_sp`) and lists every file the fork added
+  or changed; `NOTICE` marks the sections the fork appended; the ten
+  C++ files the fork added carry an Anthropic copyright line.
+
 ## [1.1.0] — 2026-05-12
 
 Post-v1.0 audit-driven correctness pass + Phase 3 oracle diversity

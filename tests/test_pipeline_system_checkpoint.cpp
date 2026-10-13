@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Anthropic, PBC. Added by the BootLoops fork of AMFlow.cpp; see NOTICE and PATCHES.md.
 // Tests for amflow::pipeline::system_checkpoint — key coverage.
 //
 // A per-system solve checkpoint is replayed whenever its key matches.

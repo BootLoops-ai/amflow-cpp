@@ -34,18 +34,80 @@ reference.
 
 Maintainer contact: 3250800970@qq.com
 
+========================================================================
+Sections added by the BootLoops fork
+========================================================================
+
+Everything above this line is the NOTICE of upstream AMFlow.cpp
+(https://github.com/chang18/amflow-cpp, commit 006a275), unchanged.
+Everything below it was added by the BootLoops fork of AMFlow.cpp; see
+README.md and PATCHES.md.
+
+------------------------------------------------------------------------
+BootLoops modifications
+------------------------------------------------------------------------
+
+The modifications that the BootLoops fork made to AMFlow.cpp, and the
+files it added (listed in PATCHES.md, section 7), are
+Copyright (c) 2026 Anthropic, PBC and are released under the MIT License
+(LICENSE), except as stated under "LiteIBP" below.  Created by Matthew D.
+Schwartz; code for the modifications written by Claude (Anthropic) under
+his supervision.  This is not an officially supported Anthropic product;
+it is maintained by Matthew D. Schwartz (https://www.bootloops.ai).
+
+------------------------------------------------------------------------
+LiteIBP (T. Peraro): origin of the derivative routines
+------------------------------------------------------------------------
+
+The derivative routines of AMFlow's Kira interface are from LiteIBP.m by
+Tiziano Peraro, part of FiniteFlow MathTools:
+
+  https://github.com/peraro/finiteflow-mathtools  (packages/LiteIBP.m)
+
+  T. Peraro, "FiniteFlow: multivariate functional reconstruction using
+  finite fields and dataflow graphs", arXiv:1905.08019.
+
+AMFlow states this in its source, ibp_interface/Kira/interface.m:
+"compute derivatives (code from LiteIBP.m provided by T.Peraro)"
+(line 280 at commit efda1db, version 1.2; line 400 at tag 2.0).
+
+In this repository:
+
+  - src/ibp/libp_deriv.cpp and include/amflow/ibp/libp_deriv.hpp are
+    upstream AMFlow.cpp's C++ port of that block of AMFlow's Kira
+    interface.
+  - The BootLoops fork added to them the momentum-derivative chain rule
+    for kinematic invariants defined through replacement rules.  It
+    takes the place of LiteIBP's LIBPDerivivative (LiteIBP.m line 565 at
+    commit f77e2b5; Kira/interface.m line 383 at commit efda1db, line
+    503 at tag 2.0), which upstream AMFlow.cpp had not implemented.
+
+The finiteflow-mathtools repository carries no license file, at commit
+f77e2b5 (2026-01-21) or at any of its 19 commits, and LiteIBP.m states
+no license terms.  The Anthropic copyright and the MIT grant on the
+BootLoops modifications do not cover the portion of these two files that
+derives from LiteIBP.
+
 ------------------------------------------------------------------------
 License of the AMFlow Mathematica package
 ------------------------------------------------------------------------
 
+AMFlow.cpp is a C++ port of the AMFlow Mathematica package by Xiao Liu
+and Yan-Qing Ma (AMFlow 2.0 with Rui-Jun Huang).  Upstream's
+docs/REFERENCE_MAP.md maps each Mathematica symbol to its C++
+counterpart, with line numbers that track AMFlow commit efda1db
+(version 1.2), and upstream's source comments cite AMFlow.m, DESolver.m
+and Kira/interface.m by line.  The Mathematica-computed values committed
+under tools/bench/ and tests/data/math_ref/ are what the C++ code is
+verified against.  The additions of the BootLoops fork were written with
+the Mathematica source of AMFlow 2.0 (tag 2.0, commit 2600551) open;
+three blocks of src/ode/zero.cpp follow diffeq_solver/DESolver.m of that
+version (PATCHES.md, section 1).
+
 The MIT license below, reproduced in full from LICENSE.md in the AMFlow
 repository (https://gitlab.com/multiloop-pku/amflow), covers the AMFlow
-Mathematica package by Xiao Liu and Yan-Qing Ma (AMFlow 2.0 with Rui-Jun
-Huang): the reference implementation whose Mathematica-computed values,
-committed under tools/bench/ and tests/data/math_ref/, this C++
-implementation is verified against, as described above.  The package
-itself is not bundled in this repository; this section was added in the
-BootLoops fork (see README.md).
+Mathematica package.  The package itself is not bundled in this
+repository.
 
 The MIT License (MIT)
 

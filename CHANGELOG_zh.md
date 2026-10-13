@@ -25,6 +25,8 @@
 
 ## [1.1.1] — 2026-10-10
 
+Version 1.1.1 is a release of the BootLoops fork of AMFlow.cpp, not of upstream AMFlow.cpp, whose latest release is 1.1.0. See CHANGELOG.md, section Documentation, and PATCHES.md.
+
 数值求解中的几条 silent-wrong-result 路径, 在 `black_box_amflow` + numeric-d 代入、`working_pre - rationalize_pre` 间隔较大时发现.
 
 ### Fixed

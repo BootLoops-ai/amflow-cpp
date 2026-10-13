@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Anthropic, PBC. Added by the BootLoops fork of AMFlow.cpp; see NOTICE and PATCHES.md.
 // ibp::ibp_cache — implementation.  See header for the design.
 
 #include "amflow/ibp/ibp_cache.hpp"

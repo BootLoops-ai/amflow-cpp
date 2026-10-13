@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Anthropic, PBC. Added by the BootLoops fork of AMFlow.cpp; see NOTICE and PATCHES.md.
 // ibp::ibp_cache — content-addressed cache for Kira IBP-reduction results.
 //
 // PROBLEM: `solve_integrals` (via the AMFSystem recursion) re-runs the

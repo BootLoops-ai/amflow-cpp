@@ -4,6 +4,25 @@
 //
 // Mirrors AMFlow.m / Kira interface lines 282-405.
 //
+// Provenance
+// --------------------------------
+//   The block of AMFlow's `ibp_interface/Kira/interface.m` mirrored here is
+//   from LiteIBP.m by Tiziano Peraro (FiniteFlow MathTools,
+//   https://github.com/peraro/finiteflow-mathtools, packages/LiteIBP.m;
+//   T. Peraro, arXiv:1905.08019).  AMFlow marks it "compute derivatives
+//   (code from LiteIBP.m provided by T.Peraro)" (interface.m line 280 at
+//   AMFlow commit efda1db, line 400 at tag 2.0).  This file and
+//   `src/ibp/libp_deriv.cpp` are upstream AMFlow.cpp's C++ port of that
+//   block.  The momentum-derivative chain rule of scope item 2 below was
+//   added by the BootLoops fork of AMFlow.cpp; it takes the place of
+//   LiteIBP's `LIBPDerivivative` (LiteIBP.m line 565 at commit f77e2b5;
+//   interface.m line 383 at efda1db, line 503 at tag 2.0).
+//   AMFlow and AMFlow.cpp are MIT.  The finiteflow-mathtools repository
+//   carries no license file (read at commit f77e2b5).  The Anthropic
+//   copyright and the MIT grant on the BootLoops modifications do not cover
+//   the portion of this file and of `libp_deriv.cpp` that derives from
+//   LiteIBP.  See NOTICE and PATCHES.md.
+//
 //   For J(a) = Integral[ Π_k 1 / D_k^{a_k} ]
 //
 //      ∂J(a)/∂s = Σ_k (∂D_k/∂s) · (-a_k · J(a + e_k))
@@ -26,9 +45,11 @@
 //     2. Replacement-defined kinematic invariants (e.g. `s` defined
 //        via `(p1+p2)^2 -> s` in `fc.replacement`).  Propagators are
 //        stored pre-replacement, so the direct ∂D_k/∂s vanishes; the
-//        derivative is instead computed via the upstream-MMA
-//        momentum-derivative chain rule (`LIBPDerivivative` in
-//        `Kira/interface.m`): with G_{ij} = p_i·p_j = R_{ij}(s,t,…)
+//        derivative is instead computed via the momentum-derivative
+//        chain rule of T. Peraro's LiteIBP (`LIBPDerivivative`, as
+//        carried in AMFlow's `Kira/interface.m`), which this routine
+//        follows in what it computes; the coefficients are obtained in
+//        closed form: with G_{ij} = p_i·p_j = R_{ij}(s,t,…)
 //        the external Gram matrix and J_{ij} = ∂R_{ij}/∂s, the
 //        per-propagator effective derivative is
 //

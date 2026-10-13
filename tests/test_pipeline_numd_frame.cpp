@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Anthropic, PBC. Added by the BootLoops fork of AMFlow.cpp; see NOTICE and PATCHES.md.
 // Tests for the per-eps rational frame of amflow::pipeline (the "eps"
 // entry of the numeric substitution map built for each eps sample).
 //
