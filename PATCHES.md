@@ -525,9 +525,9 @@ tests/test_qft_vacuum.cpp
 
 ## Verification
 
-The tree builds clean and passes the full test suite — **579/579 tests**
-(upstream's plus ours, including the Mathematica-reference oracle
-comparisons).
+The tree builds clean and passes the full test suite: of its **603 tests,
+602 pass and 1 is skipped** (upstream's plus ours, including the
+Mathematica-reference oracle comparisons).
 
 ## The wrapper suite (`wrappers/`)
 

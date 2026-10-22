@@ -60,7 +60,7 @@ We thank all of them.
 ## License
 
 The files in bootloops-wrappers/ are Copyright (c) 2026 Anthropic, PBC and released under the MIT License, the same terms as
-the LICENSE at this repository's root (which is upstream AMFlow.cpp's, as is the root NOTICE). Created by Matthew D. Schwartz;
+the LICENSE at this repository's root (which is upstream AMFlow.cpp's; the root NOTICE is upstream's text followed by sections this fork appended). Created by Matthew D. Schwartz;
 code written by Claude (Anthropic) under his supervision. This is not an officially supported Anthropic product; it is
 maintained by Matthew D. Schwartz (https://www.bootloops.ai). Third-party programs these scripts invoke — Kira (Maierhöfer,
 Usovitsch, Uwer; Klappert, Lange, Wu), GNU parallel (O. Tange), mpmath (F. Johansson et al.) — keep their own licenses.

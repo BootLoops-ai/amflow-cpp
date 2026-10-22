@@ -43,7 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   "deferred"); JSON dispatcher rejection is unchanged.
 
 
-## [1.1.1] — 2026-10-10
+## [1.1.1] — 2026-10-22
 
 Silent-wrong-result paths in the numeric solve, found while running
 `black_box_amflow` with the numeric-d substitution at a large
@@ -112,7 +112,8 @@ Silent-wrong-result paths in the numeric solve, found while running
 - Version 1.1.1 is a release of the BootLoops fork of AMFlow.cpp, not of
   upstream AMFlow.cpp, whose latest release is 1.1.0.  The entries of
   this section are the fork's; `PATCHES.md` describes the fork's other
-  changes.
+  changes.  The [Unreleased] section above is upstream's; its entries are
+  included in this tree.
 - Provenance statements corrected, with no change to the code
   (`NOTICE`, `PATCHES.md`, `README.md`, `README_zh.md`, header comments):
   the derivative routines in `src/ibp/libp_deriv.cpp` are credited to

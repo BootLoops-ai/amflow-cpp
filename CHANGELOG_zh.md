@@ -23,7 +23,7 @@
 - 复数值数值 kinematics 改为 out-of-scope (之前是 "deferred"); JSON dispatcher 拒绝行为不变.
 
 
-## [1.1.1] — 2026-10-10
+## [1.1.1] — 2026-10-22
 
 Version 1.1.1 is a release of the BootLoops fork of AMFlow.cpp, not of upstream AMFlow.cpp, whose latest release is 1.1.0. See CHANGELOG.md, section Documentation, and PATCHES.md.
 
